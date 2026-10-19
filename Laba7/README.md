@@ -1,0 +1,3 @@
+Laboratory Work: Pragmatic Principles & SOLID
+Overview: This project demonstrates the practical application and refactoring of Pragmatic Development Principles (DRY, KISS, YAGNI) and SOLID Object-Oriented Design Principles (SRP, OCP, LSP, ISP, DIP) in Java to create clean, maintainable, and scalable code.
+Contributors: Oleksandra (https://www.google.com/search?q=https://github.com/oleksandraZu) & Hanna (https://www.google.com/search?q=https://github.com/hychernobai)

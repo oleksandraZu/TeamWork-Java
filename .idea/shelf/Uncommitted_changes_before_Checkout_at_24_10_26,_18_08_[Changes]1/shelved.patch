@@ -1,0 +1,605 @@
+Index: lab8/src/variant1_orderprocessing/domain/Order.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/Order.java b/lab8/src/variant1_orderprocessing/domain/Order.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/Order.java	(date 1792849877000)
+@@ -0,0 +1,68 @@
++package variant1_orderprocessing.domain;
++
++import java.util.List;
++
++public final class Order {
++    private final int id;
++    private final Customer customer;
++    private final List<OrderItem> items;
++    private final TaxPolicy taxPolicy;
++    private double totalAmount;
++    private double discountAmount;
++    private double taxAmount;
++    private double finalAmount;
++    private OrderStatus status = OrderStatus.NEW;
++
++    private Order(int id, Customer customer, List<OrderItem> items, TaxPolicy taxPolicy) {
++        this.id = id;
++        this.customer = customer;
++        this.items = items;
++        this.taxPolicy = taxPolicy;
++    }
++
++    /** Creator: агрегат створюється одразу з клієнтом і рядками, у валідному стані. */
++    public static Order create(int id, Customer customer, List<OrderItem> items, TaxPolicy taxPolicy) {
++        if (customer == null) {
++            throw new IllegalArgumentException("Клієнт обов'язковий");
++        }
++        if (items == null || items.isEmpty()) {
++            throw new IllegalArgumentException("Замовлення має містити хоча б один товар");
++        }
++        if (taxPolicy == null) {
++            throw new IllegalArgumentException("Політика податку обов'язкова");
++        }
++        return new Order(id, customer, List.copyOf(items), taxPolicy);
++    }
++
++    /** Information Expert: замовлення володіє даними для підрахунку підсумків. */
++    public void process() {
++        if (status != OrderStatus.NEW) {
++            throw new IllegalStateException("Замовлення #" + id + " вже оброблено");
++        }
++        totalAmount = subtotal();
++        discountAmount = customer.discountFor(totalAmount);
++        taxAmount = taxPolicy.taxOn(totalAmount - discountAmount);
++        finalAmount = totalAmount - discountAmount + taxAmount;
++        status = OrderStatus.PROCESSED;
++    }
++
++    public double subtotal() {
++        double sum = 0.0;
++        for (OrderItem item : items) {
++            sum += item.subtotal();
++        }
++        return sum;
++    }
++
++    // Закон Деметри: зовнішній код не ходить через order.getCustomer().getX()
++    public String customerName() { return customer.getName(); }
++    public String customerEmail() { return customer.getEmail(); }
++
++    public int getId() { return id; }
++    public List<OrderItem> getItems() { return items; }
++    public double getTotalAmount() { return totalAmount; }
++    public double getDiscountAmount() { return discountAmount; }
++    public double getTaxAmount() { return taxAmount; }
++    public double getFinalAmount() { return finalAmount; }
++    public OrderStatus getStatus() { return status; }
++}
+Index: lab8/src/variant1_orderprocessing/domain/Product.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/Product.java b/lab8/src/variant1_orderprocessing/domain/Product.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/Product.java	(date 1792849877000)
+@@ -0,0 +1,30 @@
++package variant1_orderprocessing.domain;
++
++public final class Product {
++    private final int id;
++    private final String name;
++    private final double price;
++    private final String category;
++
++    private Product(int id, String name, double price, String category) {
++        this.id = id;
++        this.name = name;
++        this.price = price;
++        this.category = category;
++    }
++
++    public static Product of(int id, String name, double price, String category) {
++        if (name == null || name.isBlank()) {
++            throw new IllegalArgumentException("Назва товару не може бути порожньою");
++        }
++        if (price < 0) {
++            throw new IllegalArgumentException("Ціна не може бути від'ємною");
++        }
++        return new Product(id, name, price, category);
++    }
++
++    public int getId() { return id; }
++    public String getName() { return name; }
++    public double getPrice() { return price; }
++    public String getCategory() { return category; }
++}
+Index: lab8/src/variant1_orderprocessing/domain/VatTax.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/VatTax.java b/lab8/src/variant1_orderprocessing/domain/VatTax.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/VatTax.java	(date 1792849877000)
+@@ -0,0 +1,10 @@
++package variant1_orderprocessing.domain;
++
++public final class VatTax implements TaxPolicy {
++    private static final double RATE = 0.20;
++
++    @Override
++    public double taxOn(double taxableAmount) {
++        return taxableAmount * RATE;
++    }
++}
+Index: lab8/src/variant1_orderprocessing/domain/OrderItem.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/OrderItem.java b/lab8/src/variant1_orderprocessing/domain/OrderItem.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/OrderItem.java	(date 1792849877000)
+@@ -0,0 +1,29 @@
++package variant1_orderprocessing.domain;
++
++public final class OrderItem {
++    private final Product product;
++    private final int quantity;
++
++    private OrderItem(Product product, int quantity) {
++        this.product = product;
++        this.quantity = quantity;
++    }
++
++    public static OrderItem of(Product product, int quantity) {
++        if (product == null) {
++            throw new IllegalArgumentException("Товар обов'язковий");
++        }
++        if (quantity <= 0) {
++            throw new IllegalArgumentException("Кількість має бути більшою за 0");
++        }
++        return new OrderItem(product, quantity);
++    }
++
++    /** Information Expert: рядок знає ціну товару і кількість. */
++    public double subtotal() {
++        return product.getPrice() * quantity;
++    }
++
++    public Product getProduct() { return product; }
++    public int getQuantity() { return quantity; }
++}
+Index: lab8/src/variant1_orderprocessing/domain/Customer.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/Customer.java b/lab8/src/variant1_orderprocessing/domain/Customer.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/Customer.java	(date 1792849877000)
+@@ -0,0 +1,39 @@
++package variant1_orderprocessing.domain;
++
++public final class Customer {
++    private final int id;
++    private final String name;
++    private final String email;
++    private final CustomerType type;
++
++    private Customer(int id, String name, String email, CustomerType type) {
++        this.id = id;
++        this.name = name;
++        this.email = email;
++        this.type = type;
++    }
++
++    /** Creator: об'єкт завжди створюється у валідному стані. */
++    public static Customer register(int id, String name, String email, CustomerType type) {
++        if (name == null || name.isBlank()) {
++            throw new IllegalArgumentException("Ім'я клієнта не може бути порожнім");
++        }
++        if (email == null || !email.contains("@")) {
++            throw new IllegalArgumentException("Некоректний email клієнта");
++        }
++        if (type == null) {
++            throw new IllegalArgumentException("Тип клієнта обов'язковий");
++        }
++        return new Customer(id, name.trim(), email.trim(), type);
++    }
++
++    /** Information Expert: клієнт знає свій тип, а отже і свою знижку. */
++    public double discountFor(double subtotal) {
++        return type.discountPolicy().discountFor(subtotal);
++    }
++
++    public int getId() { return id; }
++    public String getName() { return name; }
++    public String getEmail() { return email; }
++    public CustomerType getType() { return type; }
++}
+Index: lab8/src/variant1_orderprocessing/domain/NoDiscount.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/NoDiscount.java b/lab8/src/variant1_orderprocessing/domain/NoDiscount.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/NoDiscount.java	(date 1792849877000)
+@@ -0,0 +1,10 @@
++package variant1_orderprocessing.domain;
++
++public final class NoDiscount implements DiscountPolicy {
++    private static final double RATE = 0.0;
++
++    @Override
++    public double discountFor(double subtotal) {
++        return subtotal * RATE;
++    }
++}
+Index: lab8/src/variant1_orderprocessing/domain/TaxPolicy.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/TaxPolicy.java b/lab8/src/variant1_orderprocessing/domain/TaxPolicy.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/TaxPolicy.java	(date 1792849877000)
+@@ -0,0 +1,6 @@
++package variant1_orderprocessing.domain;
++
++/** Protected Variations: ставка/алгоритм податку можуть змінюватись. */
++public interface TaxPolicy {
++    double taxOn(double taxableAmount);
++}
+Index: lab8/src/variant1_orderprocessing/domain/VipDiscount.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/VipDiscount.java b/lab8/src/variant1_orderprocessing/domain/VipDiscount.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/VipDiscount.java	(date 1792849877000)
+@@ -0,0 +1,10 @@
++package variant1_orderprocessing.domain;
++
++public final class VipDiscount implements DiscountPolicy {
++    private static final double RATE = 0.15;
++
++    @Override
++    public double discountFor(double subtotal) {
++        return subtotal * RATE;
++    }
++}
+Index: lab8/src/variant1_orderprocessing/domain/OrderStatus.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/OrderStatus.java b/lab8/src/variant1_orderprocessing/domain/OrderStatus.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/OrderStatus.java	(date 1792849877000)
+@@ -0,0 +1,5 @@
++package variant1_orderprocessing.domain;
++
++public enum OrderStatus {
++    NEW, PROCESSED
++}
+Index: lab8/src/variant1_orderprocessing/domain/DiscountPolicy.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/DiscountPolicy.java b/lab8/src/variant1_orderprocessing/domain/DiscountPolicy.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/DiscountPolicy.java	(date 1792849877000)
+@@ -0,0 +1,6 @@
++package variant1_orderprocessing.domain;
++
++/** Protected Variations: стабільний контракт для змінного алгоритму знижки. */
++public interface DiscountPolicy {
++    double discountFor(double subtotal);
++}
+Index: lab8/src/variant1_orderprocessing/domain/CustomerType.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/CustomerType.java b/lab8/src/variant1_orderprocessing/domain/CustomerType.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/CustomerType.java	(date 1792849877000)
+@@ -0,0 +1,29 @@
++package variant1_orderprocessing.domain;
++
++/** Polymorphism: кожен тип клієнта володіє власною політикою знижки (замість if-else). */
++public enum CustomerType {
++    NEW(new NoDiscount()),
++    REGULAR(new RegularDiscount()),
++    VIP(new VipDiscount());
++
++    private final DiscountPolicy discountPolicy;
++
++    CustomerType(DiscountPolicy discountPolicy) {
++        this.discountPolicy = discountPolicy;
++    }
++
++    public DiscountPolicy discountPolicy() {
++        return discountPolicy;
++    }
++
++    public static CustomerType parse(String text) {
++        if (text != null) {
++            for (CustomerType type : values()) {
++                if (type.name().equalsIgnoreCase(text.trim())) {
++                    return type;
++                }
++            }
++        }
++        throw new IllegalArgumentException("Невідомий тип клієнта: " + text + " (очікується New/Regular/VIP)");
++    }
++}
+Index: lab8/src/variant1_orderprocessing/Main.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/Main.java b/lab8/src/variant1_orderprocessing/Main.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/Main.java	(date 1792849877000)
+@@ -0,0 +1,25 @@
++package variant1_orderprocessing;
++
++import java.nio.file.Path;
++import java.util.Scanner;
++
++import variant1_orderprocessing.application.OrderCompletion;
++import variant1_orderprocessing.application.OrderFactory;
++import variant1_orderprocessing.application.PlaceOrderController;
++import variant1_orderprocessing.domain.VatTax;
++import variant1_orderprocessing.infrastructure.ConsoleEmailNotifier;
++import variant1_orderprocessing.infrastructure.FileOrderRepository;
++import variant1_orderprocessing.infrastructure.InMemoryProductCatalog;
++import variant1_orderprocessing.ui.ConsoleApp;
++import variant1_orderprocessing.ui.ConsoleCommandParser;
++
++/** Composition root: єдине місце, що знає про конкретні реалізації. */
++public final class Main {
++    public static void main(String[] args) {
++        FileOrderRepository repository = new FileOrderRepository(Path.of("orders.txt"));
++        PlaceOrderController controller = new PlaceOrderController(
++                new OrderFactory(new InMemoryProductCatalog(), repository, new VatTax()),
++                new OrderCompletion(repository, new ConsoleEmailNotifier()));
++        new ConsoleApp(new Scanner(System.in), new ConsoleCommandParser(), controller).run();
++    }
++}
+Index: lab8/src/variant1_orderprocessing/domain/RegularDiscount.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/domain/RegularDiscount.java b/lab8/src/variant1_orderprocessing/domain/RegularDiscount.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/domain/RegularDiscount.java	(date 1792849877000)
+@@ -0,0 +1,10 @@
++package variant1_orderprocessing.domain;
++
++public final class RegularDiscount implements DiscountPolicy {
++    private static final double RATE = 0.05;
++
++    @Override
++    public double discountFor(double subtotal) {
++        return subtotal * RATE;
++    }
++}
+Index: lab8/src/variant1_orderprocessing/application/OrderResult.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/OrderResult.java b/lab8/src/variant1_orderprocessing/application/OrderResult.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/OrderResult.java	(date 1792849877000)
+@@ -0,0 +1,6 @@
++package variant1_orderprocessing.application;
++
++/** DTO результату для CLI. */
++public record OrderResult(int orderId, String customerName, String customerEmail,
++                          double totalAmount, double discountAmount, double taxAmount, double finalAmount) {
++}
+Index: lab8/src/variant1_orderprocessing/application/OrderNotifier.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/OrderNotifier.java b/lab8/src/variant1_orderprocessing/application/OrderNotifier.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/OrderNotifier.java	(date 1792849877000)
+@@ -0,0 +1,8 @@
++package variant1_orderprocessing.application;
++
++import variant1_orderprocessing.domain.Order;
++
++/** Indirection: канал сповіщення (email, SMS...) прихований за інтерфейсом. */
++public interface OrderNotifier {
++    void notifyProcessed(Order order);
++}
+Index: lab8/src/variant1_orderprocessing/application/OrderFactory.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/OrderFactory.java b/lab8/src/variant1_orderprocessing/application/OrderFactory.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/OrderFactory.java	(date 1792849877000)
+@@ -0,0 +1,37 @@
++package variant1_orderprocessing.application;
++
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Map;
++
++import variant1_orderprocessing.domain.Customer;
++import variant1_orderprocessing.domain.CustomerType;
++import variant1_orderprocessing.domain.Order;
++import variant1_orderprocessing.domain.OrderItem;
++import variant1_orderprocessing.domain.TaxPolicy;
++
++/** Pure Fabrication: збирає агрегат Order із команди. */
++public final class OrderFactory {
++    private final ProductCatalog catalog;
++    private final OrderRepository repository;
++    private final TaxPolicy taxPolicy;
++
++    public OrderFactory(ProductCatalog catalog, OrderRepository repository, TaxPolicy taxPolicy) {
++        this.catalog = catalog;
++        this.repository = repository;
++        this.taxPolicy = taxPolicy;
++    }
++
++    public Order create(PlaceOrderCommand command) {
++        List<OrderItem> items = new ArrayList<>();
++        for (Map.Entry<Integer, Integer> line : command.quantitiesByProductId().entrySet()) {
++            items.add(OrderItem.of(catalog.getById(line.getKey()), line.getValue()));
++        }
++        return Order.create(
++                repository.nextId(),
++                Customer.register(command.customerId(), command.customerName(), command.customerEmail(),
++                        CustomerType.parse(command.customerType())),
++                items,
++                taxPolicy);
++    }
++}
+Index: lab8/src/variant1_orderprocessing/application/OrderCompletion.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/OrderCompletion.java b/lab8/src/variant1_orderprocessing/application/OrderCompletion.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/OrderCompletion.java	(date 1792849877000)
+@@ -0,0 +1,22 @@
++package variant1_orderprocessing.application;
++
++import variant1_orderprocessing.domain.Order;
++
++/** Pure Fabrication: обробляє замовлення, зберігає, сповіщає, формує DTO результату. */
++public final class OrderCompletion {
++    private final OrderRepository repository;
++    private final OrderNotifier notifier;
++
++    public OrderCompletion(OrderRepository repository, OrderNotifier notifier) {
++        this.repository = repository;
++        this.notifier = notifier;
++    }
++
++    public OrderResult complete(Order order) {
++        order.process();
++        repository.save(order);
++        notifier.notifyProcessed(order);
++        return new OrderResult(order.getId(), order.customerName(), order.customerEmail(),
++                order.getTotalAmount(), order.getDiscountAmount(), order.getTaxAmount(), order.getFinalAmount());
++    }
++}
+Index: lab8/src/variant1_orderprocessing/application/ProductCatalog.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/ProductCatalog.java b/lab8/src/variant1_orderprocessing/application/ProductCatalog.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/ProductCatalog.java	(date 1792849877000)
+@@ -0,0 +1,8 @@
++package variant1_orderprocessing.application;
++
++import variant1_orderprocessing.domain.Product;
++
++/** Indirection: джерело товарів приховане за інтерфейсом. */
++public interface ProductCatalog {
++    Product getById(int productId);
++}
+Index: lab8/src/variant1_orderprocessing/application/PlaceOrderCommand.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/PlaceOrderCommand.java b/lab8/src/variant1_orderprocessing/application/PlaceOrderCommand.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/PlaceOrderCommand.java	(date 1792849877000)
+@@ -0,0 +1,8 @@
++package variant1_orderprocessing.application;
++
++import java.util.Map;
++
++/** DTO запиту від CLI. quantitiesByProductId: id товару -> кількість. */
++public record PlaceOrderCommand(int customerId, String customerName, String customerEmail,
++                                String customerType, Map<Integer, Integer> quantitiesByProductId) {
++}
+Index: lab8/src/variant1_orderprocessing/application/OrderRepository.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/OrderRepository.java b/lab8/src/variant1_orderprocessing/application/OrderRepository.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/OrderRepository.java	(date 1792849877000)
+@@ -0,0 +1,10 @@
++package variant1_orderprocessing.application;
++
++import variant1_orderprocessing.domain.Order;
++
++/** Indirection: деталі сховища приховані за інтерфейсом. */
++public interface OrderRepository {
++    int nextId();
++
++    void save(Order order);
++}
+Index: lab8/src/variant1_orderprocessing/application/PlaceOrderController.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/application/PlaceOrderController.java b/lab8/src/variant1_orderprocessing/application/PlaceOrderController.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/application/PlaceOrderController.java	(date 1792849877000)
+@@ -0,0 +1,16 @@
++package variant1_orderprocessing.application;
++
++/** Controller (use case "Оформити замовлення"): лише координує, без I/O та обчислень. */
++public final class PlaceOrderController {
++    private final OrderFactory factory;
++    private final OrderCompletion completion;
++
++    public PlaceOrderController(OrderFactory factory, OrderCompletion completion) {
++        this.factory = factory;
++        this.completion = completion;
++    }
++
++    public OrderResult execute(PlaceOrderCommand command) {
++        return completion.complete(factory.create(command));
++    }
++}
+Index: lab8/.idea/misc.xml
+===================================================================
+diff --git a/lab8/.idea/misc.xml b/lab8/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1792851538995)
++++ b/lab8/.idea/misc.xml	(date 1792851538995)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-27" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: lab8/.idea/modules.xml
+===================================================================
+diff --git a/lab8/.idea/modules.xml b/lab8/.idea/modules.xml
+new file mode 100644
+--- /dev/null	(date 1792851538991)
++++ b/lab8/.idea/modules.xml	(date 1792851538991)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/lab8.iml" filepath="$PROJECT_DIR$/lab8.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: lab8/.idea/.gitignore
+===================================================================
+diff --git a/lab8/.idea/.gitignore b/lab8/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1792850355719)
++++ b/lab8/.idea/.gitignore	(date 1792850355719)
+@@ -0,0 +1,10 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Ignored default folder with query files
++/queries/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: lab8/lab8.iml
+===================================================================
+diff --git a/lab8/lab8.iml b/lab8/lab8.iml
+new file mode 100644
+--- /dev/null	(date 1792851538987)
++++ b/lab8/lab8.iml	(date 1792851538987)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file

@@ -9,8 +9,5 @@
         <module name="lab9-creational-patterns" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="order-processing" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

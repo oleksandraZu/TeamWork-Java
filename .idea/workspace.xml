@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add task2">
-      <change afterPath="$PROJECT_DIR$/.idea/TeamWork-Java.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab9/docs/diagrams/TASK1img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab9/docs/diagrams/TASK2img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab9/docs/diagrams/TASK3img.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add domain, infrastructure, ui, legacy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,18 +20,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;hannachernobai&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "hannachernobai"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/oleksandraZu/TeamWork-Java.git&quot;,
-    &quot;accountId&quot;: &quot;9a3a214b-6193-47d6-bff8-3004f3d51e37&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/oleksandraZu/TeamWork-Java.git",
+    "accountId": "9a3a214b-6193-47d6-bff8-3004f3d51e37"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6,
   &quot;fromUser&quot;: false
@@ -50,20 +43,16 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "feature-hanna",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/anichka/TeamWork-Java",
+    "last_opened_file_path": "C:/Users/uživatel/TeamWork-Java",
     "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.jshint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.jshint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
@@ -74,7 +63,6 @@
       <recent name="$PROJECT_DIR$/Laba8/src/main/java/ua/lab8" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/Laba8" />
     </key>
   </component>
@@ -115,8 +103,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="start working on &quot;Pragmatic Development Principles and SOLID Object-Oriented Design Principles&quot;" />
     <MESSAGE value="add domain, infrastructure, ui, legacy" />
-    <MESSAGE value="add task2" />
-    <option name="LAST_COMMIT_MESSAGE" value="add task2" />
+    <option name="LAST_COMMIT_MESSAGE" value="add domain, infrastructure, ui, legacy" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

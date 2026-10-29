@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add ui, infrastructure, docs">
-      <change afterPath="$PROJECT_DIR$/.idea/TeamWork-Java.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab8/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab8/order-processing.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lab8/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_10_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_10_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_10_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_10_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_10_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_10_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_3_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab8/docs/adr/ADR-001-information-expert-creator.md" beforeDir="false" afterPath="$PROJECT_DIR$/lab8/docs/adr/ADR-001-information-expert-creator.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab8/src/variant1_orderprocessing/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab8/src/variant1_orderprocessing/Main.java" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,18 +19,7 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;hannachernobai&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/oleksandraZu/TeamWork-Java.git&quot;,
-    &quot;accountId&quot;: &quot;9a3a214b-6193-47d6-bff8-3004f3d51e37&quot;
-  }
-}</component>
+
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6,
   &quot;fromUser&quot;: false
@@ -69,7 +38,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
+
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/anichka/лаби 2 курс/TeamWork-Java",
     "node.js.detected.package.eslint": "true",
@@ -84,10 +53,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
+
     </key>
   </component>
   <component name="RunManager">
@@ -126,7 +92,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="start working on &quot;Pragmatic Development Principles and SOLID Object-Oriented Design Principles&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="start working on &quot;Pragmatic Development Principles and SOLID Object-Oriented Design Principles&quot;" />
+    <MESSAGE value="add domain, infrastructure, ui, legacy" />
+    <option name="LAST_COMMIT_MESSAGE" value="add domain, infrastructure, ui, legacy" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

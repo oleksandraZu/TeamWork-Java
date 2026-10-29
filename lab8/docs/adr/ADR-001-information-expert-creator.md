@@ -11,7 +11,8 @@
 - **Options:**
   - A: залишити в `LegacyOrderProcessor` / `Main`;
   - B: окремий `OrderService` з геттерами сутностей (Anemic);
-  - C: розрахунок у `Order`/`OrderItem`/`Customer`, створення через статичні фабрики.
+  - C: розрахунок у `Order`/`OrderItem`/` `LegacyOrderProcessor.processConsoleOrder()` один метод виконує введення з консолі, створення об'єктів, розрахунок суми/знижки/ПДВ, форматування рахунку, «збереження» та «email». Сутності `Customer`, `Product`, `OrderItem`, `Order` — пасивні (public-поля, `type`/`status` як `String`), перевірок даних немає (невідомий тип клієнта мовчки дає знижку 0). Порушення: інкапсуляції, Information Expert, Creator, Demeter (`order.customer.type`, `item.product.price`); Bloated Controller; CBO методу = 5.
+ustomer`, створення через статичні фабрики.
 - **Criteria:** Information Expert (дані й логіка разом); Low Coupling; інкапсуляція (валідний стан завжди).
 - **Conclusion:** Option C. A і B лишають сутності пасивними, а сервіс зчепленим з усіма полями.
 

@@ -1,0 +1,2605 @@
+Index: Laba8/src/main/java/ua/lab8/application/port/ReceiptFormatter.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/port/ReceiptFormatter.java b/Laba8/src/main/java/ua/lab8/application/port/ReceiptFormatter.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/port/ReceiptFormatter.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,9 +0,0 @@
+-package ua.lab8.application.port;
+-
+-import ua.lab8.domain.Order;
+-
+-/** Protected Variations: формат рахунку (текст/HTML/PDF) змінюється незалежно від домену. */
+-public interface ReceiptFormatter {
+-
+-    String format(Order order);
+-}
+Index: Laba8/src/main/java/ua/lab8/application/port/OrderRepository.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/port/OrderRepository.java b/Laba8/src/main/java/ua/lab8/application/port/OrderRepository.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/port/OrderRepository.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,14 +0,0 @@
+-package ua.lab8.application.port;
+-
+-import ua.lab8.domain.Order;
+-
+-/** Indirection + Protected Variations: деталі сховища (файл/БД) приховані за інтерфейсом. */
+-public interface OrderRepository {
+-
+-    int nextId();
+-
+-    void save(Order order);
+-
+-    /** Людиночитна назва сховища для підтвердження користувачу. */
+-    String storageName();
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/OrderStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/OrderStatus.java b/Laba8/src/main/java/ua/lab8/domain/OrderStatus.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/OrderStatus.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,7 +0,0 @@
+-package ua.lab8.domain;
+-
+-/** Життєвий цикл замовлення. */
+-public enum OrderStatus {
+-    NEW,
+-    PROCESSED
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/discount/VipDiscount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/discount/VipDiscount.java b/Laba8/src/main/java/ua/lab8/domain/discount/VipDiscount.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/discount/VipDiscount.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,16 +0,0 @@
+-package ua.lab8.domain.discount;
+-
+-import java.math.BigDecimal;
+-
+-/** Polymorphism: знижка для клієнтів типу "VIP" (0.15). */
+-public final class VipDiscount extends PercentageDiscount {
+-
+-    public VipDiscount() {
+-        super(new BigDecimal("0.15"));
+-    }
+-
+-    @Override
+-    public String name() {
+-        return "VIP";
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/tax/TaxPolicy.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/tax/TaxPolicy.java b/Laba8/src/main/java/ua/lab8/domain/tax/TaxPolicy.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/tax/TaxPolicy.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,9 +0,0 @@
+-package ua.lab8.domain.tax;
+-
+-import java.math.BigDecimal;
+-
+-/** Protected Variations: податкове законодавство змінюється, контракт — ні. */
+-public interface TaxPolicy {
+-
+-    BigDecimal taxOn(BigDecimal taxableAmount);
+-}
+Index: Laba8/docs/CROSS_REVIEW.md
+===================================================================
+diff --git a/Laba8/docs/CROSS_REVIEW.md b/Laba8/docs/CROSS_REVIEW.md
+deleted file mode 100644
+--- a/Laba8/docs/CROSS_REVIEW.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,55 +0,0 @@
+-# Завдання 6 — Крос-рев'ю та підготовка до захисту
+-
+-## 1. Самоперевірка перед рев'ю (автоматично відтворювана)
+-
+-| Перевірка | Команда / спосіб | Результат |
+-|-----------|------------------|-----------|
+-| Компіляція, `-source 17` | `javac -d out $(find src/main -name "*.java")` | без помилок і попереджень коду |
+-| Тести | 20 тестів JUnit 5 (`mvn test`) | 20 / 20 проходять |
+-| Консольний I/O у `domain` і `application` | `grep -rE "System\.(out\|in)\|Scanner\|println" src/main/java/ua/lab8/{domain,application}` | порожньо |
+-| Публічні змінні поля | `grep -rP "^\s*public\s+(?!static\|final\|class\|interface\|enum\|record\|abstract)[\w<>\[\]]+\s+\w+\s*(=[^;]*)?;"` | порожньо |
+-| `domain` не залежить від інших шарів | `grep -rn "import ua.lab8.\(application\|infrastructure\|ui\)" src/main/java/ua/lab8/domain` | порожньо |
+-| `application` не залежить від `ui`/`infrastructure` | аналогічний `grep` | порожньо |
+-| Метрики | `python3 tools/metrics.py src/main/java` | CBO ≤ 4 для домену/контролерів; LCOM4 = 1 |
+-
+-## 2. Чекліст Peer Review (заповнює колега по команді)
+-
+-Рецензент: ______________   Автор: ______________   Дата: __________
+-
+-| # | Питання | ✓ / ✗ | Коментар / посилання на файл:рядок |
+-|---|---------|:-----:|------------------------------------|
+-| 1 | Усі сутності мають `private` поля й жодних сеттерів? | | |
+-| 2 | Створення об'єктів лише через фабричні методи / конструктор з валідацією? | | |
+-| 3 | Чи є бізнес-обчислення поза сутністю-власником даних? | | |
+-| 4 | Чи є ланцюжки `a.b().c().d()` між доменними об'єктами (Деметри)? | | |
+-| 5 | Чи є в `OrderController` / домені хоч один `Scanner` / `println`? | | |
+-| 6 | Чи залишилися `if/else`/`switch` за типом/статусом? | | |
+-| 7 | Чи додається новий тип клієнта/кроку без правок існуючих класів? | | |
+-| 8 | Чи кожен ADR/QOC відповідає реальному коду (імена класів, CBO)? | | |
+-| 9 | Чи перераховані метрики збігаються з виводом `tools/metrics.py`? | | |
+-| 10 | Чи кожен із двох студентів може пояснити будь-який клас? | | |
+-
+-> Рев'ю робиться у спільному Git-репозиторії через Pull Request; коментарі залишайте в PR.
+-> Файл вище — шаблон: результати реального рев'ю має внести другий член команди.
+-
+-## 3. Відомі обмеження (варто назвати на захисті, а не чекати питання)
+-
+-1. `OrderFactory` (CBO 6), `ConsoleApp` (6) і `Main` (17) перевищують ціль ≤ 4 — обґрунтовано в ADR-005.
+-2. Між кроками післяобробки немає транзакції (ADR-003).
+-3. `FileOrderRepository.nextId()` читає файл і не потокобезпечний — для однопотокового CLI достатньо.
+-4. `SimulatedEmailNotifier` лише імітує відправку (адреса зберігається в пам'яті).
+-5. CBO для legacy-процесора вже дорівнював 4 (п. 3.1 звіту) — покращення видно переважно за структурними індикаторами.
+-
+-## 4. Підготовка до захисту — типові питання по 9 патернах
+-
+-| Патерн | Питання | Коротка відповідь (з нашого коду) |
+-|--------|---------|-----------------------------------|
+-| Information Expert | Чому `Order.subtotal()`, а не метод сервісу? | `Order` володіє `items`; сервіс довелося б давати доступ до чужих полів → Anemic Model. |
+-| Creator | Чому `OrderItem.of`, а не `order.addItem(product, qty)`? | Додало б залежність `Order → Product` і підняло CBO до 5 (QOC-002). |
+-| Controller | Що саме робить `OrderController`? | Фабрика → `process()` → кроки. Без I/O й арифметики, CBO = 4. |
+-| Low Coupling | Як довели зниження зчеплення? | Таблиця CBO у звіті + `tools/metrics.py`; домен I = 0.00. |
+-| High Cohesion | Що означає LCOM4 = 1 для `Order`? | Усі методи пов'язані викликами або спільним полем — один компонент. |
+-| Pure Fabrication | Навіщо `DiscountPolicyRegistry` / парсери, якщо їх нема в домені? | Утримують сутності від інфраструктурних обов'язків. |
+-| Indirection | Що розриває зв'язок контролер ↔ файл? | Порт `OrderRepository` + `OrderStep`. |
+-| Polymorphism | Де зник `if-else`? | `Customer.discountOn` → `DiscountPolicy`; вибір — словником у реєстрі. |
+-| Protected Variations | Що захищає ядро від зміни ПДВ чи формату рахунку? | Інтерфейси `TaxPolicy`, `ReceiptFormatter`; зміна = новий клас у `Main`. |
+Index: Laba8/src/main/java/ua/lab8/application/OrderController.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/OrderController.java b/Laba8/src/main/java/ua/lab8/application/OrderController.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/OrderController.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,33 +0,0 @@
+-package ua.lab8.application;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-import ua.lab8.application.dto.PlaceOrderCommand;
+-import ua.lab8.application.factory.OrderFactory;
+-import ua.lab8.application.step.OrderStep;
+-import ua.lab8.domain.Order;
+-
+-/**
+- * GRASP Controller (Use-Case Controller): перший об\u2019єкт за межами UI.
+- * Не містить ні консольного вводу/виводу, ні бізнес-обчислень — лише координує.
+- */
+-public final class OrderController {
+-    private final OrderFactory orderFactory;
+-    private final List<OrderStep> steps;
+-
+-    public OrderController(OrderFactory orderFactory, List<OrderStep> steps) {
+-        this.orderFactory = orderFactory;
+-        this.steps = List.copyOf(steps);
+-    }
+-
+-    /** @return рядки підтвердження у порядку виконання кроків (рахунок, збереження, сповіщення) */
+-    public List<String> placeOrder(PlaceOrderCommand command) {
+-        Order order = orderFactory.create(command);
+-        order.process();
+-        List<String> output = new ArrayList<>();
+-        for (OrderStep step : steps) {
+-            output.add(step.execute(order));
+-        }
+-        return List.copyOf(output);
+-    }
+-}
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/TeamWork-Java.iml" filepath="$PROJECT_DIR$/.idea/TeamWork-Java.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: Laba8/src/main/java/ua/lab8/application/dto/OrderLineRequest.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/dto/OrderLineRequest.java b/Laba8/src/main/java/ua/lab8/application/dto/OrderLineRequest.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/dto/OrderLineRequest.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,5 +0,0 @@
+-package ua.lab8.application.dto;
+-
+-/** DTO: один рядок запиту на замовлення (id товару + кількість). */
+-public record OrderLineRequest(int productId, int quantity) {
+-}
+Index: Laba8/docs/adr/ADR-002-information-expert-and-creator.md
+===================================================================
+diff --git a/Laba8/docs/adr/ADR-002-information-expert-and-creator.md b/Laba8/docs/adr/ADR-002-information-expert-and-creator.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/ADR-002-information-expert-and-creator.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,44 +0,0 @@
+-# ADR-002: Інкапсуляція бізнес-логіки в сутностях (Information Expert) і контрольоване створення (Creator)
+-
+-## Статус
+-Прийнято (Accepted)
+-
+-## Контекст
+-У legacy-коді підсумок замовлення, знижка й податок обчислював `LegacyOrderProcessor`, читаючи
+-публічні поля `Order`, `OrderItem`, `Product`, `Customer` (47 звернень до чужих полів).
+-Об'єкти створювалися порожніми та заповнювалися покроково ззовні.
+-
+-## Рішення
+-**Information Expert** — обчислення живуть там, де лежать дані:
+-
+-| Обчислення | Власник даних → Експерт |
+-|------------|-------------------------|
+-| вартість N одиниць товару | `Product.priceFor(quantity)` |
+-| сума рядка | `OrderItem.subtotal()` (знає товар і кількість) |
+-| підсумок, знижка, ПДВ, до сплати | `Order.subtotal() / discountAmount() / taxAmount() / finalAmount()` |
+-| знижка клієнта | `Customer.discountOn(amount)` |
+-| перехід `NEW → PROCESSED` з інваріантами | `Order.process()` |
+-
+-Суми **не зберігаються**, а обчислюються з поточного стану, тому розсинхронізація
+-`totalAmount` / `finalAmount` неможлива (у legacy вони були окремими полями).
+-
+-**Інкапсуляція стану:** усі поля `private final` (крім `Order.status`, який змінюється лише
+-через `process()`); сеттерів немає; колекція рядків захищена `List.copyOf(...)` і при виході
+-з `Order.items()` лишається незмінною.
+-
+-**Creator (static factory methods):**
+-* `Customer.register(...)`, `OrderItem.of(...)`, `Order.place(...)` — приватні конструктори,
+-  валідація (не порожнє ім'я, email з `@`, кількість > 0, непорожнє замовлення) відбувається до
+-  створення, тому існує лише валідний об'єкт;
+-* `Order` не створює `OrderItem` самостійно, щоб не залежати від `Product` (див. ADR-005, CBO(Order)=4).
+-
+-**Закон Деметри:** замість `order.getCustomer().getName()` — `order.customerName()`,
+-`order.customerEmail()`, `order.customerType()`; замість `item.getProduct().getName()` —
+-`item.productName()`.
+-
+-## Наслідки
+-* **Позитивні:** публічних змінних полів 19 → 0; звернень до чужих полів 47 → 0; ланцюжків
+-  Деметри 6 → 0; LCOM4 усіх сутностей = 1.
+-* **Негативні / компроміси:** `Order` залежить від `OrderItem`, `Customer`, `TaxPolicy`,
+-  `OrderStatus` (CBO=4, на межі норми); обчислення суми щоразу проходить по рядках (O(n)) —
+-  для розміру замовлення це незначуще й дешевше за ризик застарілих кешованих значень.
+Index: Laba8/src/main/java/ua/lab8/infrastructure/SimulatedEmailNotifier.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/infrastructure/SimulatedEmailNotifier.java b/Laba8/src/main/java/ua/lab8/infrastructure/SimulatedEmailNotifier.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/infrastructure/SimulatedEmailNotifier.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,21 +0,0 @@
+-package ua.lab8.infrastructure;
+-
+-import ua.lab8.application.port.OrderNotifier;
+-import ua.lab8.domain.Order;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-/** Імітація відправки email: адреси отримувачів накопичуються у «поштовій скриньці». */
+-public final class SimulatedEmailNotifier implements OrderNotifier {
+-    private final List<String> sentTo = new ArrayList<>();
+-
+-    @Override
+-    public void notifyProcessed(Order order) {
+-        sentTo.add(order.customerEmail());
+-    }
+-
+-    public List<String> sentTo() {
+-        return List.copyOf(sentTo);
+-    }
+-}
+Index: Laba8/README.md
+===================================================================
+diff --git a/Laba8/README.md b/Laba8/README.md
+deleted file mode 100644
+--- a/Laba8/README.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,30 +0,0 @@
+-# ЛР №8 (КПЗ) — Проєктування та рефакторинг за GRASP · Варіант 1 · Java
+-
+-Інтернет-магазин електроніки: обробка замовлення (знижка за типом клієнта, ПДВ, рахунок,
+-збереження у файл, email-сповіщення). Legacy-код з анемічною моделлю перероблено в Rich Domain Model.
+-
+-## Структура
+-
+-| Шлях | Зміст |
+-|------|-------|
+-| `src/main/java/ua/lab8/` | рефакторений код: `domain`, `application`, `infrastructure`, `ui`, `Main` |
+-| `src/test/java/ua/lab8/` | JUnit 5: домен, реєстр знижок, контролер, консольний клієнт |
+-| `docs/adr/` | ADR-001…005 (Design Rationale) та QOC-001…004 |
+-| `docs/REPORT.md` | звіт: аудит, GRASP-рішення, метрики CBO / LCOM4 / Instability «до/після» |
+-| `docs/CROSS_REVIEW.md` | Завдання 6: самоперевірка, шаблон Peer Review, питання до захисту |
+-| `legacy/` | вихідний код варіанта 1, розкладений по файлах (для порівняння) |
+-| `tools/metrics.py` | скрипт метрик (CBO, LCOM4, Instability) |
+-
+-## Запуск
+-
+-```bash
+-mvn test
+-mvn -q package && java -jar target/lab8-grasp-variant1-1.0.0.jar
+-```
+-
+-Демо-сценарій: `1` → ім'я → `VIP` → Enter → Enter. Очікуваний рахунок:
+-`Сума 31600.00 · Знижка 4740.00 · ПДВ 5372.00 · До сплати 32232.00 грн`.
+-Замовлення дописуються в `orders.txt` у поточному каталозі.
+-
+-Вимоги: JDK 17+ (Maven збирає з `release 17`). Для коректного відображення кирилиці в Windows-консолі
+-виконайте `chcp 65001` перед запуском.
+Index: Laba8/docs/adr/ADR-001-audit-legacy-code.md
+===================================================================
+diff --git a/Laba8/docs/adr/ADR-001-audit-legacy-code.md b/Laba8/docs/adr/ADR-001-audit-legacy-code.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/ADR-001-audit-legacy-code.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,44 +0,0 @@
+-# ADR-001: Аудит legacy-коду обробки замовлення та вибір стратегії рефакторингу
+-
+-## Статус
+-Прийнято (Accepted)
+-
+-## Контекст
+-Вихідний код (варіант 1, «Інтернет-магазин електроніки») складається з п'яти класів:
+-`Customer`, `Product`, `OrderItem`, `Order` (пасивні контейнери з публічними полями) та
+-`LegacyOrderProcessor` з єдиним методом `processConsoleOrder()` на 52 непорожні рядки.
+-
+-Виявлені проблеми:
+-
+-| # | Проблема | Де саме | GRASP, що порушується |
+-|---|----------|---------|-----------------------|
+-| 1 | **Anemic Domain Model**: 19 публічних змінних полів, жодного бізнес-методу | `Customer`(5), `Product`(4), `OrderItem`(2), `Order`(8) | Information Expert, інкапсуляція |
+-| 2 | **Bloated Controller / Monolithic method**: один метод поєднує 9 обов'язків — ввід з консолі, створення даних, підсумок, знижка, ПДВ, рахунок, збереження, сповіщення, зміна статусу | `processConsoleOrder()` | High Cohesion, Controller |
+-| 3 | **Feature Envy**: метод звертається до полів чужих класів 47 разів | `order.totalAmount = …`, `item.product.price * item.quantity` | Information Expert |
+-| 4 | **Порушення Закону Деметри**: 6 навігаційних ланцюжків `order.customer.type`, `item.product.price`, `order.customer.email` | там же | Low Coupling, Law of Demeter |
+-| 5 | **Procedural branching**: каскад `if / else if` за рядковим типом клієнта (`"VIP"`, `"Regular"`, `"New"`); невідомий тип мовчки дає знижку 0 | розрахунок `discountRate` | Polymorphism, Protected Variations |
+-| 6 | **Магічні числа**: `0.15`, `0.05`, `0.20`, `15000.0`, `30000.0`, `800.0` | всередині методу | Protected Variations |
+-| 7 | **Створення об'єктів без контролю**: об'єкт створюється порожнім і заповнюється ззовні (можна отримати `Order` без клієнта чи з від'ємною кількістю) | `new Customer(); customer.id = 1; …` | Creator |
+-| 8 | **Прив'язка до деталей інфраструктури**: консоль, «БД» і «email» прямо в логіці; збереження лише імітується `println` | кінець методу | Indirection, Pure Fabrication |
+-| 9 | **Гроші як `double`** і неявні похибки округлення | усі суми | коректність домену |
+-
+-## Рішення
+-Рефакторинг у Rich Domain Model із шаруватою архітектурою `ui → application → domain` та
+-`infrastructure → application`. Обґрунтування конкретних розподілів обов'язків зафіксовано в
+-окремих документах:
+-
+-* ADR-002 — Information Expert + Creator (домен);
+-* ADR-003 — Controller + Indirection + Pure Fabrication (застосунок / CLI);
+-* ADR-004 — Polymorphism + Protected Variations (знижки, податки, кроки);
+-* ADR-005 — метрики, компроміси та винятки з цілі CBO ≤ 4;
+-* QOC-001…QOC-004 — порівняння альтернатив для ключових рішень.
+-
+-## Наслідки
+-* **Позитивні:** кожен клас має одну причину для змін; домен не залежить від UI/інфраструктури;
+-  нові типи клієнтів/податків/каналів додаються без редагування існуючих класів.
+-* **Негативні / компроміси:** кількість класів зросла з 5 до 38; для простого сценарію це
+-  «надлишкова» структура, виправдана навчальною метою й очікуваним зростанням системи.
+-* **Свідомі зміни поведінки:** невідомий тип клієнта тепер відхиляється з помилкою (раніше —
+-  мовчки без знижки); суми — `BigDecimal` з 2 знаками (раніше `double`, напр. `31600.0`);
+-  збереження у файл реальне (раніше лише повідомлення); поле `totalSpent` видалено, бо воно
+-  ніде не читалося (YAGNI).
+Index: Laba8/src/main/java/ua/lab8/ui/MenuChoice.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/ui/MenuChoice.java b/Laba8/src/main/java/ua/lab8/ui/MenuChoice.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/ui/MenuChoice.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,9 +0,0 @@
+-package ua.lab8.ui;
+-
+-/** Команди головного меню консольного клієнта. */
+-public enum MenuChoice {
+-    PLACE_ORDER,
+-    SHOW_CATALOG,
+-    EXIT,
+-    UNKNOWN
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/tax/VatTaxPolicy.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/tax/VatTaxPolicy.java b/Laba8/src/main/java/ua/lab8/domain/tax/VatTaxPolicy.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/tax/VatTaxPolicy.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,26 +0,0 @@
+-package ua.lab8.domain.tax;
+-
+-import java.math.BigDecimal;
+-import java.math.RoundingMode;
+-
+-/** ПДВ як відсоток від бази оподаткування. */
+-public final class VatTaxPolicy implements TaxPolicy {
+-    private final BigDecimal rate;
+-
+-    public VatTaxPolicy(BigDecimal rate) {
+-        if (rate == null || rate.signum() < 0) {
+-            throw new IllegalArgumentException("Ставка ПДВ не може бути від\u2019ємною");
+-        }
+-        this.rate = rate;
+-    }
+-
+-    /** Стандартна ставка ПДВ 20% з вихідного коду. */
+-    public static VatTaxPolicy standard() {
+-        return new VatTaxPolicy(new BigDecimal("0.20"));
+-    }
+-
+-    @Override
+-    public BigDecimal taxOn(BigDecimal taxableAmount) {
+-        return taxableAmount.multiply(rate).setScale(2, RoundingMode.HALF_UP);
+-    }
+-}
+Index: Laba8/pom.xml
+===================================================================
+diff --git a/Laba8/pom.xml b/Laba8/pom.xml
+deleted file mode 100644
+--- a/Laba8/pom.xml	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,49 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0"
+-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-
+-    <groupId>ua.lab8</groupId>
+-    <artifactId>lab8-grasp-variant1</artifactId>
+-    <version>1.0.0</version>
+-    <packaging>jar</packaging>
+-    <name>ЛР 8 КПЗ — GRASP, варіант 1 (Інтернет-магазин)</name>
+-
+-    <properties>
+-        <maven.compiler.release>17</maven.compiler.release>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-        <junit.version>5.10.2</junit.version>
+-    </properties>
+-
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.junit.jupiter</groupId>
+-            <artifactId>junit-jupiter</artifactId>
+-            <version>${junit.version}</version>
+-            <scope>test</scope>
+-        </dependency>
+-    </dependencies>
+-
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-surefire-plugin</artifactId>
+-                <version>3.2.5</version>
+-            </plugin>
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-jar-plugin</artifactId>
+-                <version>3.3.0</version>
+-                <configuration>
+-                    <archive>
+-                        <manifest>
+-                            <mainClass>ua.lab8.Main</mainClass>
+-                        </manifest>
+-                    </archive>
+-                </configuration>
+-            </plugin>
+-        </plugins>
+-    </build>
+-</project>
+Index: Laba8/src/main/java/ua/lab8/domain/discount/PercentageDiscount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/discount/PercentageDiscount.java b/Laba8/src/main/java/ua/lab8/domain/discount/PercentageDiscount.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/discount/PercentageDiscount.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,21 +0,0 @@
+-package ua.lab8.domain.discount;
+-
+-import java.math.BigDecimal;
+-import java.math.RoundingMode;
+-
+-/** Спільна частина відсоткових знижок (DRY): різниця між типами — лише ставка та назва. */
+-public abstract class PercentageDiscount implements DiscountPolicy {
+-    private final BigDecimal rate;
+-
+-    protected PercentageDiscount(BigDecimal rate) {
+-        if (rate == null || rate.signum() < 0 || rate.compareTo(BigDecimal.ONE) > 0) {
+-            throw new IllegalArgumentException("Ставка знижки має бути в діапазоні [0; 1]");
+-        }
+-        this.rate = rate;
+-    }
+-
+-    @Override
+-    public BigDecimal discountOn(BigDecimal amount) {
+-        return amount.multiply(rate).setScale(2, RoundingMode.HALF_UP);
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/ui/ConsoleApp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/ui/ConsoleApp.java b/Laba8/src/main/java/ua/lab8/ui/ConsoleApp.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/ui/ConsoleApp.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,90 +0,0 @@
+-package ua.lab8.ui;
+-
+-import ua.lab8.application.CatalogController;
+-import ua.lab8.application.OrderController;
+-import ua.lab8.application.dto.PlaceOrderCommand;
+-import ua.lab8.application.dto.ProductView;
+-
+-import java.io.PrintStream;
+-import java.io.UncheckedIOException;
+-import java.util.Scanner;
+-
+-/**
+- * Thin Console UI: читає текст, показує результат. Жодної бізнес-логіки й обчислень.
+- * Ввід/вивід інжектується (Scanner/PrintStream), тому клієнт тестується без реальної консолі.
+- */
+-public final class ConsoleApp {
+-    private final Scanner in;
+-    private final PrintStream out;
+-    private final ConsoleCommandParser menuParser;
+-    private final OrderRequestParser orderParser;
+-    private final OrderController orderController;
+-    private final CatalogController catalogController;
+-
+-    public ConsoleApp(Scanner in,
+-                      PrintStream out,
+-                      ConsoleCommandParser menuParser,
+-                      OrderRequestParser orderParser,
+-                      OrderController orderController,
+-                      CatalogController catalogController) {
+-        this.in = in;
+-        this.out = out;
+-        this.menuParser = menuParser;
+-        this.orderParser = orderParser;
+-        this.orderController = orderController;
+-        this.catalogController = catalogController;
+-    }
+-
+-    public void run() {
+-        boolean running = true;
+-        while (running) {
+-            printMenu();
+-            if (!in.hasNextLine()) {
+-                break;
+-            }
+-            switch (menuParser.parse(in.nextLine())) {
+-                case PLACE_ORDER -> placeOrder();
+-                case SHOW_CATALOG -> showCatalog();
+-                case EXIT -> running = false;
+-                default -> out.println("Невідома команда. Оберіть 1, 2 або 0.");
+-            }
+-        }
+-        out.println("До побачення!");
+-    }
+-
+-    private void printMenu() {
+-        out.println();
+-        out.println("=== Інтернет-магазин електроніки ===");
+-        out.println("1. Оформити замовлення");
+-        out.println("2. Показати каталог");
+-        out.println("0. Вихід");
+-        out.print("Ваш вибір: ");
+-    }
+-
+-    private void placeOrder() {
+-        out.println("=== Оформлення замовлення ===");
+-        String name = ask("Введіть ім\u2019я клієнта: ");
+-        String type = ask("Введіть тип клієнта (New/Regular/VIP): ");
+-        String email = ask("Введіть email (Enter — client@example.com): ");
+-        String cart = ask("Кошик id:кількість через кому (Enter — 1:1,2:2): ");
+-        try {
+-            PlaceOrderCommand command = orderParser.parse(name, type, email, cart);
+-            orderController.placeOrder(command).forEach(out::println);
+-        } catch (IllegalArgumentException | IllegalStateException | UncheckedIOException e) {
+-            out.println("Помилка: " + e.getMessage());
+-        }
+-    }
+-
+-    private void showCatalog() {
+-        out.println("=== Каталог ===");
+-        for (ProductView product : catalogController.listProducts()) {
+-            out.println(product.id() + ". " + product.name() + " — "
+-                    + product.price().toPlainString() + " грн (" + product.category() + ")");
+-        }
+-    }
+-
+-    private String ask(String prompt) {
+-        out.print(prompt);
+-        return in.hasNextLine() ? in.nextLine() : "";
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/ui/ConsoleCommandParser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/ui/ConsoleCommandParser.java b/Laba8/src/main/java/ua/lab8/ui/ConsoleCommandParser.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/ui/ConsoleCommandParser.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,19 +0,0 @@
+-package ua.lab8.ui;
+-
+-import java.util.Map;
+-
+-/** Pure Fabrication: розбір тексту меню в команду. Словник замість switch за рядками. */
+-public final class ConsoleCommandParser {
+-    private final Map<String, MenuChoice> keys = Map.of(
+-            "1", MenuChoice.PLACE_ORDER,
+-            "2", MenuChoice.SHOW_CATALOG,
+-            "0", MenuChoice.EXIT,
+-            "q", MenuChoice.EXIT);
+-
+-    public MenuChoice parse(String line) {
+-        if (line == null) {
+-            return MenuChoice.EXIT;
+-        }
+-        return keys.getOrDefault(line.trim().toLowerCase(), MenuChoice.UNKNOWN);
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/ui/OrderRequestParser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/ui/OrderRequestParser.java b/Laba8/src/main/java/ua/lab8/ui/OrderRequestParser.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/ui/OrderRequestParser.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,47 +0,0 @@
+-package ua.lab8.ui;
+-
+-import ua.lab8.application.dto.OrderLineRequest;
+-import ua.lab8.application.dto.PlaceOrderCommand;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-/**
+- * Pure Fabrication: перетворює введені рядки на PlaceOrderCommand.
+- * Кошик задається як "id:кількість,id:кількість"; порожній ввід = демо-кошик з вихідного коду.
+- */
+-public final class OrderRequestParser {
+-    private final String defaultEmail;
+-    private final String defaultCart;
+-
+-    public OrderRequestParser(String defaultEmail, String defaultCart) {
+-        this.defaultEmail = defaultEmail;
+-        this.defaultCart = defaultCart;
+-    }
+-
+-    public PlaceOrderCommand parse(String name, String type, String email, String cart) {
+-        String effectiveEmail = isBlank(email) ? defaultEmail : email.trim();
+-        String effectiveCart = isBlank(cart) ? defaultCart : cart.trim();
+-        return new PlaceOrderCommand(name, type, effectiveEmail, parseCart(effectiveCart));
+-    }
+-
+-    private List<OrderLineRequest> parseCart(String cart) {
+-        List<OrderLineRequest> lines = new ArrayList<>();
+-        for (String part : cart.split(",")) {
+-            String[] pair = part.trim().split(":");
+-            if (pair.length != 2) {
+-                throw new IllegalArgumentException("Невірний формат кошика: \"" + part.trim() + "\". Очікується id:кількість");
+-            }
+-            try {
+-                lines.add(new OrderLineRequest(Integer.parseInt(pair[0].trim()), Integer.parseInt(pair[1].trim())));
+-            } catch (NumberFormatException e) {
+-                throw new IllegalArgumentException("Невірний формат кошика: \"" + part.trim() + "\". Id і кількість мають бути числами");
+-            }
+-        }
+-        return lines;
+-    }
+-
+-    private boolean isBlank(String value) {
+-        return value == null || value.isBlank();
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/application/factory/CustomerFactory.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/factory/CustomerFactory.java b/Laba8/src/main/java/ua/lab8/application/factory/CustomerFactory.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/factory/CustomerFactory.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,24 +0,0 @@
+-package ua.lab8.application.factory;
+-
+-import java.util.concurrent.atomic.AtomicInteger;
+-import ua.lab8.application.dto.PlaceOrderCommand;
+-import ua.lab8.domain.Customer;
+-import ua.lab8.domain.discount.DiscountPolicyRegistry;
+-
+-/** Pure Fabrication: перетворює дані команди на валідного клієнта. */
+-public final class CustomerFactory {
+-    private final DiscountPolicyRegistry discountPolicies;
+-    private final AtomicInteger customerSequence = new AtomicInteger(1);
+-
+-    public CustomerFactory(DiscountPolicyRegistry discountPolicies) {
+-        this.discountPolicies = discountPolicies;
+-    }
+-
+-    public Customer create(PlaceOrderCommand command) {
+-        return Customer.register(
+-                customerSequence.getAndIncrement(),
+-                command.customerName(),
+-                command.customerEmail(),
+-                discountPolicies.forType(command.customerType()));
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/Main.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/Main.java b/Laba8/src/main/java/ua/lab8/Main.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/Main.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,59 +0,0 @@
+-package ua.lab8;
+-
+-import java.io.PrintStream;
+-import java.nio.charset.StandardCharsets;
+-import java.nio.file.Path;
+-import java.util.List;
+-import java.util.Scanner;
+-import ua.lab8.application.CatalogController;
+-import ua.lab8.application.OrderController;
+-import ua.lab8.application.factory.CustomerFactory;
+-import ua.lab8.application.factory.OrderFactory;
+-import ua.lab8.application.factory.OrderItemsFactory;
+-import ua.lab8.application.step.NotifyCustomerStep;
+-import ua.lab8.application.step.PersistOrderStep;
+-import ua.lab8.application.step.ReceiptStep;
+-import ua.lab8.domain.discount.DiscountPolicyRegistry;
+-import ua.lab8.domain.tax.VatTaxPolicy;
+-import ua.lab8.infrastructure.FileOrderRepository;
+-import ua.lab8.infrastructure.InMemoryProductCatalog;
+-import ua.lab8.infrastructure.SimulatedEmailNotifier;
+-import ua.lab8.infrastructure.TextReceiptFormatter;
+-import ua.lab8.ui.ConsoleApp;
+-import ua.lab8.ui.ConsoleCommandParser;
+-import ua.lab8.ui.OrderRequestParser;
+-
+-/**
+- * Composition Root: єдине місце, яке знає про всі конкретні класи й зшиває шари.
+- * Це найнестабільніший елемент системи (I = 1) — від нього ніхто не залежить.
+- */
+-public final class Main {
+-
+-    private Main() {
+-    }
+-
+-    public static void main(String[] args) {
+-        InMemoryProductCatalog catalog = InMemoryProductCatalog.withDemoProducts();
+-        FileOrderRepository repository = new FileOrderRepository(Path.of("orders.txt"));
+-
+-        OrderFactory orderFactory = new OrderFactory(
+-                new CustomerFactory(DiscountPolicyRegistry.withDefaults()),
+-                new OrderItemsFactory(catalog),
+-                VatTaxPolicy.standard(),
+-                repository);
+-
+-        OrderController orderController = new OrderController(orderFactory, List.of(
+-                new ReceiptStep(new TextReceiptFormatter()),
+-                new PersistOrderStep(repository),
+-                new NotifyCustomerStep(new SimulatedEmailNotifier())));
+-
+-        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+-        Scanner in = new Scanner(System.in, StandardCharsets.UTF_8);
+-
+-        new ConsoleApp(in, out,
+-                new ConsoleCommandParser(),
+-                new OrderRequestParser("client@example.com", "1:1,2:2"),
+-                orderController,
+-                new CatalogController(catalog)).run();
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicy.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicy.java b/Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicy.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicy.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,12 +0,0 @@
+-package ua.lab8.domain.discount;
+-
+-import java.math.BigDecimal;
+-
+-/** Protected Variations: стабільний контракт навколо змінної частини — правил знижок. */
+-public interface DiscountPolicy {
+-
+-    /** Ім\u2019я типу клієнта, за яким політику можна знайти ("VIP", "Regular", "New"). */
+-    String name();
+-
+-    BigDecimal discountOn(BigDecimal amount);
+-}
+Index: Laba8/src/main/java/ua/lab8/application/step/OrderStep.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/step/OrderStep.java b/Laba8/src/main/java/ua/lab8/application/step/OrderStep.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/step/OrderStep.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,10 +0,0 @@
+-package ua.lab8.application.step;
+-
+-import ua.lab8.domain.Order;
+-
+-/** Polymorphism: кожен крок післяобробки — окрема реалізація, контролер лише ітерує список. */
+-public interface OrderStep {
+-
+-    /** Виконує крок і повертає рядок підтвердження для користувача. */
+-    String execute(Order order);
+-}
+Index: Laba8/src/main/java/ua/lab8/infrastructure/InMemoryProductCatalog.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/infrastructure/InMemoryProductCatalog.java b/Laba8/src/main/java/ua/lab8/infrastructure/InMemoryProductCatalog.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/infrastructure/InMemoryProductCatalog.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,40 +0,0 @@
+-package ua.lab8.infrastructure;
+-
+-import ua.lab8.application.port.ProductCatalog;
+-import ua.lab8.domain.Product;
+-
+-import java.math.BigDecimal;
+-import java.util.LinkedHashMap;
+-import java.util.List;
+-import java.util.Map;
+-
+-/** Каталог у пам\u2019яті з товарами з вихідного коду (Ноутбук, Мишка). */
+-public final class InMemoryProductCatalog implements ProductCatalog {
+-    private final Map<Integer, Product> products = new LinkedHashMap<>();
+-
+-    public InMemoryProductCatalog(List<Product> initial) {
+-        for (Product product : initial) {
+-            products.put(product.id(), product);
+-        }
+-    }
+-
+-    public static InMemoryProductCatalog withDemoProducts() {
+-        return new InMemoryProductCatalog(List.of(
+-                new Product(1, "Ноутбук", new BigDecimal("30000.00"), "Electronics"),
+-                new Product(2, "Мишка", new BigDecimal("800.00"), "Accessories")));
+-    }
+-
+-    @Override
+-    public Product getById(int productId) {
+-        Product product = products.get(productId);
+-        if (product == null) {
+-            throw new IllegalArgumentException("Товар з id=" + productId + " не знайдено");
+-        }
+-        return product;
+-    }
+-
+-    @Override
+-    public List<Product> findAll() {
+-        return List.copyOf(products.values());
+-    }
+-}
+Index: Laba8/docs/adr/ADR-004-polymorphism-protected-variations.md
+===================================================================
+diff --git a/Laba8/docs/adr/ADR-004-polymorphism-protected-variations.md b/Laba8/docs/adr/ADR-004-polymorphism-protected-variations.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/ADR-004-polymorphism-protected-variations.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,47 +0,0 @@
+-# ADR-004: Поліморфні стратегії та захист від змін (Polymorphism + Protected Variations)
+-
+-## Статус
+-Прийнято (Accepted)
+-
+-## Контекст
+-Знижка залежала від рядкового типу клієнта через каскад `if / else if`; ставки `0.15`, `0.05`,
+-`0.20` були вбудовані в метод; рахунок, збереження та сповіщення були жорстко прописані.
+-Кожна зміна бізнес-правила вимагала редагування того самого монолітного методу.
+-
+-## Рішення
+-Точки потенційної нестабільності виділено за стабільними інтерфейсами:
+-
+-| Нестабільність | Контракт (Protected Variations) | Реалізації (Polymorphism) |
+-|----------------|---------------------------------|---------------------------|
+-| правила знижок за типом клієнта | `DiscountPolicy` | `NewCustomerDiscount` 0%, `RegularDiscount` 5%, `VipDiscount` 15% (спільна база `PercentageDiscount`) |
+-| податкове законодавство | `TaxPolicy` | `VatTaxPolicy` (20%) |
+-| сховище замовлень | `OrderRepository` | `FileOrderRepository` |
+-| канал сповіщення | `OrderNotifier` | `SimulatedEmailNotifier` |
+-| формат рахунку | `ReceiptFormatter` | `TextReceiptFormatter` |
+-| склад післяобробки | `OrderStep` | `ReceiptStep`, `PersistOrderStep`, `NotifyCustomerStep` |
+-| джерело товарів | `ProductCatalog` | `InMemoryProductCatalog` |
+-
+-Каскад `if-else` замінено **Dictionary Dispatch**: `DiscountPolicyRegistry` (`TreeMap` без
+-урахування регістру) мапить `"vip"` → `VipDiscount`. Невідомий тип — явний
+-`IllegalArgumentException` зі списком допустимих значень.
+-
+-```java
+-// БУЛО (процедурне розгалуження):
+-if ("VIP".equalsIgnoreCase(order.customer.type)) discountRate = 0.15;
+-else if ("Regular".equalsIgnoreCase(order.customer.type)) discountRate = 0.05;
+-else if ("New".equalsIgnoreCase(order.customer.type)) discountRate = 0.0;
+-
+-// СТАЛО (поліморфізм):
+-BigDecimal discount = customer.discountOn(subtotal);   // Customer делегує своїй DiscountPolicy
+-```
+-
+-**Open/Closed на практиці** (перевірено тестом
+-`newCustomerTypeCanBeAddedWithoutChangingExistingCode`): новий тип клієнта «Gold» додається
+-новим класом + `registry.register(...)`, без змін у `Order`, `Customer`, `OrderController`.
+-
+-## Наслідки
+-* **Позитивні:** 0 умовних розгалужень за типом клієнта; змінні ставки інкапсульовані в іменованих
+-  класах; додавання каналу чи формату рахунку не торкається контролера.
+-* **Негативні / компроміси:** для трьох відсотків окремі класи — більше файлів, ніж потребує
+-  мінімальне рішення (enum із ставкою). Обрано класи, бо знижки з часом отримують різну логіку
+-  (поріг накопичення, акції), а enum це заблокував би.
+Index: Laba8/src/main/java/ua/lab8/application/dto/ProductView.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/dto/ProductView.java b/Laba8/src/main/java/ua/lab8/application/dto/ProductView.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/dto/ProductView.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,7 +0,0 @@
+-package ua.lab8.application.dto;
+-
+-import java.math.BigDecimal;
+-
+-/** DTO для відображення товару в CLI (без доступу до доменної сутності). */
+-public record ProductView(int id, String name, BigDecimal price, String category) {
+-}
+Index: Laba8/src/main/java/ua/lab8/application/factory/OrderItemsFactory.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/factory/OrderItemsFactory.java b/Laba8/src/main/java/ua/lab8/application/factory/OrderItemsFactory.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/factory/OrderItemsFactory.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,24 +0,0 @@
+-package ua.lab8.application.factory;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-import ua.lab8.application.dto.OrderLineRequest;
+-import ua.lab8.application.port.ProductCatalog;
+-import ua.lab8.domain.OrderItem;
+-
+-/** Pure Fabrication: перетворює запити «id:кількість» на доменні рядки замовлення. */
+-public final class OrderItemsFactory {
+-    private final ProductCatalog catalog;
+-
+-    public OrderItemsFactory(ProductCatalog catalog) {
+-        this.catalog = catalog;
+-    }
+-
+-    public List<OrderItem> create(List<OrderLineRequest> lines) {
+-        List<OrderItem> items = new ArrayList<>();
+-        for (OrderLineRequest line : lines) {
+-            items.add(OrderItem.of(catalog.getById(line.productId()), line.quantity()));
+-        }
+-        return items;
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/discount/NewCustomerDiscount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/discount/NewCustomerDiscount.java b/Laba8/src/main/java/ua/lab8/domain/discount/NewCustomerDiscount.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/discount/NewCustomerDiscount.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,16 +0,0 @@
+-package ua.lab8.domain.discount;
+-
+-import java.math.BigDecimal;
+-
+-/** Polymorphism: знижка для клієнтів типу "New" (0.00). */
+-public final class NewCustomerDiscount extends PercentageDiscount {
+-
+-    public NewCustomerDiscount() {
+-        super(new BigDecimal("0.00"));
+-    }
+-
+-    @Override
+-    public String name() {
+-        return "New";
+-    }
+-}
+Index: Laba8/docs/adr/QOC-002-who-creates-order-and-items.md
+===================================================================
+diff --git a/Laba8/docs/adr/QOC-002-who-creates-order-and-items.md b/Laba8/docs/adr/QOC-002-who-creates-order-and-items.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/QOC-002-who-creates-order-and-items.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,24 +0,0 @@
+-# QOC-002: Хто створює `Order`, `OrderItem` і `Customer`?
+-
+-* **Question:** Де і як конструювати агрегат замовлення, щоб він завжди був валідним?
+-* **Options:**
+-  * *Option A:* публічні конструктори без аргументів + заповнення полів ззовні (legacy).
+-  * *Option B:* `Order` сам створює `OrderItem` з `Product` (`order.addItem(product, qty)`).
+-  * *Option C:* статичні фабричні методи `Customer.register`, `OrderItem.of`, `Order.place`;
+-    збирання з вхідної команди виконує `OrderFactory`.
+-* **Criteria:**
+-  * *Creator:* створює той, хто містить/агрегує об'єкт або має дані для його ініціалізації.
+-  * *Validity:* об'єкт не існує в невалідному стані.
+-  * *Low Coupling:* `CBO(Order) ≤ 4`.
+-  * *Encapsulation:* внутрішні колекції недоступні для зовнішньої зміни.
+-
+-| Option | Creator | Validity | CBO(Order) | Encapsulation |
+-|--------|:-------:|:--------:|:----------:|:-------------:|
+-| A | ✗ | ✗ | 2 | ✗ |
+-| B | ✓ (контейнер створює елемент) | ✓ | 5 (+`Product`) ✗ | ✓ |
+-| C | ✓ (static factory + assembler) | ✓ | 4 ✓ | ✓ (`List.copyOf`) |
+-
+-* **Conclusion:** обрано **Option C**. Option B ідеальний за класичним Creator, але піднімає
+-  `CBO(Order)` до 5 через залежність від `Product`; статичні фабричні методи прямо дозволені
+-  методичкою й дають той самий ефект гарантованої валідності. Зв'язування «команда → агрегат»
+-  виконує `OrderFactory` (Pure Fabrication) з двома допоміжними фабриками.
+Index: Laba8/docs/adr/ADR-005-metrics-and-coupling-budget.md
+===================================================================
+diff --git a/Laba8/docs/adr/ADR-005-metrics-and-coupling-budget.md b/Laba8/docs/adr/ADR-005-metrics-and-coupling-budget.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/ADR-005-metrics-and-coupling-budget.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,30 +0,0 @@
+-# ADR-005: Метрики якості та бюджет зчеплення (CBO ≤ 4)
+-
+-## Статус
+-Прийнято (Accepted)
+-
+-## Контекст
+-Завдання 5 вимагає довести CBO ≤ 4 і LCOM4 = 1 для рефакторених класів. Метрики розраховуються
+-скриптом `tools/metrics.py` (відтворювано) і перевіряються вручну у `docs/REPORT.md`.
+-
+-## Рішення
+-1. **Правило CBO:** враховуються лише типи проєкту (примітиви, `java.lang.*`, `java.util.*`,
+-   `java.math.*` — ні), як у методичці.
+-2. **Правило LCOM4:** вершини — нетривіальні нестатичні методи; конструктори, статичні фабрики
+-   й тривіальні геттери виключено (дозволено методичкою).
+-3. **Бюджет:** цільове CBO ≤ 4 застосовується до **доменних сутностей і контролерів**.
+-   Ми свідомо **концентруємо** зчеплення в двох класах-збирачах і кореневому композиторі, щоб
+-   не розмазувати його по домену:
+-   * `OrderFactory` — CBO = 6 (клієнт, рядки, податок, генератор id, команда, агрегат);
+-   * `ConsoleApp` — CBO = 6 (UI шар, найнестабільніший з прикладних, I ≈ 0.83);
+-   * `Main` — CBO = 17 (Composition Root; за означенням знає всі конкретні класи).
+-4. Щоб утримати `Order` у CBO = 4, `OrderItem` створюється фабрикою `OrderItem.of(...)` поза
+-   `Order` (інакше з'являється залежність від `Product`), а `OrderController` повертає
+-   `List<String>` замість окремого DTO результату.
+-
+-## Наслідки
+-* **Позитивні:** усі доменні сутності та обидва контролери ≤ 4; домен має Instability = 0.00
+-  й не залежить від жодного іншого шару.
+-* **Негативні / компроміси:** два нестрогі винятки (6) — задокументовані; метрика CBO
+-  нечутлива до рівня абстракції залежності (інтерфейс і конкретний клас рахуються однаково),
+-  тому її слід читати разом з Instability і LCOM4.
+Index: Laba8/src/main/java/ua/lab8/domain/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/Product.java b/Laba8/src/main/java/ua/lab8/domain/Product.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/Product.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,55 +0,0 @@
+-package ua.lab8.domain;
+-
+-import java.math.BigDecimal;
+-import java.math.RoundingMode;
+-
+-/** Товар каталогу. Створюється одразу у валідному стані, поля незмінні. */
+-public final class Product {
+-    private final int id;
+-    private final String name;
+-    private final BigDecimal price;
+-    private final String category;
+-
+-    public Product(int id, String name, BigDecimal price, String category) {
+-        if (id <= 0) {
+-            throw new IllegalArgumentException("Ідентифікатор товару має бути додатним");
+-        }
+-        if (name == null || name.isBlank()) {
+-            throw new IllegalArgumentException("Назва товару не може бути порожньою");
+-        }
+-        if (price == null || price.signum() < 0) {
+-            throw new IllegalArgumentException("Ціна товару не може бути від\u2019ємною");
+-        }
+-        if (category == null || category.isBlank()) {
+-            throw new IllegalArgumentException("Категорія товару не може бути порожньою");
+-        }
+-        this.id = id;
+-        this.name = name.trim();
+-        this.price = price.setScale(2, RoundingMode.HALF_UP);
+-        this.category = category.trim();
+-    }
+-
+-    /** Information Expert: лише товар знає свою ціну, тому саме він рахує вартість N одиниць. */
+-    public BigDecimal priceFor(int quantity) {
+-        if (quantity <= 0) {
+-            throw new IllegalArgumentException("Кількість має бути додатною");
+-        }
+-        return price.multiply(BigDecimal.valueOf(quantity));
+-    }
+-
+-    public int id() {
+-        return id;
+-    }
+-
+-    public String name() {
+-        return name;
+-    }
+-
+-    public BigDecimal price() {
+-        return price;
+-    }
+-
+-    public String category() {
+-        return category;
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/application/step/NotifyCustomerStep.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/step/NotifyCustomerStep.java b/Laba8/src/main/java/ua/lab8/application/step/NotifyCustomerStep.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/step/NotifyCustomerStep.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,19 +0,0 @@
+-package ua.lab8.application.step;
+-
+-import ua.lab8.application.port.OrderNotifier;
+-import ua.lab8.domain.Order;
+-
+-/** Крок: сповістити клієнта. */
+-public final class NotifyCustomerStep implements OrderStep {
+-    private final OrderNotifier notifier;
+-
+-    public NotifyCustomerStep(OrderNotifier notifier) {
+-        this.notifier = notifier;
+-    }
+-
+-    @Override
+-    public String execute(Order order) {
+-        notifier.notifyProcessed(order);
+-        return "[Email] Повідомлення відправлено на " + order.customerEmail();
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/OrderItem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/OrderItem.java b/Laba8/src/main/java/ua/lab8/domain/OrderItem.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/OrderItem.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,39 +0,0 @@
+-package ua.lab8.domain;
+-
+-import java.math.BigDecimal;
+-
+-/** Рядок замовлення: товар + кількість. Створюється лише через фабричний метод. */
+-public final class OrderItem {
+-    private final Product product;
+-    private final int quantity;
+-
+-    private OrderItem(Product product, int quantity) {
+-        this.product = product;
+-        this.quantity = quantity;
+-    }
+-
+-    /** Creator (static factory): гарантує валідний рядок замовлення. */
+-    public static OrderItem of(Product product, int quantity) {
+-        if (product == null) {
+-            throw new IllegalArgumentException("Товар обов\u2019язковий");
+-        }
+-        if (quantity <= 0) {
+-            throw new IllegalArgumentException("Кількість має бути додатною");
+-        }
+-        return new OrderItem(product, quantity);
+-    }
+-
+-    /** Information Expert: рядок володіє і товаром, і кількістю. */
+-    public BigDecimal subtotal() {
+-        return product.priceFor(quantity);
+-    }
+-
+-    /** Делегування замість order.getItem().getProduct().getName() (Закон Деметри). */
+-    public String productName() {
+-        return product.name();
+-    }
+-
+-    public int quantity() {
+-        return quantity;
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/discount/RegularDiscount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/discount/RegularDiscount.java b/Laba8/src/main/java/ua/lab8/domain/discount/RegularDiscount.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/discount/RegularDiscount.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,16 +0,0 @@
+-package ua.lab8.domain.discount;
+-
+-import java.math.BigDecimal;
+-
+-/** Polymorphism: знижка для клієнтів типу "Regular" (0.05). */
+-public final class RegularDiscount extends PercentageDiscount {
+-
+-    public RegularDiscount() {
+-        super(new BigDecimal("0.05"));
+-    }
+-
+-    @Override
+-    public String name() {
+-        return "Regular";
+-    }
+-}
+Index: Laba8/.gitignore
+===================================================================
+diff --git a/Laba8/.gitignore b/Laba8/.gitignore
+deleted file mode 100644
+--- a/Laba8/.gitignore	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,7 +0,0 @@
+-target/
+-out/
+-orders.txt
+-*.class
+-.idea/
+-*.iml
+-.vscode/
+Index: Laba8/src/main/java/ua/lab8/infrastructure/TextReceiptFormatter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/infrastructure/TextReceiptFormatter.java b/Laba8/src/main/java/ua/lab8/infrastructure/TextReceiptFormatter.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/infrastructure/TextReceiptFormatter.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,17 +0,0 @@
+-package ua.lab8.infrastructure;
+-
+-import ua.lab8.application.port.ReceiptFormatter;
+-import ua.lab8.domain.Order;
+-
+-/** Текстовий рахунок у форматі вихідного коду. */
+-public final class TextReceiptFormatter implements ReceiptFormatter {
+-
+-    @Override
+-    public String format(Order order) {
+-        return "Замовлення #" + order.id() + " для " + order.customerName()
+-                + "\nСума: " + order.subtotal().toPlainString() + " грн"
+-                + "\nЗнижка: " + order.discountAmount().toPlainString() + " грн"
+-                + "\nПДВ: " + order.taxAmount().toPlainString() + " грн"
+-                + "\nДо сплати: " + order.finalAmount().toPlainString() + " грн";
+-    }
+-}
+Index: Laba8/docs/REPORT.md
+===================================================================
+diff --git a/Laba8/docs/REPORT.md b/Laba8/docs/REPORT.md
+deleted file mode 100644
+--- a/Laba8/docs/REPORT.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,260 +0,0 @@
+-# Лабораторна робота №8
+-## Проєктування та рефакторинг взаємодії об'єктів за методологією GRASP
+-
+-**Варіант:** 1 — Інтернет-магазин електроніки та побутової техніки (обробка замовлення)
+-**Мова:** Java 17 · **Тести:** JUnit 5 (20 тестів) · **Виконали:** Студент А ____________ / Студент Б ____________
+-
+----
+-
+-## 1. Завдання 1 — аудит legacy-коду та Design Rationale
+-
+-Повний аудит і таблиця порушень — [ADR-001](adr/ADR-001-audit-legacy-code.md). Коротко:
+-
+-| Показник legacy-коду | Значення |
+-|----------------------|:--------:|
+-| публічні змінні поля (Anemic Model) | 19 |
+-| обов'язків в одному методі (`processConsoleOrder`) | 9 |
+-| звернень до полів чужих класів (Feature Envy) | 47 |
+-| ланцюжків, що порушують Закон Деметри | 6 |
+-| гілок `if / else if` за рядковим типом клієнта | 3 |
+-| магічних чисел у бізнес-коді | 9 |
+-
+-Документи обґрунтування: ADR-001…ADR-005 та QOC-001…QOC-004 у каталозі [`docs/adr/`](adr/).
+-
+----
+-
+-## 2. Структура рефакторингу
+-
+-```mermaid
+-flowchart LR
+-    subgraph UI[ui — I≈0.83]
+-        ConsoleApp --> ConsoleCommandParser
+-        ConsoleApp --> OrderRequestParser
+-    end
+-    subgraph APP[application — I≈0.46]
+-        OrderController --> OrderFactory
+-        OrderController --> OrderStep
+-        OrderFactory --> CustomerFactory
+-        OrderFactory --> OrderItemsFactory
+-        OrderStep -.-> Ports[(OrderRepository<br/>OrderNotifier<br/>ReceiptFormatter<br/>ProductCatalog)]
+-    end
+-    subgraph DOM[domain — I=0.00]
+-        Order --> OrderItem --> Product
+-        Order --> Customer --> DiscountPolicy
+-        Order --> TaxPolicy
+-        DiscountPolicyRegistry --> DiscountPolicy
+-    end
+-    subgraph INF[infrastructure — I≈0.86]
+-        FileOrderRepository
+-        SimulatedEmailNotifier
+-        TextReceiptFormatter
+-        InMemoryProductCatalog
+-    end
+-    ConsoleApp --> OrderController
+-    INF -. implements .-> Ports
+-    APP --> DOM
+-    Main[[Main — Composition Root]] --> UI & APP & INF
+-```
+-
+-Дерево пакетів:
+-
+-```
+-src/main/java/ua/lab8
+-├── Main.java                         Composition Root
+-├── domain/                           Order, OrderItem, Customer, Product, OrderStatus
+-│   ├── discount/                     DiscountPolicy, PercentageDiscount, Vip/Regular/NewCustomerDiscount, DiscountPolicyRegistry
+-│   └── tax/                          TaxPolicy, VatTaxPolicy
+-├── application/                      OrderController, CatalogController
+-│   ├── dto/                          PlaceOrderCommand, OrderLineRequest, ProductView
+-│   ├── factory/                      OrderFactory, CustomerFactory, OrderItemsFactory
+-│   ├── port/                         OrderRepository, OrderNotifier, ReceiptFormatter, ProductCatalog
+-│   └── step/                         OrderStep, ReceiptStep, PersistOrderStep, NotifyCustomerStep
+-├── infrastructure/                   FileOrderRepository, SimulatedEmailNotifier, TextReceiptFormatter, InMemoryProductCatalog
+-└── ui/                               ConsoleApp, ConsoleCommandParser, OrderRequestParser, MenuChoice
+-```
+-
+-### 2.1. Завдання 2 — Information Expert + Creator
+-
+-| Було (legacy) | Стало |
+-|---------------|-------|
+-| `subtotal += item.product.price * item.quantity` у процесорі | `OrderItem.subtotal()` → `Product.priceFor(qty)`; `Order.subtotal()` |
+-| `order.discountAmount = order.totalAmount * discountRate` | `Order.discountAmount()` → `Customer.discountOn(...)` |
+-| `order.taxAmount = (…) * 0.20` | `Order.taxAmount()` → `TaxPolicy.taxOn(...)` |
+-| `order.status = "Processed"` (рядок, будь-де) | `Order.process()` + `OrderStatus`, перехід лише раз і лише з валідною сумою |
+-| `new Customer(); customer.id = 1; …` | `Customer.register(...)` з валідацією |
+-| `order.items.add(item)` (відкрита колекція) | `Order.place(..., List<OrderItem>)` + `List.copyOf` |
+-
+-Обґрунтування — [ADR-002](adr/ADR-002-information-expert-and-creator.md), [QOC-001](adr/QOC-001-who-calculates-discount.md), [QOC-002](adr/QOC-002-who-creates-order-and-items.md).
+-
+-### 2.2. Завдання 3 — Controller + Indirection + Pure Fabrication
+-
+-* `ConsoleApp` — тонкий CLI: меню, `Scanner`, `PrintStream`; **0 рядків бізнес-логіки**.
+-* `OrderController` — Use-Case Controller: фабрика → `order.process()` → кроки; **0 звернень до консолі**
+-  (перевірено: `grep -rE "System\.(out|in)|Scanner|println" domain application` — порожньо).
+-* Indirection: порти `OrderRepository`, `OrderNotifier`, `ReceiptFormatter`, `ProductCatalog` + `OrderStep`.
+-* Pure Fabrication: парсери, фабрики, реєстр знижок, адаптери інфраструктури.
+-
+-Обґрунтування — [ADR-003](adr/ADR-003-controller-indirection-pure-fabrication.md), [QOC-004](adr/QOC-004-where-to-put-receipt-persist-notify.md).
+-
+-### 2.3. Завдання 4 — Polymorphism + Protected Variations
+-
+-Каскад `if-else` за типом клієнта замінено ієрархією `DiscountPolicy` та `DiscountPolicyRegistry`;
+-ставка ПДВ — за `TaxPolicy`; формат рахунку, сховище й сповіщення — за інтерфейсами.
+-Тест `newCustomerTypeCanBeAddedWithoutChangingExistingCode` доводить, що тип «Gold» додається без
+-змін існуючого коду. Обґрунтування — [ADR-004](adr/ADR-004-polymorphism-protected-variations.md), [QOC-003](adr/QOC-003-replace-if-else-by-customer-type.md).
+-
+-### 2.4. Закон Деметри
+-
+-| Порушення (legacy) | Виправлення |
+-|--------------------|-------------|
+-| `order.customer.name` / `.email` / `.type` | `order.customerName()`, `order.customerEmail()`, `order.customerType()` |
+-| `item.product.price` | `item.subtotal()` → `product.priceFor(qty)` |
+-| `item.product.name` (для рахунку) | `item.productName()` |
+-
+-Ланцюжків Деметри в новому коді: **0**.
+-
+----
+-
+-## 3. Завдання 5 — метричний аналіз
+-
+-Відтворення: `python3 tools/metrics.py src/main/java` та `python3 tools/metrics.py legacy`.
+-
+-**Умови розрахунку.** CBO: лише типи проєкту (примітиви, `java.lang`, `java.util`, `java.math` не
+-рахуються). LCOM4: вершини — нетривіальні нестатичні методи (конструктори, статичні фабрики та
+-тривіальні геттери виключено); ребро — спільне поле або прямий виклик.
+-
+-### 3.1. Low Coupling — CBO
+-
+-| Клас | До | Після | Цільове ≤ 4 |
+-|------|:--:|:-----:|:-----------:|
+-| `LegacyOrderProcessor` → розділено на | **4** ¹ | — | |
+-| `OrderController` | — | **4** | ✓ |
+-| `CatalogController` | — | 3 | ✓ |
+-| `Order` | 2 | **4** | ✓ |
+-| `OrderItem` | 1 | 1 | ✓ |
+-| `Customer` | 0 | 1 | ✓ |
+-| `Product` | 0 | 0 | ✓ |
+-| `DiscountPolicyRegistry` | — | 4 | ✓ |
+-| `CustomerFactory` / `OrderItemsFactory` | — | 3 / 3 | ✓ |
+-| `ReceiptStep` / `PersistOrderStep` / `NotifyCustomerStep` | — | 3 / 3 / 3 | ✓ |
+-| `FileOrderRepository`, `SimulatedEmailNotifier`, `TextReceiptFormatter`, `InMemoryProductCatalog` | — | 2 | ✓ |
+-| `OrderFactory` (збирач агрегату) | — | 6 | ✗ ² |
+-| `ConsoleApp` (UI) | — | 6 | ✗ ² |
+-| `Main` (Composition Root) | — | 17 | ✗ ² |
+-
+-¹ Чесне застереження: за правилом «лише типи проєкту» legacy-процесор уже має CBO = 4 (Customer,
+-Order, OrderItem, Product); якщо рахувати `java.util.Scanner` як інфраструктурний тип — 5.
+-Тобто сама метрика CBO **не показує різкого падіння**: вся «заплутаність» legacy була не в кількості
+-типів, а в тому, що **один метод** поєднував 9 обов'язків і 47 разів ліз у чужі поля. Це видно
+-в додаткових індикаторах (п. 3.4). Після рефакторингу жоден доменний клас і жоден контролер не
+-перевищує CBO = 4, причому `Order` зріс із 2 до 4 цілком свідомо: тепер він сам володіє логікою,
+-яку раніше мав процесор.
+-
+-² Норматив методички стосується доменних сутностей і контролерів. Ці три класи —
+-свідомі точки концентрації зчеплення (збирання агрегату, UI, композиція); див.
+-[ADR-005](adr/ADR-005-metrics-and-coupling-budget.md).
+-
+-### 3.2. High Cohesion — LCOM4
+-
+-| Клас | До | Після | Зв'язність методів після рефакторингу |
+-|------|:--:|:-----:|---------------------------------------|
+-| `LegacyOrderProcessor` | 1 ³ | — | один метод з 9 обов'язками |
+-| `Customer`, `Product`, `OrderItem`, `Order` (legacy) | 0 ⁴ | — | методів немає — Anemic |
+-| `Customer` | | **1** | `discountOn`, `typeLabel` ← `discountPolicy` |
+-| `Product` | | **1** | `priceFor` ← `price` |
+-| `OrderItem` | | **1** | `subtotal`, `productName` ← `product` |
+-| `Order` | | **1** | `subtotal`→`discountAmount`→`taxAmount`→`finalAmount`→`process` (виклики); `customerName/Email/Type` ← `customer` (спільне з `discountAmount`) |
+-| `DiscountPolicyRegistry` | | **1** | `register`, `forType`, `supportedTypes` ← `byName` |
+-| `PercentageDiscount`, `Vip/Regular/NewCustomerDiscount` | | **1** | `discountOn` ← `rate`; `name()` — єдиний метод підкласу |
+-| `VatTaxPolicy` | | **1** | `taxOn` ← `rate` |
+-| `OrderController`, `CatalogController`, фабрики, кроки | | **1** | по одному публічному методу |
+-| `FileOrderRepository` | | **1** | `nextId`, `save`, `storageName` ← `file` |
+-| `ConsoleApp` | | **1** | `run` викликає `printMenu`, `placeOrder`, `showCatalog`, `ask` |
+-
+-³ LCOM4 = 1 тривіально: у класі єдиний метод, метрика «сліпа» до його перевантаженості.
+-⁴ Немає вершин у графі — формально метрика не визначена (0 компонент); клас — лише контейнер даних.
+-
+-Усі 25 класів із нетривіальними нестатичними методами мають **LCOM4 = 1** (вивід скрипта); `Main` має лише статичний метод, а решта — інтерфейси, records та enum без методів, для яких метрика не визначена.
+-
+-### 3.3. Instability (I = Ce / (Ca + Ce)) на рівні шарів
+-
+-| Шар | Ca | Ce | I |
+-|-----|:--:|:--:|:-:|
+-| `domain` | 18 | 0 | **0.00** |
+-| `application` | 7 | 6 | 0.46 |
+-| `infrastructure` | 1 | 6 | 0.86 |
+-| `ui` | 1 | 5 | 0.83 |
+-| `Main` (root) | 0 | 17 | 1.00 |
+-
+-Принцип Stable Dependencies виконується: `ui (0.83) → application (0.46) → domain (0.00)`;
+-`infrastructure (0.86)` залежить від портів `application` і від `domain`. Домен не імпортує жодного
+-іншого шару (`grep "import ua.lab8.(application|infrastructure|ui)" domain` — порожньо); `application`
+-не імпортує `infrastructure`/`ui`. У legacy всі п'ять класів лежали в одному пакеті без шарів —
+-Instability не визначена.
+-
+-### 3.4. Додаткові індикатори «до / після»
+-
+-| Індикатор | До | Після |
+-|-----------|:--:|:-----:|
+-| публічні змінні поля | 19 | **0** |
+-| сеттери | відкриті поля | **0** |
+-| звернення до чужих полів | 47 | **0** |
+-| ланцюжки Деметри | 6 | **0** |
+-| гілки `if-else` за типом клієнта | 3 | **0** |
+-| обов'язків на метод/клас | 9 в одному методі | 1 на клас |
+-| консольний I/O у домені/контролері | так | **немає** |
+-| автоматичні тести | 0 | **20** |
+-
+-### 3.5. Висновки
+-
+-1. Бізнес-логіка перенесена у власників даних; домен став стабільним ядром (I = 0.00) без залежностей
+-   від інфраструктури.
+-2. CBO ≤ 4 досягнуто для всіх доменних сутностей і обох контролерів; максимум зчеплення
+-   сконцентровано в `OrderFactory`, `ConsoleApp` і `Main` — шарах, де воно й має жити.
+-3. LCOM4 = 1 для всіх 25 класів із поведінкою — кожен клас відповідає за один стан.
+-4. CBO окремо дає слабкий сигнал для цього legacy (там уже було 4) — переконливо покращення видно
+-   разом з LCOM-орієнтованими й структурними індикаторами (п. 3.4).
+-
+----
+-
+-## 4. Відображення 9 патернів GRASP на код
+-
+-| Патерн | Де застосовано |
+-|--------|----------------|
+-| Information Expert | `Product.priceFor`, `OrderItem.subtotal`, `Order.subtotal/discountAmount/taxAmount/finalAmount`, `Customer.discountOn` |
+-| Creator | `Customer.register`, `OrderItem.of`, `Order.place`, `OrderFactory`, `CustomerFactory`, `OrderItemsFactory` |
+-| Controller | `OrderController`, `CatalogController` |
+-| Low Coupling | CBO ≤ 4 для домену й контролерів; залежності лише від інтерфейсів |
+-| High Cohesion | LCOM4 = 1; по одній відповідальності на клас |
+-| Pure Fabrication | парсери, фабрики, `DiscountPolicyRegistry`, `TextReceiptFormatter`, `FileOrderRepository` |
+-| Indirection | порти + `OrderStep` між контролером і деталями |
+-| Polymorphism | `DiscountPolicy`-ієрархія, `OrderStep`-реалізації |
+-| Protected Variations | `DiscountPolicy`, `TaxPolicy`, `OrderRepository`, `OrderNotifier`, `ReceiptFormatter`, `ProductCatalog` |
+-
+----
+-
+-## 5. Свідомі відмінності поведінки від legacy
+-
+-| Legacy | Тепер | Чому |
+-|--------|-------|------|
+-| невідомий тип клієнта → знижка 0 без повідомлення | помилка зі списком типів | Fail Fast; прихований дефект |
+-| `double`, вивід `31600.0` | `BigDecimal`, `31600.00` | коректні гроші |
+-| «БД» і email — лише `println` | реальний запис у `orders.txt`; email симулюється (`SimulatedEmailNotifier`) | вимога «збереження у файл» |
+-| номер замовлення завжди 101 | 101, 102, … за кількістю рядків у файлі | унікальність між запусками |
+-| кошик і email зашиті | вводяться; `Enter` = демо-значення legacy | CLI як справжній клієнт |
+-| поле `totalSpent` | видалено | ніде не читалось (YAGNI) |
+-
+-Перевірка еквівалентності: для демо-кошика й VIP legacy та новий код дають однакові суми
+-(31600 / 4740 / 5372 / 32232); це зафіксовано тестом `placesOrderAndRunsAllStepsInOrder`.
+-
+----
+-
+-## 6. Як запустити
+-
+-```bash
+-mvn test                              # 20 JUnit-тестів
+-mvn -q package && java -jar target/lab8-grasp-variant1-1.0.0.jar
+-python3 tools/metrics.py src/main/java   # CBO / LCOM4 / Instability
+-```
+-
+-Без Maven: `javac -d out $(find src/main -name "*.java") && java -cp out ua.lab8.Main`.
+Index: Laba8/docs/adr/QOC-003-replace-if-else-by-customer-type.md
+===================================================================
+diff --git a/Laba8/docs/adr/QOC-003-replace-if-else-by-customer-type.md b/Laba8/docs/adr/QOC-003-replace-if-else-by-customer-type.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/QOC-003-replace-if-else-by-customer-type.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,23 +0,0 @@
+-# QOC-003: Як позбутися каскаду `if-else` за типом клієнта?
+-
+-* **Question:** Яким механізмом вибирати поведінку знижки за типом клієнта?
+-* **Options:**
+-  * *Option A:* залишити `if / else if`, винести в приватний метод.
+-  * *Option B:* `enum CustomerType` з абстрактним методом знижки (константи-стратегії).
+-  * *Option C:* інтерфейс `DiscountPolicy` + класи-реалізації + `DiscountPolicyRegistry`
+-    (словник «назва → політика»).
+-* **Criteria:**
+-  * *Polymorphism:* відсутність умовних операторів за типом.
+-  * *Protected Variations / OCP:* розширення без зміни існуючого коду (навіть enum).
+-  * *Простота (KISS):* кількість нових конструкцій.
+-  * *Обробка невідомого значення:* явна помилка замість мовчазного 0.
+-
+-| Option | Polymorphism | Розширення без правок | KISS | Невідомий тип |
+-|--------|:------------:|:---------------------:|:----:|:-------------:|
+-| A | ✗ | ✗ | ✓ | ✗ (мовчки 0%) |
+-| B | ✓ | ✗ (правиться enum) | ✓ | ✓ |
+-| C | ✓ | ✓ (`register(...)`) | ~ (більше файлів) | ✓ (помилка + список) |
+-
+-* **Conclusion:** обрано **Option C**. Тест `newCustomerTypeCanBeAddedWithoutChangingExistingCode`
+-  підтверджує розширення без змін. Компроміс: більше класів, ніж у варіанті B, але саме він
+-  відповідає вимозі лаби про Polymorphism + Protected Variations.
+Index: Laba8/src/main/java/ua/lab8/application/port/OrderNotifier.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/port/OrderNotifier.java b/Laba8/src/main/java/ua/lab8/application/port/OrderNotifier.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/port/OrderNotifier.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,9 +0,0 @@
+-package ua.lab8.application.port;
+-
+-import ua.lab8.domain.Order;
+-
+-/** Indirection: канал сповіщення (email/SMS/push) можна замінити без змін у контролері. */
+-public interface OrderNotifier {
+-
+-    void notifyProcessed(Order order);
+-}
+Index: Laba8/src/main/java/ua/lab8/application/step/PersistOrderStep.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/step/PersistOrderStep.java b/Laba8/src/main/java/ua/lab8/application/step/PersistOrderStep.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/step/PersistOrderStep.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,19 +0,0 @@
+-package ua.lab8.application.step;
+-
+-import ua.lab8.application.port.OrderRepository;
+-import ua.lab8.domain.Order;
+-
+-/** Крок: зберегти замовлення. */
+-public final class PersistOrderStep implements OrderStep {
+-    private final OrderRepository repository;
+-
+-    public PersistOrderStep(OrderRepository repository) {
+-        this.repository = repository;
+-    }
+-
+-    @Override
+-    public String execute(Order order) {
+-        repository.save(order);
+-        return "[БД] Замовлення #" + order.id() + " збережено у файл " + repository.storageName() + ".";
+-    }
+-}
+Index: Laba8/docs/adr/QOC-001-who-calculates-discount.md
+===================================================================
+diff --git a/Laba8/docs/adr/QOC-001-who-calculates-discount.md b/Laba8/docs/adr/QOC-001-who-calculates-discount.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/QOC-001-who-calculates-discount.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,23 +0,0 @@
+-# QOC-001: Хто відповідає за розрахунок і застосування знижки клієнта?
+-
+-* **Question (Питання):** Який об'єкт має обчислювати знижку при оформленні замовлення?
+-* **Options (Альтернативні варіанти):**
+-  * *Option A:* залишити розрахунок у `OrderController` / `ConsoleApp` (як у legacy-методі).
+-  * *Option B:* окремий сервіс `DiscountService.calculate(order)` з `switch` за типом клієнта.
+-  * *Option C:* `Order` запитує у `Customer` (`customer.discountOn(subtotal)`), а `Customer` делегує
+-    своїй стратегії `DiscountPolicy`.
+-* **Criteria (Критерії оцінки за GRASP):**
+-  * *Information Expert:* хто володіє даними? `Order` знає суму, `Customer` — свій статус.
+-  * *Low Coupling:* UI/контролер не повинні залежати від алгоритму знижок.
+-  * *Protected Variations / OCP:* додавання нового типу клієнта не має змушувати змінювати існуючий код.
+-  * *Cohesion:* жоден клас не стає «сміттєзбірником» чужих полів.
+-
+-| Option | Info Expert | Low Coupling | Prot. Variations | Cohesion |
+-|--------|:-----------:|:------------:|:----------------:|:--------:|
+-| A | ✗ (контролер читає чужі поля) | ✗ | ✗ (if-else) | ✗ |
+-| B | ✗ (сервіс оперує чужими даними — Anemic Model) | ~ | ✗ (switch у сервісі) | ~ |
+-| C | ✓ | ✓ | ✓ (нова реалізація інтерфейсу) | ✓ |
+-
+-* **Conclusion (Рішення):** обрано **Option C**. `Order` як Information Expert підсумку питає в
+-  `Customer` розмір знижки; `Customer` як Expert свого статусу делегує `DiscountPolicy`. Зміна
+-  правил знижок не торкається `Order` і контролера. Ціна рішення — три невеликі класи стратегій.
+Index: Laba8/src/main/java/ua/lab8/application/CatalogController.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/CatalogController.java b/Laba8/src/main/java/ua/lab8/application/CatalogController.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/CatalogController.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,24 +0,0 @@
+-package ua.lab8.application;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-import ua.lab8.application.dto.ProductView;
+-import ua.lab8.application.port.ProductCatalog;
+-import ua.lab8.domain.Product;
+-
+-/** Use-case «переглянути каталог». */
+-public final class CatalogController {
+-    private final ProductCatalog catalog;
+-
+-    public CatalogController(ProductCatalog catalog) {
+-        this.catalog = catalog;
+-    }
+-
+-    public List<ProductView> listProducts() {
+-        List<ProductView> views = new ArrayList<>();
+-        for (Product product : catalog.findAll()) {
+-            views.add(new ProductView(product.id(), product.name(), product.price(), product.category()));
+-        }
+-        return views;
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/application/factory/OrderFactory.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/factory/OrderFactory.java b/Laba8/src/main/java/ua/lab8/application/factory/OrderFactory.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/factory/OrderFactory.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,35 +0,0 @@
+-package ua.lab8.application.factory;
+-
+-import ua.lab8.application.dto.PlaceOrderCommand;
+-import ua.lab8.application.port.OrderRepository;
+-import ua.lab8.domain.Order;
+-import ua.lab8.domain.tax.TaxPolicy;
+-
+-/**
+- * Збирач агрегату: єдине місце, де сходяться клієнт, рядки, податкова політика та генератор id.
+- * Зчеплення свідомо сконцентроване тут, а не розмазане по доменних сутностях.
+- */
+-public final class OrderFactory {
+-    private final CustomerFactory customerFactory;
+-    private final OrderItemsFactory itemsFactory;
+-    private final TaxPolicy taxPolicy;
+-    private final OrderRepository repository;
+-
+-    public OrderFactory(CustomerFactory customerFactory,
+-                        OrderItemsFactory itemsFactory,
+-                        TaxPolicy taxPolicy,
+-                        OrderRepository repository) {
+-        this.customerFactory = customerFactory;
+-        this.itemsFactory = itemsFactory;
+-        this.taxPolicy = taxPolicy;
+-        this.repository = repository;
+-    }
+-
+-    public Order create(PlaceOrderCommand command) {
+-        return Order.place(
+-                repository.nextId(),
+-                customerFactory.create(command),
+-                itemsFactory.create(command.lines()),
+-                taxPolicy);
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/Order.java b/Laba8/src/main/java/ua/lab8/domain/Order.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/Order.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,97 +0,0 @@
+-package ua.lab8.domain;
+-
+-import ua.lab8.domain.tax.TaxPolicy;
+-
+-import java.math.BigDecimal;
+-import java.util.List;
+-
+-/**
+- * Агрегат «Замовлення» (Rich Domain Model).
+- * Усі суми обчислюються на льоту з власного стану — дублювання та застарілі значення неможливі.
+- */
+-public final class Order {
+-    private final int id;
+-    private final Customer customer;
+-    private final List<OrderItem> items;
+-    private final TaxPolicy taxPolicy;
+-    private OrderStatus status;
+-
+-    private Order(int id, Customer customer, List<OrderItem> items, TaxPolicy taxPolicy) {
+-        this.id = id;
+-        this.customer = customer;
+-        this.items = items;
+-        this.taxPolicy = taxPolicy;
+-        this.status = OrderStatus.NEW;
+-    }
+-
+-    /** Creator (static factory): замовлення створюється валідним, колекція захищена List.copyOf. */
+-    public static Order place(int id, Customer customer, List<OrderItem> items, TaxPolicy taxPolicy) {
+-        if (id <= 0) {
+-            throw new IllegalArgumentException("Ідентифікатор замовлення має бути додатним");
+-        }
+-        if (customer == null || taxPolicy == null) {
+-            throw new IllegalArgumentException("Клієнт і податкова політика обов\u2019язкові");
+-        }
+-        if (items == null || items.isEmpty()) {
+-            throw new IllegalArgumentException("Замовлення не може бути порожнім");
+-        }
+-        return new Order(id, customer, List.copyOf(items), taxPolicy);
+-    }
+-
+-    /** Information Expert: замовлення володіє рядками, тому саме воно рахує підсумок. */
+-    public BigDecimal subtotal() {
+-        BigDecimal sum = BigDecimal.ZERO;
+-        for (OrderItem item : items) {
+-            sum = sum.add(item.subtotal());
+-        }
+-        return sum;
+-    }
+-
+-    public BigDecimal discountAmount() {
+-        return customer.discountOn(subtotal());
+-    }
+-
+-    public BigDecimal taxAmount() {
+-        return taxPolicy.taxOn(subtotal().subtract(discountAmount()));
+-    }
+-
+-    public BigDecimal finalAmount() {
+-        return subtotal().subtract(discountAmount()).add(taxAmount());
+-    }
+-
+-    /** Бізнес-перехід NEW -> PROCESSED з інваріантами. */
+-    public void process() {
+-        if (status != OrderStatus.NEW) {
+-            throw new IllegalStateException("Замовлення #" + id + " уже оброблено");
+-        }
+-        if (finalAmount().signum() <= 0) {
+-            throw new IllegalStateException("Сума до сплати має бути додатною");
+-        }
+-        status = OrderStatus.PROCESSED;
+-    }
+-
+-    public int id() {
+-        return id;
+-    }
+-
+-    public OrderStatus status() {
+-        return status;
+-    }
+-
+-    /** Закон Деметри: клієнт запитує в замовлення, а не order.getCustomer().getName(). */
+-    public String customerName() {
+-        return customer.name();
+-    }
+-
+-    public String customerEmail() {
+-        return customer.email();
+-    }
+-
+-    public String customerType() {
+-        return customer.typeLabel();
+-    }
+-
+-    public List<OrderItem> items() {
+-        return items;
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/application/step/ReceiptStep.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/step/ReceiptStep.java b/Laba8/src/main/java/ua/lab8/application/step/ReceiptStep.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/step/ReceiptStep.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,18 +0,0 @@
+-package ua.lab8.application.step;
+-
+-import ua.lab8.application.port.ReceiptFormatter;
+-import ua.lab8.domain.Order;
+-
+-/** Крок: сформувати текстовий рахунок. */
+-public final class ReceiptStep implements OrderStep {
+-    private final ReceiptFormatter formatter;
+-
+-    public ReceiptStep(ReceiptFormatter formatter) {
+-        this.formatter = formatter;
+-    }
+-
+-    @Override
+-    public String execute(Order order) {
+-        return formatter.format(order);
+-    }
+-}
+Index: Laba8/docs/adr/QOC-004-where-to-put-receipt-persist-notify.md
+===================================================================
+diff --git a/Laba8/docs/adr/QOC-004-where-to-put-receipt-persist-notify.md b/Laba8/docs/adr/QOC-004-where-to-put-receipt-persist-notify.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/QOC-004-where-to-put-receipt-persist-notify.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,22 +0,0 @@
+-# QOC-004: Де розмістити формування рахунку, збереження та сповіщення?
+-
+-* **Question:** Хто виконує «післяобробку» оформленого замовлення?
+-* **Options:**
+-  * *Option A:* `OrderController` викликає `repository.save`, `notifier.notify`, `formatter.format` напряму.
+-  * *Option B:* `Order` сам зберігає себе й надсилає email (Active Record).
+-  * *Option C:* послідовність `OrderStep` (`ReceiptStep`, `PersistOrderStep`, `NotifyCustomerStep`),
+-    яку контролер лише обходить.
+-* **Criteria:**
+-  * *Low Coupling:* `CBO(OrderController) ≤ 4`.
+-  * *High Cohesion:* домен не містить інфраструктурних обов'язків.
+-  * *OCP:* новий крок (аудит, SMS) — без редагування контролера.
+-
+-| Option | CBO(контролер) | Домен чистий | Розширення без правок |
+-|--------|:--------------:|:------------:|:---------------------:|
+-| A | 6 ✗ (3 порти) | ✓ | ✗ |
+-| B | 2 | ✗ (Order знає файл і SMTP) | ✗ |
+-| C | 4 ✓ | ✓ | ✓ |
+-
+-* **Conclusion:** обрано **Option C**. Контролер залежить від одного інтерфейсу `OrderStep`, а
+-  порядок виводу (рахунок → збереження → email) збігається з legacy. Компроміс: кроки
+-  виконуються без транзакції (див. ADR-003).
+Index: Laba8/src/main/java/ua/lab8/infrastructure/FileOrderRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/infrastructure/FileOrderRepository.java b/Laba8/src/main/java/ua/lab8/infrastructure/FileOrderRepository.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/infrastructure/FileOrderRepository.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,63 +0,0 @@
+-package ua.lab8.infrastructure;
+-
+-import ua.lab8.application.port.OrderRepository;
+-import ua.lab8.domain.Order;
+-
+-import java.io.IOException;
+-import java.io.UncheckedIOException;
+-import java.nio.charset.StandardCharsets;
+-import java.nio.file.Files;
+-import java.nio.file.Path;
+-import java.nio.file.StandardOpenOption;
+-
+-/**
+- * Зберігає кожне замовлення окремим рядком у текстовому файлі.
+- * Наступний id обчислюється з кількості вже збережених рядків, тому переживає перезапуск.
+- */
+-public final class FileOrderRepository implements OrderRepository {
+-    private static final int FIRST_ORDER_ID = 101;
+-    private final Path file;
+-
+-    public FileOrderRepository(Path file) {
+-        this.file = file;
+-    }
+-
+-    @Override
+-    public int nextId() {
+-        try {
+-            if (!Files.exists(file)) {
+-                return FIRST_ORDER_ID;
+-            }
+-            long saved = Files.readAllLines(file, StandardCharsets.UTF_8).stream()
+-                    .filter(line -> line.startsWith("#"))
+-                    .count();
+-            return FIRST_ORDER_ID + (int) saved;
+-        } catch (IOException e) {
+-            throw new UncheckedIOException("Не вдалося прочитати " + file, e);
+-        }
+-    }
+-
+-    @Override
+-    public void save(Order order) {
+-        String line = "#" + order.id()
+-                + " | " + order.customerName()
+-                + " | " + order.customerType()
+-                + " | sum=" + order.subtotal()
+-                + " | discount=" + order.discountAmount()
+-                + " | vat=" + order.taxAmount()
+-                + " | total=" + order.finalAmount()
+-                + " | " + order.status()
+-                + System.lineSeparator();
+-        try {
+-            Files.writeString(file, line, StandardCharsets.UTF_8,
+-                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+-        } catch (IOException e) {
+-            throw new UncheckedIOException("Не вдалося записати " + file, e);
+-        }
+-    }
+-
+-    @Override
+-    public String storageName() {
+-        return file.getFileName().toString();
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/Customer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/Customer.java b/Laba8/src/main/java/ua/lab8/domain/Customer.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/Customer.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,58 +0,0 @@
+-package ua.lab8.domain;
+-
+-import ua.lab8.domain.discount.DiscountPolicy;
+-
+-import java.math.BigDecimal;
+-
+-/** Клієнт. Тип клієнта виражений стратегією знижки, а не рядком "VIP"/"Regular". */
+-public final class Customer {
+-    private final int id;
+-    private final String name;
+-    private final String email;
+-    private final DiscountPolicy discountPolicy;
+-
+-    private Customer(int id, String name, String email, DiscountPolicy discountPolicy) {
+-        this.id = id;
+-        this.name = name;
+-        this.email = email;
+-        this.discountPolicy = discountPolicy;
+-    }
+-
+-    /** Creator (static factory): клієнт існує лише у валідному стані. */
+-    public static Customer register(int id, String name, String email, DiscountPolicy discountPolicy) {
+-        if (id <= 0) {
+-            throw new IllegalArgumentException("Ідентифікатор клієнта має бути додатним");
+-        }
+-        if (name == null || name.isBlank()) {
+-            throw new IllegalArgumentException("Ім\u2019я клієнта не може бути порожнім");
+-        }
+-        if (email == null || !email.contains("@")) {
+-            throw new IllegalArgumentException("Некоректний email клієнта");
+-        }
+-        if (discountPolicy == null) {
+-            throw new IllegalArgumentException("Політика знижки обов\u2019язкова");
+-        }
+-        return new Customer(id, name.trim(), email.trim(), discountPolicy);
+-    }
+-
+-    /** Information Expert: клієнт знає свій статус, а отже й свою знижку. */
+-    public BigDecimal discountOn(BigDecimal amount) {
+-        return discountPolicy.discountOn(amount);
+-    }
+-
+-    public String typeLabel() {
+-        return discountPolicy.name();
+-    }
+-
+-    public int id() {
+-        return id;
+-    }
+-
+-    public String name() {
+-        return name;
+-    }
+-
+-    public String email() {
+-        return email;
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/application/port/ProductCatalog.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/port/ProductCatalog.java b/Laba8/src/main/java/ua/lab8/application/port/ProductCatalog.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/port/ProductCatalog.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,13 +0,0 @@
+-package ua.lab8.application.port;
+-
+-import java.util.List;
+-import ua.lab8.domain.Product;
+-
+-/** Indirection: застосунок не знає, де саме зберігаються товари. */
+-public interface ProductCatalog {
+-
+-    /** @throws IllegalArgumentException якщо товару з таким id немає */
+-    Product getById(int productId);
+-
+-    List<Product> findAll();
+-}
+Index: Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicyRegistry.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicyRegistry.java b/Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicyRegistry.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/domain/discount/DiscountPolicyRegistry.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,45 +0,0 @@
+-package ua.lab8.domain.discount;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.TreeMap;
+-
+-/**
+- * Pure Fabrication + Dictionary Dispatch: замінює каскад if-else за типом клієнта.
+- * Новий тип клієнта = новий клас + register(...), без змін в Order/Customer/контролері (OCP).
+- */
+-public final class DiscountPolicyRegistry {
+-    private final Map<String, DiscountPolicy> byName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+-
+-    private DiscountPolicyRegistry() {
+-    }
+-
+-    public static DiscountPolicyRegistry withDefaults() {
+-        DiscountPolicyRegistry registry = new DiscountPolicyRegistry();
+-        registry.register(new NewCustomerDiscount());
+-        registry.register(new RegularDiscount());
+-        registry.register(new VipDiscount());
+-        return registry;
+-    }
+-
+-    public void register(DiscountPolicy policy) {
+-        byName.put(policy.name(), policy);
+-    }
+-
+-    public DiscountPolicy forType(String customerType) {
+-        if (customerType == null || customerType.isBlank()) {
+-            throw new IllegalArgumentException("Тип клієнта не вказано. Доступні: " + supportedTypes());
+-        }
+-        DiscountPolicy policy = byName.get(customerType.trim());
+-        if (policy == null) {
+-            throw new IllegalArgumentException(
+-                    "Невідомий тип клієнта: " + customerType.trim() + ". Доступні: " + supportedTypes());
+-        }
+-        return policy;
+-    }
+-
+-    public List<String> supportedTypes() {
+-        return new ArrayList<>(byName.keySet());
+-    }
+-}
+Index: Laba8/src/main/java/ua/lab8/application/dto/PlaceOrderCommand.java
+===================================================================
+diff --git a/Laba8/src/main/java/ua/lab8/application/dto/PlaceOrderCommand.java b/Laba8/src/main/java/ua/lab8/application/dto/PlaceOrderCommand.java
+deleted file mode 100644
+--- a/Laba8/src/main/java/ua/lab8/application/dto/PlaceOrderCommand.java	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,14 +0,0 @@
+-package ua.lab8.application.dto;
+-
+-import java.util.List;
+-
+-/** Команда «оформити замовлення». Єдине, що CLI передає в застосунок. */
+-public record PlaceOrderCommand(String customerName,
+-                                String customerType,
+-                                String customerEmail,
+-                                List<OrderLineRequest> lines) {
+-
+-    public PlaceOrderCommand {
+-        lines = List.copyOf(lines);
+-    }
+-}
+Index: Laba8/docs/adr/ADR-003-controller-indirection-pure-fabrication.md
+===================================================================
+diff --git a/Laba8/docs/adr/ADR-003-controller-indirection-pure-fabrication.md b/Laba8/docs/adr/ADR-003-controller-indirection-pure-fabrication.md
+deleted file mode 100644
+--- a/Laba8/docs/adr/ADR-003-controller-indirection-pure-fabrication.md	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ /dev/null	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
+@@ -1,42 +0,0 @@
+-# ADR-003: Тонкий CLI, Use-Case Controller, Indirection та Pure Fabrication
+-
+-## Статус
+-Прийнято (Accepted)
+-
+-## Контекст
+-`processConsoleOrder()` читав консоль, обчислював суми, формував рахунок і «зберігав у БД» —
+-класичний Bloated Controller / Monolithic Main.
+-
+-## Рішення
+-Ланцюжок відповідальностей (залежності спрямовані лише вниз/досередини):
+-
+-```
+-ConsoleApp (ui) ──► OrderController ──► OrderFactory ──► Order (domain)
+-   │                     │
+-   │                     └──► List<OrderStep> ──► ports (OrderRepository, OrderNotifier, ReceiptFormatter)
+-   └─ ConsoleCommandParser, OrderRequestParser                   ▲ реалізації — у infrastructure
+-```
+-
+-* **Thin Console UI (`ConsoleApp`)** — лише `Scanner` → текст → команда, і результат → `PrintStream`.
+-  Жодних обчислень. Ввід/вивід інжектуються, тому клас тестується без реальної консолі.
+-* **Controller (`OrderController`)** — перший об'єкт за межами UI. Приймає `PlaceOrderCommand`,
+-  викликає `OrderFactory`, `order.process()` і послідовно виконує кроки. Не містить жодного
+-  `Scanner`/`println`/арифметики. CBO = 4.
+-* **Indirection** — три порти (`OrderRepository`, `OrderNotifier`, `ReceiptFormatter`) плюс
+-  `ProductCatalog`; контролер і домен не знають про файл, email-шлюз чи формат рахунку.
+-  Кроки `OrderStep` — ще один шар опосередкування між контролером і портами.
+-* **Pure Fabrication** — штучні класи, яких немає в предметній області, але які зберігають
+-  згуртованість сутностей: `ConsoleCommandParser`, `OrderRequestParser`, `CustomerFactory`,
+-  `OrderItemsFactory`, `OrderFactory`, `DiscountPolicyRegistry`, `TextReceiptFormatter`,
+-  `FileOrderRepository`, `SimulatedEmailNotifier`, `InMemoryProductCatalog`.
+-* **Composition Root (`Main`)** — єдине місце, де створюються конкретні класи й зшиваються шари.
+-
+-## Наслідки
+-* **Позитивні:** CLI можна замінити (веб, тести) без змін у контролері; сховище/канал
+-  сповіщення замінюються одним рядком у `Main`; контролер тестується з реальними
+-  адаптерами на тимчасовому файлі.
+-* **Негативні / компроміси:** 10+ допоміжних класів; контролер повертає `List<String>` (рядки
+-  підтвердження) замість окремого типу результату — свідомо, щоб не додавати 5-ту залежність
+-  (CBO=4); транзакційності між кроками немає (якщо збереження впаде після `process()`,
+-  сповіщення не піде, але in-memory стан замовлення вже `PROCESSED`) — для навчальної лаби
+-  прийнятно, у production потрібна Unit of Work / outbox.
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/Laba8/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 9f7b18a519e49eb1a10162a604d4d43d34a0515d)
++++ b/.idea/misc.xml	(date 1792850059825)
+@@ -7,8 +7,13 @@
+         <option value="$PROJECT_DIR$/Laba8/pom.xml" />
+       </list>
+     </option>
++    <option name="ignoredFiles">
++      <set>
++        <option value="$PROJECT_DIR$/Laba8/pom.xml" />
++      </set>
++    </option>
+   </component>
+-  <component name="ProjectRootManager" version="2">
++  <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-27" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: lab8/lab8.iml
+===================================================================
+diff --git a/lab8/lab8.iml b/lab8/lab8.iml
+new file mode 100644
+--- /dev/null	(date 1792850408277)
++++ b/lab8/lab8.iml	(date 1792850408277)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: lab8/src/variant1_orderprocessing/infrastructure/FileOrderRepository.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/infrastructure/FileOrderRepository.java b/lab8/src/variant1_orderprocessing/infrastructure/FileOrderRepository.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/infrastructure/FileOrderRepository.java	(date 1792849877000)
+@@ -0,0 +1,36 @@
++package variant1_orderprocessing.infrastructure;
++
++import java.io.IOException;
++import java.io.UncheckedIOException;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.nio.file.StandardOpenOption;
++
++import variant1_orderprocessing.application.OrderRepository;
++import variant1_orderprocessing.domain.Order;
++
++public final class FileOrderRepository implements OrderRepository {
++    private final Path file;
++    private int lastId = 100;
++
++    public FileOrderRepository(Path file) {
++        this.file = file;
++    }
++
++    @Override
++    public int nextId() {
++        return ++lastId;
++    }
++
++    @Override
++    public void save(Order order) {
++        String line = "Замовлення #" + order.getId() + " | " + order.customerName()
++                + " | до сплати: " + order.getFinalAmount() + " грн" + System.lineSeparator();
++        try {
++            Files.writeString(file, line, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
++        } catch (IOException e) {
++            throw new UncheckedIOException(e);
++        }
++        System.out.println("[БД] Замовлення #" + order.getId() + " збережено у файл " + file.getFileName() + ".");
++    }
++}
+Index: lab8/src/variant1_orderprocessing/infrastructure/InMemoryProductCatalog.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/infrastructure/InMemoryProductCatalog.java b/lab8/src/variant1_orderprocessing/infrastructure/InMemoryProductCatalog.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/infrastructure/InMemoryProductCatalog.java	(date 1792849877000)
+@@ -0,0 +1,29 @@
++package variant1_orderprocessing.infrastructure;
++
++import java.util.HashMap;
++import java.util.Map;
++
++import variant1_orderprocessing.application.ProductCatalog;
++import variant1_orderprocessing.domain.Product;
++
++public final class InMemoryProductCatalog implements ProductCatalog {
++    private final Map<Integer, Product> products = new HashMap<>();
++
++    public InMemoryProductCatalog() {
++        add(Product.of(1, "Ноутбук", 30000.0, "Electronics"));
++        add(Product.of(2, "Мишка", 800.0, "Accessories"));
++    }
++
++    private void add(Product product) {
++        products.put(product.getId(), product);
++    }
++
++    @Override
++    public Product getById(int productId) {
++        Product product = products.get(productId);
++        if (product == null) {
++            throw new IllegalArgumentException("Товар не знайдено: " + productId);
++        }
++        return product;
++    }
++}
+Index: lab8/src/variant1_orderprocessing/infrastructure/ConsoleEmailNotifier.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/infrastructure/ConsoleEmailNotifier.java b/lab8/src/variant1_orderprocessing/infrastructure/ConsoleEmailNotifier.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/infrastructure/ConsoleEmailNotifier.java	(date 1792849877000)
+@@ -0,0 +1,11 @@
++package variant1_orderprocessing.infrastructure;
++
++import variant1_orderprocessing.application.OrderNotifier;
++import variant1_orderprocessing.domain.Order;
++
++public final class ConsoleEmailNotifier implements OrderNotifier {
++    @Override
++    public void notifyProcessed(Order order) {
++        System.out.println("[Email] Повідомлення відправлено на " + order.customerEmail());
++    }
++}
+Index: lab8/src/variant1_orderprocessing/ui/ConsoleApp.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/ui/ConsoleApp.java b/lab8/src/variant1_orderprocessing/ui/ConsoleApp.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/ui/ConsoleApp.java	(date 1792849877000)
+@@ -0,0 +1,40 @@
++package variant1_orderprocessing.ui;
++
++import java.util.Scanner;
++
++import variant1_orderprocessing.application.OrderResult;
++import variant1_orderprocessing.application.PlaceOrderController;
++
++/** Thin Console UI: читає введення, викликає контролер, друкує результат. */
++public final class ConsoleApp {
++    private final Scanner scanner;
++    private final ConsoleCommandParser parser;
++    private final PlaceOrderController controller;
++
++    public ConsoleApp(Scanner scanner, ConsoleCommandParser parser, PlaceOrderController controller) {
++        this.scanner = scanner;
++        this.parser = parser;
++        this.controller = controller;
++    }
++
++    public void run() {
++        System.out.println("=== Оформлення замовлення ===");
++        System.out.print("Введіть ім'я клієнта: ");
++        String name = scanner.nextLine();
++        System.out.print("Введіть тип клієнта (New/Regular/VIP): ");
++        String type = scanner.nextLine();
++        try {
++            print(controller.execute(parser.parse(name, type)));
++        } catch (IllegalArgumentException e) {
++            System.out.println("Помилка: " + e.getMessage());
++        }
++    }
++
++    private void print(OrderResult r) {
++        System.out.println("Замовлення #" + r.orderId() + " для " + r.customerName()
++                + "\nСума: " + r.totalAmount() + " грн"
++                + "\nЗнижка: " + r.discountAmount() + " грн"
++                + "\nПДВ: " + r.taxAmount() + " грн"
++                + "\nДо сплати: " + r.finalAmount() + " грн");
++    }
++}
+Index: lab8/docs/adr/ADR-001-information-expert-creator.md
+===================================================================
+diff --git a/lab8/docs/adr/ADR-001-information-expert-creator.md b/lab8/docs/adr/ADR-001-information-expert-creator.md
+new file mode 100644
+--- /dev/null	(date 1792849917000)
++++ b/lab8/docs/adr/ADR-001-information-expert-creator.md	(date 1792849917000)
+@@ -0,0 +1,26 @@
++# ADR-001: Перенесення обчислень та створення об'єктів у доменні сутності
++
++## Статус
++Прийнято (Accepted)
++
++## Контекст
++У `LegacyOrderProcessor.processConsoleOrder()` один метод виконує введення з консолі, створення об'єктів, розрахунок суми/знижки/ПДВ, форматування рахунку, «збереження» та «email». Сутності `Customer`, `Product`, `OrderItem`, `Order` — пасивні (public-поля, `type`/`status` як `String`), перевірок даних немає (невідомий тип клієнта мовчки дає знижку 0). Порушення: інкапсуляції, Information Expert, Creator, Demeter (`order.customer.type`, `item.product.price`); Bloated Controller; CBO методу = 5.
++
++## QOC
++- **Question:** Хто відповідає за розрахунок підсумків замовлення та створення валідних об'єктів?
++- **Options:**
++  - A: залишити в `LegacyOrderProcessor` / `Main`;
++  - B: окремий `OrderService` з геттерами сутностей (Anemic);
++  - C: розрахунок у `Order`/`OrderItem`/`Customer`, створення через статичні фабрики.
++- **Criteria:** Information Expert (дані й логіка разом); Low Coupling; інкапсуляція (валідний стан завжди).
++- **Conclusion:** Option C. A і B лишають сутності пасивними, а сервіс зчепленим з усіма полями.
++
++## Рішення
++- `OrderItem.subtotal()`, `Order.subtotal()/process()`, `Customer.discountFor()` — логіка в носіях даних (**Information Expert**).
++- Поля `private final`, сеттерів немає, колекція — `List.copyOf` (**інкапсуляція**).
++- `Customer.register`, `Product.of`, `OrderItem.of`, `Order.create` — статичні фабрики з валідацією (**Creator**); `OrderFactory` збирає агрегат із команди.
++- `Order.customerName()/customerEmail()` замість ланцюжків `getCustomer().getX()` (**Закон Деметри**).
++
++## Наслідки
++* **Позитивні:** неможливо створити невалідний об'єкт; зміна формули — лише в сутностях; сервіс-«god method» зник.
++* **Негативні / компроміси:** `Order` тепер залежить від `Customer`, `OrderItem`, `OrderStatus`, `TaxPolicy` (CBO = 4, на межі норми).
+Index: lab8/src/variant1_orderprocessing/Main.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/Main.java b/lab8/src/variant1_orderprocessing/Main.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/Main.java	(date 1792849877000)
+@@ -0,0 +1,25 @@
++package variant1_orderprocessing;
++
++import java.nio.file.Path;
++import java.util.Scanner;
++
++import variant1_orderprocessing.application.OrderCompletion;
++import variant1_orderprocessing.application.OrderFactory;
++import variant1_orderprocessing.application.PlaceOrderController;
++import variant1_orderprocessing.domain.VatTax;
++import variant1_orderprocessing.infrastructure.ConsoleEmailNotifier;
++import variant1_orderprocessing.infrastructure.FileOrderRepository;
++import variant1_orderprocessing.infrastructure.InMemoryProductCatalog;
++import variant1_orderprocessing.ui.ConsoleApp;
++import variant1_orderprocessing.ui.ConsoleCommandParser;
++
++/** Composition root: єдине місце, що знає про конкретні реалізації. */
++public final class Main {
++    public static void main(String[] args) {
++        FileOrderRepository repository = new FileOrderRepository(Path.of("orders.txt"));
++        PlaceOrderController controller = new PlaceOrderController(
++                new OrderFactory(new InMemoryProductCatalog(), repository, new VatTax()),
++                new OrderCompletion(repository, new ConsoleEmailNotifier()));
++        new ConsoleApp(new Scanner(System.in), new ConsoleCommandParser(), controller).run();
++    }
++}
+Index: lab8/docs/adr/ADR-002-controller-indirection-pure-fabrication.md
+===================================================================
+diff --git a/lab8/docs/adr/ADR-002-controller-indirection-pure-fabrication.md b/lab8/docs/adr/ADR-002-controller-indirection-pure-fabrication.md
+new file mode 100644
+--- /dev/null	(date 1792849917000)
++++ b/lab8/docs/adr/ADR-002-controller-indirection-pure-fabrication.md	(date 1792849917000)
+@@ -0,0 +1,24 @@
++# ADR-002: Тонкий CLI, Use-Case Controller, порти та штучні класи
++
++## Статус
++Прийнято (Accepted)
++
++## Контекст
++Консольне введення/виведення, бізнес-логіка, збереження у файл і email змішані в одному класі (Bloated Controller / Monolithic Main).
++
++## QOC
++- **Question:** Як розділити консоль, координацію сценарію та інфраструктуру?
++- **Options:** A: усе в `ConsoleApp`; B: контролер, що сам пише у файл і шле email; C: тонкий CLI → контролер → порти (інтерфейси).
++- **Criteria:** Low Coupling (CLI не знає про домен); High Cohesion; підмінюваність сховища/каналу сповіщень.
++- **Conclusion:** Option C.
++
++## Рішення
++- `ConsoleApp` (Thin UI) — лише `Scanner`/`println`; `ConsoleCommandParser` (**Pure Fabrication**) формує DTO `PlaceOrderCommand`.
++- `PlaceOrderController` (**Controller**) — приймає DTO, повертає DTO `OrderResult`, жодного I/O чи обчислень.
++- `OrderRepository`, `OrderNotifier`, `ProductCatalog` (**Indirection**) + реалізації `FileOrderRepository`, `ConsoleEmailNotifier`, `InMemoryProductCatalog`.
++- `OrderFactory`, `OrderCompletion` (**Pure Fabrication**) — збірка агрегату та завершення (process → save → notify → DTO), щоб контролер лишився з CBO ≤ 4.
++- `Main` — composition root, єдине місце з конкретними реалізаціями.
++
++## Наслідки
++* **Позитивні:** CLI/контролер не залежать від файлів, email, формули; сховище можна замінити без змін ядра.
++* **Негативні / компроміси:** більше класів; `OrderFactory` має CBO = 8 (точка збірки, не нормується).
+Index: lab8/docs/adr/ADR-003-polymorphism-protected-variations.md
+===================================================================
+diff --git a/lab8/docs/adr/ADR-003-polymorphism-protected-variations.md b/lab8/docs/adr/ADR-003-polymorphism-protected-variations.md
+new file mode 100644
+--- /dev/null	(date 1792849917000)
++++ b/lab8/docs/adr/ADR-003-polymorphism-protected-variations.md	(date 1792849917000)
+@@ -0,0 +1,21 @@
++# ADR-003: Поліморфні політики знижок і захищена варіативність податку
++
++## Статус
++Прийнято (Accepted)
++
++## Контекст
++Знижка обчислюється каскадом `if (VIP) … else if (Regular) … else if (New)` за рядковим типом клієнта; ставка ПДВ 0.20 зашита в формулу.
++
++## QOC
++- **Question:** Як ізолювати змінні правила знижки та податку?
++- **Options:** A: `switch` у `Order`; B: `DiscountPolicy` + реалізації, вибір через `CustomerType`; C: окремий реєстр політик у сервісі.
++- **Criteria:** додавання нового типу без зміни існуючої логіки; Low Coupling `Order`; простота.
++- **Conclusion:** Option B для знижок (enum-диспетчеризація замість `if-else`), `TaxPolicy` для податку.
++
++## Рішення
++- Інтерфейс `DiscountPolicy` + `NoDiscount`, `RegularDiscount`, `VipDiscount` (**Polymorphism**); `CustomerType` (enum) зіставляє тип клієнта з політикою; невідомий тип → `IllegalArgumentException`.
++- Інтерфейс `TaxPolicy` + `VatTax` (**Protected Variations**); `Order` залежить лише від інтерфейсу.
++
++## Наслідки
++* **Позитивні:** новий тип клієнта = новий клас + константа enum; `Order.process()` не змінюється.
++* **Негативні / компроміси:** `CustomerType` знає конкретні політики (CBO = 4); для повної відкритості можна замінити на реєстр.
+Index: lab8/src/variant1_orderprocessing/ui/ConsoleCommandParser.java
+===================================================================
+diff --git a/lab8/src/variant1_orderprocessing/ui/ConsoleCommandParser.java b/lab8/src/variant1_orderprocessing/ui/ConsoleCommandParser.java
+new file mode 100644
+--- /dev/null	(date 1792849877000)
++++ b/lab8/src/variant1_orderprocessing/ui/ConsoleCommandParser.java	(date 1792849877000)
+@@ -0,0 +1,19 @@
++package variant1_orderprocessing.ui;
++
++import java.util.LinkedHashMap;
++import java.util.Map;
++
++import variant1_orderprocessing.application.PlaceOrderCommand;
++
++/** Pure Fabrication: перетворює текстове введення на DTO. Без бізнес-логіки. */
++public final class ConsoleCommandParser {
++    private static final int DEMO_CUSTOMER_ID = 1;
++    private static final String DEMO_EMAIL = "client@example.com";
++
++    public PlaceOrderCommand parse(String name, String customerType) {
++        Map<Integer, Integer> basket = new LinkedHashMap<>();
++        basket.put(1, 1); // Ноутбук x1
++        basket.put(2, 2); // Мишка x2
++        return new PlaceOrderCommand(DEMO_CUSTOMER_ID, name, DEMO_EMAIL, customerType, basket);
++    }
++}
+Index: lab8/docs/REPORT.md
+===================================================================
+diff --git a/lab8/docs/REPORT.md b/lab8/docs/REPORT.md
+new file mode 100644
+--- /dev/null	(date 1792849917000)
++++ b/lab8/docs/REPORT.md	(date 1792849917000)
+@@ -0,0 +1,57 @@
++# Лабораторна робота №8 — Варіант 1 (Java): Інтернет-магазин, обробка замовлення
++
++## 1. Аудит legacy-коду (Завдання 1)
++| Проблема | Де |
++|---|---|
++| Anemic Domain Model: public-поля, `type`/`status` — `String` | `Customer`, `Product`, `OrderItem`, `Order` |
++| Bloated Controller: введення, створення, розрахунки, форматування, збереження, email в одному методі | `LegacyOrderProcessor.processConsoleOrder` |
++| Procedural if-else за типом клієнта; ставки 0.15/0.05/0.20 «зашиті» | розрахунок знижки/ПДВ |
++| Порушення Деметри | `order.customer.type`, `item.product.price` |
++| Немає валідації; невідомий тип клієнта → знижка 0 | весь код |
++| Висока залежність від 4 класів + `Scanner` (CBO = 5) | `LegacyOrderProcessor` |
++
++Обґрунтування рішень: `docs/adr/ADR-001…003`.
++
++## 2. Відповідність GRASP (Завдання 2–4)
++| Патерн | Реалізація |
++|---|---|
++| Information Expert | `OrderItem.subtotal`, `Order.process/subtotal`, `Customer.discountFor` |
++| Creator | `Customer.register`, `Product.of`, `OrderItem.of`, `Order.create`, `OrderFactory` |
++| Controller | `PlaceOrderController` |
++| Low Coupling / High Cohesion | CLI → DTO → контролер; сутності керують лише власним станом |
++| Pure Fabrication | `OrderFactory`, `OrderCompletion`, `ConsoleCommandParser` |
++| Indirection | `OrderRepository`, `OrderNotifier`, `ProductCatalog` |
++| Polymorphism | `DiscountPolicy` → `NoDiscount`/`RegularDiscount`/`VipDiscount` (через `CustomerType`) |
++| Protected Variations | `DiscountPolicy`, `TaxPolicy`, порти репозиторію/сповіщень/каталогу |
++
++Закон Деметри: зовнішній код використовує `order.customerName()/customerEmail()`, а не ланцюжки.
++
++## 3. Метрики (Завдання 5)
++Правила підрахунку: враховано типи проєкту та `java.util.Scanner` (консольна інфраструктура); `java.lang.*` та колекції JDK не враховано. Зв'язок — поле, параметр, повернення, локальна змінна, `new`, виклик методу. Для LCOM4 виключено конструктори, статичні фабрики та тривіальні геттери.
++
++| Клас | CBO до | CBO після | LCOM4 до | LCOM4 після |
++|---|---|---|---|---|
++| `LegacyOrderProcessor` → `ConsoleApp` | 5 | 4 | 1* | 1 |
++| `Order` | 2 | 4 | — (методів немає) | 1 |
++| `OrderItem` | 1 | 1 | — | 1 |
++| `Customer` | 0 | 2 | — | 1 |
++| `Product` | 0 | 0 | — | 1** |
++| `CustomerType` | — | 4 | — | 1 |
++| `PlaceOrderController` | — | 4 | — | 1 |
++| `OrderCompletion` | — | 4 | — | 1 |
++| `OrderFactory` (збірка, не нормується) | — | 8 | — | 1 |
++
++\* Формально один метод, але він виконує ≥ 6 різних обов'язків — LCOM4 цього не показує; проблема виміряна через CBO та аналіз у п. 1.
++\** Немає нетривіальних методів: незмінний об'єкт-значення.
++
++LCOM4 для `Order`: методи `process`, `subtotal`, `customerName`, `customerEmail` пов'язані викликом (`process → subtotal`) та спільним полем `customer` → один зв'язний компонент.
++
++**Висновки.** Уся логіка перейшла до сутностей-носіїв даних, тому CBO `Order` зріс з 2 до 4 — це очікувана ціна Information Expert, у межах норми ≤ 4. Усі нормовані класи (сутності, контролер) мають CBO ≤ 4 і LCOM4 = 1. CBO точки входу (CLI) знизився з 5 до 4, а домен тепер не залежить від UI та інфраструктури (стабільне ядро, I ≈ 0).
++
++## 4. Перевірка
++Результати збігаються з legacy: VIP — сума 31600.0, знижка 4740.0, ПДВ 5372.0, до сплати 32232.0. Додано валідацію (невідомий тип клієнта → «Помилка: …»).
++
++Запуск: `javac -encoding UTF-8 -d out $(find src -name '*.java')` → `java -cp out variant1_orderprocessing.Main`.
++
++## 5. Крос-рев'ю (Завдання 6)
++Виконується командою в Git-репозиторії: Pull Request між студентами A та B за чек-листом — інкапсуляція, відсутність I/O в контролері та доменних класах, CBO ≤ 4, LCOM4 = 1, кожне рішення має ADR.

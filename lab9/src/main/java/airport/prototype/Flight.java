@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/** Prototype: рейс, новий екземпляр якого створюється копіюванням еталона. */
 public class Flight implements Prototype<Flight> {
     private String number;
     private final String route;

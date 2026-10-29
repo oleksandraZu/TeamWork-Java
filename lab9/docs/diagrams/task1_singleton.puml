@@ -1,0 +1,52 @@
+@startuml task1_singleton
+title Завдання 1. Singleton — Центр управління польотами
+skinparam classAttributeIconSize 0
+hide empty members
+
+class Main <<Client>> {
+  + {static} demoSingleton() : void
+}
+
+class ControlCenter <<Singleton>> {
+  - {static} SOURCE : String
+  - id : String
+  - runways : Map<Integer, Runway>
+  - ControlCenter()
+  + {static} getInstance() : ControlCenter
+  + getId() : String
+  + requestRunway(number : int, flightNumber : String, operation : Operation) : boolean
+  + releaseRunway(number : int, flightNumber : String) : void
+}
+
+class Holder <<Holder (lazy init)>> {
+  - {static} INSTANCE : ControlCenter
+}
+
+class Runway {
+  - number : int
+  - occupiedBy : String
+  ~ isFree() : boolean
+  ~ getOccupiedBy() : String
+  ~ occupy(flightNumber : String) : void
+  ~ release() : void
+}
+
+enum Operation {
+  LANDING
+  TAKEOFF
+  + getTitle() : String
+}
+
+ControlCenter +-- Holder : вкладений
+Holder ..> ControlCenter : <<create>> (єдиний раз)
+ControlCenter "1" *-- "2" Runway : runways
+ControlCenter ..> Operation : <<use>>
+Main ..> ControlCenter : getInstance()
+
+note right of ControlCenter
+  Приватний конструктор:
+  другий центр створити неможливо.
+  Усі модулі (прильоти, вильоти)
+  отримують той самий об'єкт.
+end note
+@enduml

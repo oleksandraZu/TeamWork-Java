@@ -1,0 +1,45 @@
+@startuml task3_object_pool
+title Завдання 3. Object Pool — Телетрапи
+skinparam classAttributeIconSize 0
+hide empty members
+
+class Main <<Client>> {
+  + {static} demoObjectPool() : void
+}
+
+class JetwayPool <<ObjectPool>> {
+  - {static} SOURCE : String
+  - capacity : int
+  - all : List<Jetway>
+  - free : Deque<Jetway>
+  - waiting : Queue<String>
+  + JetwayPool(capacity : int)
+  + acquire(flightNumber : String) : Optional<Jetway>
+  + release(jetway : Jetway) : void
+  + printStatistics() : void
+}
+
+class Jetway <<PooledObject>> {
+  - id : String
+  - attachedFlight : String
+  - usageCount : int
+  ~ Jetway(id : String)
+  ~ attach(flightNumber : String) : void
+  ~ reset() : void
+  + getId() : String
+  + getAttachedFlight() : String
+  + getUsageCount() : int
+}
+
+Main ..> JetwayPool : acquire() / release()
+JetwayPool "1" o-- "0..3" Jetway : all (створені)
+JetwayPool "1" o-- "0..3" Jetway : free (вільні)
+JetwayPool ..> Jetway : <<create>> (до ліміту)
+
+note right of JetwayPool
+  Клієнт — Main (рейси).
+  Ліміт = 3 телетрапи.
+  Немає вільних → рейс у FIFO-черзі.
+  release(): reset() + видача наступному.
+end note
+@enduml

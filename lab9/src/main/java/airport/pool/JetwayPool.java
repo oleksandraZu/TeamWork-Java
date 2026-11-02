@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-/**
- * Object Pool: фіксований парк телетрапів.
- * Стратегія за браком вільних: рейс стає у FIFO-чергу, звільнений телетрап одразу йде першому в черзі.
- */
+
 public class JetwayPool {
     private static final String SOURCE = "Парк телетрапів";
 
@@ -25,7 +22,7 @@ public class JetwayPool {
         this.capacity = capacity;
     }
 
-    /** Видає телетрап або ставить рейс у чергу (тоді повертає порожній Optional). */
+
     public synchronized Optional<Jetway> acquire(String flightNumber) {
         Jetway jetway = free.pollFirst();
         if (jetway == null && all.size() < capacity) {
@@ -43,7 +40,7 @@ public class JetwayPool {
         return Optional.of(jetway);
     }
 
-    /** Повертає телетрап у парк зі скиданням стану; якщо є черга — одразу видає наступному рейсу. */
+
     public synchronized void release(Jetway jetway) {
         jetway.reset();
         Log.log(SOURCE, jetway.getId() + " повернено, стан скинуто");

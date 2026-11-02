@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
-/** Singleton: єдиний центр управління польотами, що веде стан смуг. */
+
 public final class ControlCenter {
     private static final String SOURCE = "ЦУП";
 
@@ -20,7 +20,7 @@ public final class ControlCenter {
         Log.log(SOURCE, "Центр управління польотами ініціалізовано");
     }
 
-    /** Ледача потокобезпечна ініціалізація (Initialization-on-demand holder). */
+
     private static final class Holder {
         private static final ControlCenter INSTANCE = new ControlCenter();
     }

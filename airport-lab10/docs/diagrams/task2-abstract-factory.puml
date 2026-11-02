@@ -1,0 +1,109 @@
+@startuml
+title Завдання 2. Комплекти наземного обладнання — Abstract Factory
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName DejaVu Sans
+left to right direction
+
+class GroundHandlingDispatcher <<Client>> {
+  - {static} {final} SOURCE: String
+  --
+  + serviceFlight(flightNumber: String, aircraftModel: String, factory: GroundEquipmentFactory): void
+}
+interface GroundEquipmentFactory <<AbstractFactory>> {
+  + createStairs(): BoardingStairs
+  + createTug(): PushbackTug
+  + createLoader(): CargoLoader
+}
+interface GroundEquipment <<AbstractProduct (спільна абстракція)>> {
+  + aircraftClass(): String
+  + description(): String
+}
+interface BoardingStairs <<AbstractProduct>> {
+}
+interface PushbackTug <<AbstractProduct>> {
+}
+interface CargoLoader <<AbstractProduct>> {
+}
+class MediumHaulEquipmentFactory <<ConcreteFactory>> {
+  + createStairs(): BoardingStairs
+  + createTug(): PushbackTug
+  + createLoader(): CargoLoader
+}
+class MediumHaulStairs <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class MediumHaulTug <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class MediumHaulLoader <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class RegionalTurbopropEquipmentFactory <<ConcreteFactory>> {
+  + createStairs(): BoardingStairs
+  + createTug(): PushbackTug
+  + createLoader(): CargoLoader
+}
+class RegionalTurbopropStairs <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class RegionalTurbopropTug <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class RegionalTurbopropLoader <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class WidebodyEquipmentFactory <<ConcreteFactory (додано без змін Client)>> {
+  + createStairs(): BoardingStairs
+  + createTug(): PushbackTug
+  + createLoader(): CargoLoader
+}
+class WidebodyStairs <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class WidebodyTug <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+class WidebodyLoader <<ConcreteProduct>> {
+  + aircraftClass(): String
+  + description(): String
+}
+
+GroundHandlingDispatcher "1" ..> "1" GroundEquipmentFactory : uses
+GroundHandlingDispatcher "1" ..> "1" BoardingStairs
+GroundHandlingDispatcher "1" ..> "1" PushbackTug
+GroundHandlingDispatcher "1" ..> "1" CargoLoader
+GroundHandlingDispatcher "1" ..> "3" GroundEquipment
+BoardingStairs --|> GroundEquipment
+PushbackTug --|> GroundEquipment
+CargoLoader --|> GroundEquipment
+MediumHaulEquipmentFactory ..|> GroundEquipmentFactory
+MediumHaulEquipmentFactory "1" ..> "0..*" MediumHaulStairs : «create»
+MediumHaulStairs ..|> BoardingStairs
+MediumHaulEquipmentFactory "1" ..> "0..*" MediumHaulTug : «create»
+MediumHaulTug ..|> PushbackTug
+MediumHaulEquipmentFactory "1" ..> "0..*" MediumHaulLoader : «create»
+MediumHaulLoader ..|> CargoLoader
+RegionalTurbopropEquipmentFactory ..|> GroundEquipmentFactory
+RegionalTurbopropEquipmentFactory "1" ..> "0..*" RegionalTurbopropStairs : «create»
+RegionalTurbopropStairs ..|> BoardingStairs
+RegionalTurbopropEquipmentFactory "1" ..> "0..*" RegionalTurbopropTug : «create»
+RegionalTurbopropTug ..|> PushbackTug
+RegionalTurbopropEquipmentFactory "1" ..> "0..*" RegionalTurbopropLoader : «create»
+RegionalTurbopropLoader ..|> CargoLoader
+WidebodyEquipmentFactory ..|> GroundEquipmentFactory
+WidebodyEquipmentFactory "1" ..> "0..*" WidebodyStairs : «create»
+WidebodyStairs ..|> BoardingStairs
+WidebodyEquipmentFactory "1" ..> "0..*" WidebodyTug : «create»
+WidebodyTug ..|> PushbackTug
+WidebodyEquipmentFactory "1" ..> "0..*" WidebodyLoader : «create»
+WidebodyLoader ..|> CargoLoader
+@enduml

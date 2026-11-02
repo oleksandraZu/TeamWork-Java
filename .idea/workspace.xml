@@ -5,22 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add domain, infrastructure, ui, legacy">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26,_18_08_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26,_18_32_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26__18_08__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26__18_32__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/Log.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/singleton/ControlCenter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/singleton/Operation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/singleton/Runway.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laba9/src/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/Log.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Flight.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Flight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Prototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Prototype.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/SeatMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/SeatMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/common/EventLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/common/EventLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/ConcreteFlightTaskBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/ConcreteFlightTaskBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/FlightTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/FlightTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/FlightTaskBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/FlightTaskBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/FlightTaskDirector.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/FlightTaskDirector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/DisplayBoardChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/DisplayBoardChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/DisplayBoardMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/DisplayBoardMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/EmailChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/EmailChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/EmailMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/EmailMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/FlightChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/FlightChange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/MobileAppChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/MobileAppChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/MobileAppMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/MobileAppMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/NotificationChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/NotificationChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/SmsChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/SmsChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/SmsMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/SmsMessage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature-oleksandra" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,6 +53,9 @@
   &quot;fromUser&quot;: false
 }</component>
   <component name="ProjectId" id="3KvOccA58zh6Iqh7ZI6eemMi5mU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -64,7 +68,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "feature-hanna",
+    "git-widget-placeholder": "feature-oleksandra",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/anichka/Завантажене/airport-lab10",
     "node.js.detected.package.eslint": "true",
@@ -80,6 +84,9 @@
       <recent name="$PROJECT_DIR$/Laba8/src/main/java/ua/lab8" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/airport-lab10/src/airport" />
+      <recent name="$PROJECT_DIR$/airport-lab10/docs/diagrams" />
+      <recent name="$PROJECT_DIR$/airport-lab10/src" />
       <recent name="$PROJECT_DIR$/Laba8" />
     </key>
   </component>
@@ -108,6 +115,17 @@
     <MESSAGE value="start working on &quot;Pragmatic Development Principles and SOLID Object-Oriented Design Principles&quot;" />
     <MESSAGE value="add domain, infrastructure, ui, legacy" />
     <option name="LAST_COMMIT_MESSAGE" value="add domain, infrastructure, ui, legacy" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Laba9/src/Main.java</url>
+          <line>9</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

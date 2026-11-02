@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Prototype: рейс, новий екземпляр якого створюється копіюванням еталона. */
 public class Flight implements Prototype<Flight> {
     private String number;
     private final String route;
@@ -17,7 +16,6 @@ public class Flight implements Prototype<Flight> {
     private final List<String> passengers = new ArrayList<>();
     private final List<String> meals;
 
-    /** Формування з нуля — дорога операція. */
     public Flight(String number, String route, LocalDate date, String aircraftType,
                   List<String> crew, List<String> meals) {
         Log.expensive("Формування рейсів", "Завантаження конфігурації літака " + aircraftType
@@ -31,7 +29,6 @@ public class Flight implements Prototype<Flight> {
         this.meals = new ArrayList<>(meals);
     }
 
-    /** Конструктор копіювання: глибока копія всіх вкладених об'єктів, без дорогого завантаження. */
     private Flight(Flight other) {
         this.number = other.number;
         this.route = other.route;

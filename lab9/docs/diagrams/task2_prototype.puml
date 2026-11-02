@@ -1,0 +1,64 @@
+@startuml task2_prototype
+title Завдання 2. Prototype — Регулярні рейси
+skinparam classAttributeIconSize 0
+hide empty members
+
+class Main <<Client>> {
+  + {static} demoPrototype() : void
+}
+
+interface "Prototype<T>" as Prototype <<Prototype>> {
+  + copy() : T
+}
+
+class Flight <<ConcretePrototype>> {
+  - number : String
+  - route : String
+  - date : LocalDate
+  - aircraft : Aircraft
+  - seatMap : SeatMap
+  - crew : List<String>
+  - passengers : List<String>
+  - meals : List<String>
+  + Flight(number, route, date, aircraftType, crew, meals)
+  - Flight(other : Flight)
+  + copy() : Flight
+  + setNumber(number : String) : void
+  + setDate(date : LocalDate) : void
+  + replaceMeal(oldMeal : String, newMeal : String) : void
+  + addPassenger(name : String) : void
+  + blockSeat(seat : String) : void
+}
+
+class Aircraft {
+  - type : String
+  - baggageNormKg : int
+  ~ Aircraft(other : Aircraft)
+}
+
+class SeatMap {
+  - seats : Map<String, SeatStatus>
+  ~ SeatMap(other : SeatMap)
+  + block(seat : String) : void
+  + blockedSeats() : List<String>
+}
+
+enum SeatStatus {
+  FREE
+  BLOCKED
+}
+
+Prototype <|.. Flight : реалізація
+Flight "1" *-- "1" Aircraft : aircraft
+Flight "1" *-- "1" SeatMap : seatMap
+SeatMap "1" *-- "120" SeatStatus : seats
+Main ..> Flight : copy()
+Main ..> Prototype
+
+note right of Flight
+  Еталон: дороге формування (new Flight).
+  Рейс: copy() — глибока копія
+  (aircraft, seatMap, списки),
+  без повторного завантаження.
+end note
+@enduml

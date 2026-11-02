@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add domain, infrastructure, ui, legacy">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26,_18_08_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26,_18_32_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26__18_08__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_10_26__18_32__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/Log.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/singleton/ControlCenter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/singleton/Operation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Laba9/src/main/java/airport/singleton/Runway.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Laba9/src/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Flight.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Flight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Prototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/Prototype.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/SeatMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/lab9/src/main/java/airport/prototype/SeatMap.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,18 +35,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "hannachernobai"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;hannachernobai&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/oleksandraZu/TeamWork-Java.git",
-    "accountId": "9a3a214b-6193-47d6-bff8-3004f3d51e37"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/oleksandraZu/TeamWork-Java.git&quot;,
+    &quot;accountId&quot;: &quot;9a3a214b-6193-47d6-bff8-3004f3d51e37&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6,
   &quot;fromUser&quot;: false
@@ -43,13 +58,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "feature-hanna",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/uživatel/TeamWork-Java",
+    "last_opened_file_path": "/home/anichka/Завантажене/airport-lab10",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,19 +82,6 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Laba8" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="TeamWork-Java" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="TeamWork-Java" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>

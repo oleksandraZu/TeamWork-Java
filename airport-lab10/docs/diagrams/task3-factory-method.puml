@@ -1,0 +1,85 @@
+@startuml
+title Завдання 3. Сповіщення пасажирів про зміну рейсу — Factory Method
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName DejaVu Sans
+left to right direction
+
+class FlightChange <<DTO>> <<record>> {
+  - flightNumber: String
+  - description: String
+  --
+  + flightNumber(): String
+  + description(): String
+}
+abstract class NotificationChannel <<Creator>> {
+  + {final} notifyPassengers(change: FlightChange): void  // загальний процес
+  # {abstract} createMessage(change: FlightChange): Message  // Factory Method
+  # {abstract} channelName(): String
+  - send(message: Message): void
+}
+interface Message <<Product>> {
+  + render(): String
+}
+class SmsChannel <<ConcreteCreator>> {
+  # createMessage(change: FlightChange): Message
+  # channelName(): String
+}
+class SmsMessage <<ConcreteProduct>> {
+  - text: String
+  --
+  + SmsMessage(change: FlightChange)
+  + render(): String
+}
+class EmailChannel <<ConcreteCreator>> {
+  # createMessage(change: FlightChange): Message
+  # channelName(): String
+}
+class EmailMessage <<ConcreteProduct>> {
+  - subject: String
+  - body: String
+  --
+  + EmailMessage(change: FlightChange)
+  + render(): String
+}
+class DisplayBoardChannel <<ConcreteCreator>> {
+  # createMessage(change: FlightChange): Message
+  # channelName(): String
+}
+class DisplayBoardMessage <<ConcreteProduct>> {
+  - line: String
+  --
+  + DisplayBoardMessage(change: FlightChange)
+  + render(): String
+}
+class MobileAppChannel <<ConcreteCreator (додано без змін Creator)>> {
+  # createMessage(change: FlightChange): Message
+  # channelName(): String
+}
+class MobileAppMessage <<ConcreteProduct (додано без змін Creator)>> {
+  - title: String
+  - text: String
+  --
+  + MobileAppMessage(change: FlightChange)
+  + render(): String
+}
+
+NotificationChannel "1" ..> "1" Message : «use»
+NotificationChannel "1" ..> "1" FlightChange
+SmsChannel --|> NotificationChannel
+SmsMessage ..|> Message
+SmsChannel "1" ..> "0..*" SmsMessage : «create»
+SmsMessage "1" ..> "1" FlightChange
+EmailChannel --|> NotificationChannel
+EmailMessage ..|> Message
+EmailChannel "1" ..> "0..*" EmailMessage : «create»
+EmailMessage "1" ..> "1" FlightChange
+DisplayBoardChannel --|> NotificationChannel
+DisplayBoardMessage ..|> Message
+DisplayBoardChannel "1" ..> "0..*" DisplayBoardMessage : «create»
+DisplayBoardMessage "1" ..> "1" FlightChange
+MobileAppChannel --|> NotificationChannel
+MobileAppMessage ..|> Message
+MobileAppChannel "1" ..> "0..*" MobileAppMessage : «create»
+MobileAppMessage "1" ..> "1" FlightChange
+@enduml

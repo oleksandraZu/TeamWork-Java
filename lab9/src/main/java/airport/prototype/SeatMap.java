@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Схема салону: місця (наприклад, 12A) та їхній стан. */
 public class SeatMap {
     private final Map<String, SeatStatus> seats = new LinkedHashMap<>();
 

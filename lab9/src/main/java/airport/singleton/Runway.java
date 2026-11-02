@@ -1,6 +1,5 @@
 package airport.singleton;
 
-/** Злітно-посадкова смуга: номер і стан (вільна / зайнята певним рейсом). */
 class Runway {
     private final int number;
     private String occupiedBy; // null — смуга вільна

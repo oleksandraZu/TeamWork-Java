@@ -1,0 +1,64 @@
+@startuml
+title Завдання 1. Формування польотного завдання — Builder
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName DejaVu Sans
+left to right direction
+
+class FlightTaskDirector <<Director>> {
+  + constructRegularPassengerFlight(builder: FlightTaskBuilder, flightNumber: String, route: String): void
+  + constructTrainingFlight(builder: FlightTaskBuilder, flightNumber: String, route: String): void
+}
+interface FlightTaskBuilder <<Builder>> {
+  + setFlightNumber(flightNumber: String): void
+  + setRoute(route: String): void
+  + addAlternateAirfield(airfield: String): void
+  + setFuelCalculation(fuelKg: int): void
+  + setWeatherBriefing(weatherBriefing: String): void
+  + addPilotMessage(message: String): void
+  + setCargoData(cargoData: String): void
+  + setSpecialInstructions(specialInstructions: String): void
+  + build(): FlightTask
+}
+class ConcreteFlightTaskBuilder <<ConcreteBuilder>> {
+  - {static} {final} SOURCE: String
+  ~ flightNumber: String
+  ~ route: String
+  ~ alternateAirfields: List<String>
+  ~ fuelKg: Integer
+  ~ weatherBriefing: String
+  ~ pilotMessages: List<String>
+  ~ cargoData: String
+  ~ specialInstructions: String
+  --
+  + setFlightNumber(flightNumber: String): void
+  + setRoute(route: String): void
+  + addAlternateAirfield(airfield: String): void
+  + setFuelCalculation(fuelKg: int): void
+  + setWeatherBriefing(weatherBriefing: String): void
+  + addPilotMessage(message: String): void
+  + setCargoData(cargoData: String): void
+  + setSpecialInstructions(specialInstructions: String): void
+  + build(): FlightTask  // перевірка обов'язкових частин
+}
+class FlightTask <<Product>> {
+  - flightNumber: String
+  - route: String
+  - alternateAirfields: List<String>
+  - fuelKg: int
+  - weatherBriefing: String
+  - pilotMessages: List<String>
+  - cargoData: String
+  - specialInstructions: String
+  --
+  ~ FlightTask(builder: ConcreteFlightTaskBuilder)
+  + toString(): String
+  - {static} listOrDash(items: List<String>): String
+}
+
+FlightTaskDirector "1" ..> "1" FlightTaskBuilder : керує кроками
+ConcreteFlightTaskBuilder ..|> FlightTaskBuilder
+FlightTaskBuilder "1" ..> "0..*" FlightTask : повертає
+ConcreteFlightTaskBuilder "1" ..> "0..*" FlightTask : «create»
+FlightTask "0..*" ..> "1" ConcreteFlightTaskBuilder : читає стан
+@enduml

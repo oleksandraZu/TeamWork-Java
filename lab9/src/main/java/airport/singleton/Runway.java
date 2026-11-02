@@ -1,5 +1,6 @@
 package airport.singleton;
 
+
 class Runway {
     private final int number;
     private String occupiedBy; // null — смуга вільна

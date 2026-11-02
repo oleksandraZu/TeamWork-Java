@@ -2,10 +2,12 @@ package airport.pool;
 
 import airport.Log;
 
+
 public class Jetway {
     private final String id;
     private String attachedFlight; // null — від'єднаний
     private int usageCount;
+
 
     Jetway(String id) {
         Log.expensive("Телетрап " + id, "Підготовка: підведення, калібрування, перевірка", 20);
@@ -16,6 +18,7 @@ public class Jetway {
         attachedFlight = flightNumber;
         usageCount++;
     }
+
 
     void reset() {
         attachedFlight = null;

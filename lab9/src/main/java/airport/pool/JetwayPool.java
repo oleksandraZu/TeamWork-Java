@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
+
 public class JetwayPool {
     private static final String SOURCE = "Парк телетрапів";
 
@@ -20,6 +21,7 @@ public class JetwayPool {
     public JetwayPool(int capacity) {
         this.capacity = capacity;
     }
+
 
     public synchronized Optional<Jetway> acquire(String flightNumber) {
         Jetway jetway = free.pollFirst();
@@ -37,6 +39,7 @@ public class JetwayPool {
         Log.log(SOURCE, "Телетрап " + jetway.getId() + " → " + flightNumber);
         return Optional.of(jetway);
     }
+
 
     public synchronized void release(Jetway jetway) {
         jetway.reset();

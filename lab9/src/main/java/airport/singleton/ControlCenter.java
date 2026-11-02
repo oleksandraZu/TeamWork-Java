@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
+
 public final class ControlCenter {
     private static final String SOURCE = "ЦУП";
 
@@ -19,7 +20,7 @@ public final class ControlCenter {
         Log.log(SOURCE, "Центр управління польотами ініціалізовано");
     }
 
-    /*(Initialization-on-demand holder). */
+
     private static final class Holder {
         private static final ControlCenter INSTANCE = new ControlCenter();
     }

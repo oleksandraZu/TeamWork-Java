@@ -1,0 +1,76 @@
+classDiagram
+direction TB
+class FlightControlCenter {
+  -MAX_WIND_MS$ double
+  -MIN_VISIBILITY_M$ double
+  -weatherProvider WeatherProvider
+  +FlightControlCenter(WeatherProvider weatherProvider)
+  +decideTakeoff(String flightNumber) boolean
+}
+class WeatherProvider {
+  <<interface>>
+  +getWeather() Weather
+}
+class Weather {
+  <<record>>
+  -temperatureCelsius double
+  -windSpeedMs double
+  -visibilityMeters double
+}
+class ExternalWeatherAdapter {
+  -service ExternalWeatherService
+  -stationCode String
+  +ExternalWeatherAdapter(ExternalWeatherService service, String stationCode)
+  +getWeather() Weather
+}
+class ExternalWeatherService {
+  +getObservation(String stationCode) ExternalObservation
+}
+class ExternalObservation {
+  <<record>>
+  -temperatureF double
+  -windSpeedKnots double
+  -visibilityMiles double
+}
+class SkyMetAdapter {
+  -service SkyMetService
+  -latitude double
+  -longitude double
+  +SkyMetAdapter(SkyMetService service, double latitude, double longitude)
+  +getWeather() Weather
+}
+class SkyMetService {
+  +readConditions(double latitude, double longitude) SkyMetConditions
+}
+class SkyMetConditions {
+  <<record>>
+  -temperatureKelvin double
+  -windSpeedKmh double
+  -visibilityKm double
+}
+class Log {
+  <<utility>>
+  -seconds$ int
+  +log(String source, String event)$ void
+  +logf(String source, String format, Object... args)$ void
+}
+note for Log "Журнал [час] [джерело] подія. Використовується всіма класами діаграми"
+FlightControlCenter "1" o-- "1" WeatherProvider
+WeatherProvider <|.. ExternalWeatherAdapter
+WeatherProvider <|.. SkyMetAdapter
+WeatherProvider ..> Weather
+ExternalWeatherAdapter "1" o-- "1" ExternalWeatherService
+SkyMetAdapter "1" o-- "1" SkyMetService
+ExternalWeatherService ..> ExternalObservation
+SkyMetService ..> SkyMetConditions
+ExternalWeatherAdapter ..> ExternalObservation
+ExternalWeatherAdapter ..> Weather
+SkyMetAdapter ..> SkyMetConditions
+SkyMetAdapter ..> Weather
+FlightControlCenter ..> Weather
+note for FlightControlCenter "Роль: Client"
+note for WeatherProvider "Роль: Target"
+note for ExternalWeatherAdapter "Роль: Adapter"
+note for SkyMetAdapter "Роль: Adapter"
+note for ExternalWeatherService "Роль: Adaptee"
+note for SkyMetService "Роль: Adaptee"

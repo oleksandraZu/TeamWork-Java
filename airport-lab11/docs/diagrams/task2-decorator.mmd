@@ -1,0 +1,62 @@
+classDiagram
+direction TB
+class Ticket {
+  <<interface>>
+  +getDescription() String
+  +getPrice() double
+}
+class BasicTicket {
+  -flightNumber String
+  -passengerName String
+  -basePrice double
+  +BasicTicket(String flightNumber, String passengerName, double basePrice)
+  +getDescription() String
+  +getPrice() double
+}
+class TicketDecorator {
+  <<abstract>>
+  -wrapped Ticket
+  -serviceName String
+  -surcharge double
+  #TicketDecorator(Ticket wrapped, String serviceName, double surcharge)
+  +getDescription() String
+  +getPrice() double
+}
+class ExtraBaggage {
+  +ExtraBaggage(Ticket wrapped)
+}
+class SeatSelection {
+  +SeatSelection(Ticket wrapped)
+}
+class PriorityBoarding {
+  +PriorityBoarding(Ticket wrapped)
+}
+class Insurance {
+  +Insurance(Ticket wrapped)
+}
+class Meal {
+  +Meal(Ticket wrapped)
+}
+class Log {
+  <<utility>>
+  -seconds$ int
+  +log(String source, String event)$ void
+  +logf(String source, String format, Object... args)$ void
+}
+note for Log "Журнал [час] [джерело] подія. Використовується всіма класами діаграми"
+Ticket <|.. BasicTicket
+Ticket <|.. TicketDecorator
+TicketDecorator "1" o-- "1" Ticket : wrapped
+TicketDecorator <|-- ExtraBaggage
+TicketDecorator <|-- SeatSelection
+TicketDecorator <|-- PriorityBoarding
+TicketDecorator <|-- Insurance
+TicketDecorator <|-- Meal
+note for Ticket "Роль: Component"
+note for BasicTicket "Роль: ConcreteComponent"
+note for TicketDecorator "Роль: Decorator"
+note for ExtraBaggage "Роль: ConcreteDecorator"
+note for SeatSelection "Роль: ConcreteDecorator"
+note for PriorityBoarding "Роль: ConcreteDecorator"
+note for Insurance "Роль: ConcreteDecorator"
+note for Meal "Роль: ConcreteDecorator"

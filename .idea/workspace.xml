@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add task 3,4" />
+    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add task 3,4">
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/BaggageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/BoardingPassPrinter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/BorderServiceNotifier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/CheckInFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/CheckInPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/DocumentCheckService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/Passenger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/SeatingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/AccessDeniedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/ArchivedFlightLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/FlightLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/FlightLogProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/ReportModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/User.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature-oleksandra" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

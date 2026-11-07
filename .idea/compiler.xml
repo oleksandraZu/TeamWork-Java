@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="lab9-creational-patterns" />
+        <module name="airport" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="airport-lab10" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

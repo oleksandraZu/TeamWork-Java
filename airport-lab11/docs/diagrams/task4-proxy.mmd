@@ -1,0 +1,62 @@
+classDiagram
+direction LR
+class ReportModule {
+  +showFlightList(List~FlightLog~ logs) void
+  +showTelemetry(FlightLog log, User user) void
+}
+class FlightLog {
+  <<interface>>
+  +getFlightNumber() String
+  +getTelemetry(User user) String
+}
+class FlightLogProxy {
+  -flightNumber String
+  -realLog ArchivedFlightLog
+  +FlightLogProxy(String flightNumber)
+  +getFlightNumber() String
+  +getTelemetry(User user) String
+}
+class ArchivedFlightLog {
+  -flightNumber String
+  -telemetry String
+  +ArchivedFlightLog(String flightNumber)
+  +getFlightNumber() String
+  +getTelemetry(User user) String
+}
+class User {
+  <<record>>
+  -name String
+  -role Role
+}
+class Role {
+  <<enumeration>>
+  FLIGHT_SAFETY
+  DISPATCHER
+  CASHIER
+  -title String
+  +title() String
+}
+class AccessDeniedException {
+  +AccessDeniedException(String message)
+}
+class Log {
+  <<utility>>
+  -seconds$ int
+  +log(String source, String event)$ void
+  +logf(String source, String format, Object... args)$ void
+}
+note for Log "Журнал [час] [джерело] подія. Використовується всіма класами діаграми"
+ReportModule ..> FlightLog
+ReportModule ..> User
+ReportModule ..> AccessDeniedException : catches
+FlightLog <|.. FlightLogProxy
+FlightLog <|.. ArchivedFlightLog
+FlightLog ..> User
+FlightLogProxy "1" *-- "0..1" ArchivedFlightLog : realLog (створюється при першому зверненні)
+FlightLogProxy ..> AccessDeniedException : throws
+FlightLogProxy ..> Role
+User "1" --> "1" Role
+note for ReportModule "Роль: Client"
+note for FlightLog "Роль: Subject"
+note for FlightLogProxy "Роль: Proxy (virtual + protection)"
+note for ArchivedFlightLog "Роль: RealSubject"

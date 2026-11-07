@@ -1,0 +1,66 @@
+classDiagram
+direction LR
+class CheckInPoint {
+  -name String
+  -facade CheckInFacade
+  +CheckInPoint(String name, CheckInFacade facade)
+  +register(Passenger passenger, String flightNumber) String
+}
+class CheckInFacade {
+  -documents DocumentCheckService
+  -seating SeatingService
+  -baggage BaggageService
+  -printer BoardingPassPrinter
+  -border BorderServiceNotifier
+  +CheckInFacade(DocumentCheckService, SeatingService, BaggageService, BoardingPassPrinter, BorderServiceNotifier)
+  +checkIn(Passenger passenger, String flightNumber) String
+}
+class DocumentCheckService {
+  +verify(Passenger passenger) void
+}
+class SeatingService {
+  -nextRow int
+  +assignSeat(Passenger passenger, String flightNumber) String
+}
+class BaggageService {
+  +acceptBaggage(Passenger passenger) void
+}
+class BoardingPassPrinter {
+  +print(Passenger passenger, String flightNumber, String seat) void
+}
+class BorderServiceNotifier {
+  +notifyBorderService(Passenger passenger, String flightNumber) void
+}
+class Passenger {
+  <<record>>
+  -name String
+  -passportNumber String
+  -baggageKg int
+}
+class Log {
+  <<utility>>
+  -seconds$ int
+  +log(String source, String event)$ void
+  +logf(String source, String format, Object... args)$ void
+}
+note for Log "Журнал [час] [джерело] подія. Використовується всіма класами діаграми"
+CheckInPoint "1..*" o-- "1" CheckInFacade
+CheckInFacade "1" o-- "1" DocumentCheckService
+CheckInFacade "1" o-- "1" SeatingService
+CheckInFacade "1" o-- "1" BaggageService
+CheckInFacade "1" o-- "1" BoardingPassPrinter
+CheckInFacade "1" o-- "1" BorderServiceNotifier
+CheckInPoint ..> Passenger
+CheckInFacade ..> Passenger
+DocumentCheckService ..> Passenger
+SeatingService ..> Passenger
+BaggageService ..> Passenger
+BoardingPassPrinter ..> Passenger
+BorderServiceNotifier ..> Passenger
+note for CheckInPoint "Роль: Client (стійка, кіоск, застосунок)"
+note for CheckInFacade "Роль: Facade"
+note for DocumentCheckService "Роль: Subsystem"
+note for SeatingService "Роль: Subsystem"
+note for BaggageService "Роль: Subsystem"
+note for BoardingPassPrinter "Роль: Subsystem"
+note for BorderServiceNotifier "Роль: Subsystem"

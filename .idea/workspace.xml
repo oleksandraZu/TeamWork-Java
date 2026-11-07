@@ -4,24 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add domain, infrastructure, ui, legacy">
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/common/EventLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/common/EventLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/ConcreteFlightTaskBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/ConcreteFlightTaskBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/FlightTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/FlightTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/FlightTaskBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/FlightTaskBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/flighttask/FlightTaskDirector.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/flighttask/FlightTaskDirector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/DisplayBoardChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/DisplayBoardChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/DisplayBoardMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/DisplayBoardMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/EmailChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/EmailChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/EmailMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/EmailMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/FlightChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/FlightChange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/MobileAppChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/MobileAppChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/MobileAppMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/MobileAppMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/NotificationChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/NotificationChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/SmsChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/SmsChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airport-lab10/src/main/java/ua/bukovyna/airport/notification/SmsMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/airport-lab10/src/airport/notification/SmsMessage.java" afterDir="false" />
+    <list default="true" id="b8c56e71-f95a-4f9d-bbe0-8b36defecff7" name="Changes" comment="add task 3,4">
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/BaggageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/BoardingPassPrinter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/BorderServiceNotifier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/CheckInFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/CheckInPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/DocumentCheckService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/Passenger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/checkin/SeatingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/AccessDeniedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/ArchivedFlightLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/FlightLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/FlightLogProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/ReportModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/airport-lab11/src/main/java/ua/bukovyna/airport/flightlog/User.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature-oleksandra" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,7 +67,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "feature-oleksandra",
+    "git-widget-placeholder": "feature-hanna",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/anichka/Завантажене/airport-lab10",
     "node.js.detected.package.eslint": "true",

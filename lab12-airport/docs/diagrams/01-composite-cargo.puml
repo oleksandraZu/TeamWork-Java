@@ -1,0 +1,36 @@
+@startuml
+title Завдання 1. Composite — розрахунок завантаження літака
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+interface CargoComponent <<Component>> {
+  + getName(): String
+  + getWeight(): double
+  + getPlaces(): int
+  + print(depth: int): void
+}
+class CargoItem <<Leaf>> {
+  - kind: String
+  - name: String
+  - weight: double
+  + getName(): String
+  + getWeight(): double
+  + getPlaces(): int
+  + print(depth: int): void
+}
+class CargoGroup <<Composite>> {
+  - kind: String
+  - name: String
+  - children: List<CargoComponent>
+  + add(component: CargoComponent): void
+  + getName(): String
+  + getWeight(): double
+  + getPlaces(): int
+  + print(depth: int): void
+}
+
+CargoItem ..|> CargoComponent
+CargoGroup ..|> CargoComponent
+CargoGroup o-- "0..*" CargoComponent : children
+@enduml

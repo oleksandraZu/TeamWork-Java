@@ -1,0 +1,49 @@
+@startuml
+title Завдання 2. Flyweight — місця в схемі салону
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+class ServiceClassFactory <<FlyweightFactory>> {
+  + {static} BUSINESS: String
+  + {static} PREMIUM: String
+  + {static} ECONOMY: String
+  - {static} POOL: Map<String, ServiceClassData>
+  + {static} get(name: String): ServiceClassData
+  + {static} count(): int
+  - {static} create(name: String): ServiceClassData
+}
+class ServiceClassData <<Flyweight (спільний стан)>> {
+  - name: String
+  - description: String
+  - seatWidthCm: int
+  - pitchCm: int
+  - reclineDegrees: int
+  - amenities: List<String>
+  - image: String
+  + getName(): String
+  + toString(): String
+}
+class Seat <<Context (власний стан)>> {
+  - row: int
+  - letter: char
+  - passenger: String
+  - serviceClass: ServiceClassData
+  + getServiceClass(): ServiceClassData
+  + describe(): String
+}
+class CabinLayout <<Client>> {
+  - {static} ROWS: int
+  - {static} LETTERS: char[]
+  - flightNumber: String
+  - seats: List<Seat>
+  + getFlightNumber(): String
+  + getSeats(): List<Seat>
+  + seatAt(row: int, letter: char): Seat
+}
+
+ServiceClassFactory "1" --> "3" ServiceClassData : POOL (створює і зберігає)
+Seat "*" --> "1" ServiceClassData : serviceClass (спільний)
+CabinLayout "1" *-- "180" Seat : seats
+CabinLayout ..> ServiceClassFactory : «use» get()
+@enduml

@@ -1,0 +1,66 @@
+@startuml
+title Завдання 3. Bridge — табло інформації про рейси
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide empty members
+
+abstract class FlightBoard <<Abstraction>> {
+  # device: DisplayDevice
+  # FlightBoard(device: DisplayDevice)
+  + setDevice(device: DisplayDevice): void
+  + show(flights: List<FlightInfo>): void
+  # {abstract} title(): String
+  # {abstract} formatLine(flight: FlightInfo): String
+}
+class DepartureBoard <<RefinedAbstraction>> {
+  # title(): String
+  # formatLine(flight: FlightInfo): String
+}
+class ArrivalBoard <<RefinedAbstraction>> {
+  # title(): String
+  # formatLine(flight: FlightInfo): String
+}
+class GateBoard <<RefinedAbstraction>> {
+  - gate: String
+  # title(): String
+  # formatLine(flight: FlightInfo): String
+}
+interface DisplayDevice <<Implementor>> {
+  + name(): String
+  + render(title: String, lines: List<String>): void
+}
+class LedPanel <<ConcreteImplementor>> {
+  + name(): String
+  + render(title, lines): void
+}
+class LcdScreen <<ConcreteImplementor>> {
+  + name(): String
+  + render(title, lines): void
+}
+class MobileApp <<ConcreteImplementor>> {
+  + name(): String
+  + render(title, lines): void
+}
+class Projector <<ConcreteImplementor (додано одним класом)>> {
+  + name(): String
+  + render(title, lines): void
+}
+class FlightInfo <<Дані рейсу>> {
+  number: String
+  city: String
+  time: String
+  gate: String
+  status: String
+  departing: boolean
+}
+
+DepartureBoard --|> FlightBoard
+ArrivalBoard --|> FlightBoard
+GateBoard --|> FlightBoard
+FlightBoard "*" --> "1" DisplayDevice : device (міст)
+LedPanel ..|> DisplayDevice
+LcdScreen ..|> DisplayDevice
+MobileApp ..|> DisplayDevice
+Projector ..|> DisplayDevice
+FlightBoard ..> FlightInfo : «use»
+@enduml

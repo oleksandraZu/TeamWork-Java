@@ -3,7 +3,6 @@ package airport.flyweight;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Схема салону одного рейсу: 30 рядів по 6 місць (180 місць). */
 public class CabinLayout {
 
     private static final int ROWS = 30;

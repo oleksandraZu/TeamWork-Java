@@ -1,6 +1,5 @@
 package airport.flyweight;
 
-/** Контекст: зберігає лише власні (зовнішні) дані місця та посилання на спільний об'єкт класу. */
 public class Seat {
 
     private final int row;

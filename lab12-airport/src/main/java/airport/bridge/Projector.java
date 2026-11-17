@@ -4,7 +4,6 @@ import airport.Log;
 
 import java.util.List;
 
-/** ConcreteImplementor: проєктор (додається одним новим класом). */
 public class Projector implements DisplayDevice {
 
     @Override

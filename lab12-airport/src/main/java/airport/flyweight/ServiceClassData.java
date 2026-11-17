@@ -2,7 +2,6 @@ package airport.flyweight;
 
 import java.util.List;
 
-/** Flyweight: спільні (внутрішні) дані класу обслуговування. Незмінний об'єкт. */
 public final class ServiceClassData {
 
     private final String name;

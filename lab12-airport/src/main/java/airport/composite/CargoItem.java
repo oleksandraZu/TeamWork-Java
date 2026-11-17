@@ -4,7 +4,6 @@ import airport.Log;
 
 import java.util.Locale;
 
-/** Leaf: окрема валіза або посилка. */
 public class CargoItem implements CargoComponent {
 
     private final String kind;

@@ -3,7 +3,6 @@ package airport.bridge;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Abstraction: вид табло. Містить міст (посилання) до обладнання. */
 public abstract class FlightBoard {
 
     protected DisplayDevice device;
@@ -29,6 +28,5 @@ public abstract class FlightBoard {
 
     protected abstract String title();
 
-    /** Повертає рядок для рейсу або null, якщо рейс на цьому табло не показується. */
     protected abstract String formatLine(FlightInfo flight);
 }

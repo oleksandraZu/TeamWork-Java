@@ -4,7 +4,6 @@ import airport.Log;
 
 import java.util.List;
 
-/** ConcreteImplementor: LCD-екран (заголовок і таблиця рядків). */
 public class LcdScreen implements DisplayDevice {
 
     @Override

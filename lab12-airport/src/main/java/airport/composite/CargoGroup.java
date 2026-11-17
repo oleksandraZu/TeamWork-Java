@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** Composite: будь-яка група вантажів (літак, відсік, контейнер, палета). */
 public class CargoGroup implements CargoComponent {
 
     private final String kind;

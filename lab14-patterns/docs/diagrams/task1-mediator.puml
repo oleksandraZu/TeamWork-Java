@@ -1,0 +1,72 @@
+@startuml
+title Завдання 1. Координація наземних служб (Mediator)
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+hide empty members
+
+interface GroundMediator <<Mediator>> {
+  +notify(sender: GroundService, event: GroundEvent): void
+}
+class TurnaroundCoordinator <<ConcreteMediator>> {
+  {static} -NAME: String
+  -services: Map<Class, GroundService>
+  -boardingInProgress: boolean
+  -fuelingPending: boolean
+  --
+  +register(service: GroundService): void
+  -get(type: Class<T>): T
+  +notify(sender: GroundService, event: GroundEvent): void
+}
+abstract class GroundService <<Colleague>> {
+  -name: String
+  #mediator: GroundMediator
+  --
+  +getName(): String
+  +setMediator(mediator: GroundMediator): void
+  #notifyMediator(event: GroundEvent): void
+}
+enum GroundEvent <<Event>> {
+  BOARDING_STARTED
+  BOARDING_FINISHED
+  CLEANING_FINISHED
+  BAGGAGE_LOADED
+  FUELING_REQUESTED
+  --
+  +getDescription(): String
+}
+class BoardingService <<ConcreteColleague>> {
+  +startBoarding(): void
+  +finishBoarding(): void
+}
+class CleaningService <<ConcreteColleague>> {
+  +finishCleaning(): void
+}
+class BaggageLoadingService <<ConcreteColleague>> {
+  +finishLoading(): void
+}
+class FuelingService <<ConcreteColleague>> {
+  +requestFueling(): void
+  +start(initiator: String): void
+}
+class CateringService <<ConcreteColleague>> {
+  +start(initiator: String): void
+}
+class TowingService <<ConcreteColleague>> {
+  +start(initiator: String): void
+}
+
+TurnaroundCoordinator ..|> GroundMediator
+TurnaroundCoordinator "1" o-- "0..*" GroundService : services
+GroundService "0..*" --> "1" GroundMediator : mediator
+GroundService ..> GroundEvent
+TurnaroundCoordinator ..> GroundEvent
+TurnaroundCoordinator ..> FuelingService
+TurnaroundCoordinator ..> CateringService
+TurnaroundCoordinator ..> TowingService
+BoardingService --|> GroundService
+CleaningService --|> GroundService
+BaggageLoadingService --|> GroundService
+FuelingService --|> GroundService
+CateringService --|> GroundService
+TowingService --|> GroundService
+@enduml

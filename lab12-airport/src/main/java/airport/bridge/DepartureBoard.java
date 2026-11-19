@@ -1,5 +1,6 @@
 package airport.bridge;
 
+/** RefinedAbstraction: вилітне табло. */
 public class DepartureBoard extends FlightBoard {
 
     public DepartureBoard(DisplayDevice device) {

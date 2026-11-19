@@ -1,5 +1,6 @@
 package airport.bridge;
 
+/** RefinedAbstraction: табло біля виходу на посадку. */
 public class GateBoard extends FlightBoard {
 
     private final String gate;

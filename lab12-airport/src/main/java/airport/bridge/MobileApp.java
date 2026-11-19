@@ -4,6 +4,7 @@ import airport.Log;
 
 import java.util.List;
 
+/** ConcreteImplementor: мобільний застосунок (push-сповіщення). */
 public class MobileApp implements DisplayDevice {
 
     @Override

@@ -1,5 +1,6 @@
 package airport;
 
+/** Єдиний спосіб виводу подій у форматі [час] [джерело] подія. Час умовний. */
 public final class Log {
 
     private static int seconds = 6 * 3600;

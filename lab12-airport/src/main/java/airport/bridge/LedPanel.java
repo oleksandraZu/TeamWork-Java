@@ -4,6 +4,7 @@ import airport.Log;
 
 import java.util.List;
 
+/** ConcreteImplementor: LED-панель (біжучий рядок великими літерами). */
 public class LedPanel implements DisplayDevice {
 
     @Override

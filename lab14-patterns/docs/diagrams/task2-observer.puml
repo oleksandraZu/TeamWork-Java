@@ -1,0 +1,70 @@
+@startuml
+title Завдання 2. Сповіщення про зміну статусу рейсу (Observer)
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+hide empty members
+
+interface FlightSubject <<Subject>> {
+  +subscribe(observer: FlightObserver): void
+  +unsubscribe(observer: FlightObserver): void
+  +notifyObservers(): void
+}
+class Flight <<ConcreteSubject>> {
+  -number: String
+  -observers: List<FlightObserver>
+  -status: FlightStatus
+  -gate: String
+  -delayMinutes: int
+  --
+  +getNumber(): String
+  +getStatus(): FlightStatus
+  +getGate(): String
+  +getDelayMinutes(): int
+  +subscribe(observer: FlightObserver): void
+  +unsubscribe(observer: FlightObserver): void
+  +notifyObservers(): void
+  +delay(minutes: int): void
+  +changeGate(newGate: String): void
+  +startBoarding(): void
+  -changeStatus(newStatus: FlightStatus, details: String): void
+}
+interface FlightObserver <<Observer>> {
+  +getName(): String
+  +update(flight: Flight): void
+}
+enum FlightStatus <<State>> {
+  SCHEDULED
+  DELAYED
+  GATE_CHANGED
+  BOARDING
+  --
+  +getTitle(): String
+}
+class DepartureBoard <<ConcreteObserver>> {
+  +getName(): String
+  +update(flight: Flight): void
+}
+class Passenger <<ConcreteObserver>> {
+  -name: String
+  --
+  +getName(): String
+  +update(flight: Flight): void
+}
+class CateringSubscriber <<ConcreteObserver>> {
+  +getName(): String
+  +update(flight: Flight): void
+}
+class TaxiService <<ConcreteObserver>> {
+  +getName(): String
+  +update(flight: Flight): void
+}
+
+Flight ..|> FlightSubject
+Flight "1" o-- "0..*" FlightObserver : observers
+Flight --> "1" FlightStatus : status
+FlightObserver ..> Flight
+DepartureBoard ..|> FlightObserver
+Passenger ..|> FlightObserver
+CateringSubscriber ..|> FlightObserver
+TaxiService ..|> FlightObserver
+@enduml

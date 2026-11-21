@@ -2,7 +2,8 @@ package ua.lab13.task2;
 
 import java.time.LocalTime;
 
-public class Flight {
+public class
+Flight {
     private final String number;
     private LocalTime departure;
     private String gate;

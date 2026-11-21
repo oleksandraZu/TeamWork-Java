@@ -1,0 +1,94 @@
+classDiagram
+    direction TB
+    class Flight {
+        <<Context>>
+        -String number
+        -String gate
+        -List~String~ passengers
+        -FlightState state
+        +Flight(String number, String gate)
+        +openCheckIn() void
+        +registerPassenger(String passenger) void
+        +changeGate(String newGate) void
+        +startBoarding() void
+        +depart() void
+        +land() void
+        +delay() void
+        +resume() void
+        +cancel() void
+        ~setState(FlightState next) void
+        ~addPassenger(String passenger) void
+        ~assignGate(String newGate) void
+        ~source() String
+    }
+    class FlightState {
+        <<State>>
+        +name() String
+        +openCheckIn(Flight flight) void
+        +registerPassenger(Flight flight, String passenger) void
+        +changeGate(Flight flight, String gate) void
+        +startBoarding(Flight flight) void
+        +depart(Flight flight) void
+        +land(Flight flight) void
+        +delay(Flight flight) void
+        +resume(Flight flight) void
+        +cancel(Flight flight) void
+        -deny(Flight flight, String operation) void
+    }
+    class PlannedState {
+        <<ConcreteState>>
+        +name() String
+        +openCheckIn(Flight flight) void
+        +changeGate(Flight flight, String gate) void
+        +delay(Flight flight) void
+        +cancel(Flight flight) void
+    }
+    class CheckInState {
+        <<ConcreteState>>
+        +name() String
+        +registerPassenger(Flight flight, String passenger) void
+        +changeGate(Flight flight, String gate) void
+        +startBoarding(Flight flight) void
+        +delay(Flight flight) void
+        +cancel(Flight flight) void
+    }
+    class BoardingState {
+        <<ConcreteState>>
+        +name() String
+        +depart(Flight flight) void
+        +delay(Flight flight) void
+        +cancel(Flight flight) void
+    }
+    class DepartedState {
+        <<ConcreteState>>
+        +name() String
+        +land(Flight flight) void
+    }
+    class LandedState {
+        <<ConcreteState>>
+        +name() String
+    }
+    class DelayedState {
+        <<ConcreteState>>
+        -FlightState previous
+        ~DelayedState(FlightState previous)
+        +name() String
+        +changeGate(Flight flight, String gate) void
+        +resume(Flight flight) void
+        +cancel(Flight flight) void
+    }
+    class CancelledState {
+        <<ConcreteState>>
+        +name() String
+    }
+    Flight "1" --> "1" FlightState : state
+    PlannedState ..|> FlightState
+    CheckInState ..|> FlightState
+    BoardingState ..|> FlightState
+    DepartedState ..|> FlightState
+    LandedState ..|> FlightState
+    DelayedState ..|> FlightState
+    CancelledState ..|> FlightState
+    DelayedState "1" --> "1" FlightState : previous
+    FlightState ..> Flight : uses
+    Flight ..> PlannedState : creates

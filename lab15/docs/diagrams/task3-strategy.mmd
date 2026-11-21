@@ -1,0 +1,60 @@
+classDiagram
+    direction TB
+    class Airline {
+        <<Context>>
+        -String name
+        -TariffStrategy tariff
+        +Airline(String name, TariffStrategy tariff)
+        +setTariff(TariffStrategy newTariff) void
+        +invoice(ServicedFlight flight) void
+    }
+    class TariffStrategy {
+        <<Strategy>>
+        +name() String
+        +calculate(ServicedFlight flight) long
+    }
+    class ServicedFlight {
+        <<record>>
+        +String number
+        +int weightTons
+        +int passengers
+    }
+    class WeightTariff {
+        <<ConcreteStrategy>>
+        -long RATE_PER_TON$
+        +name() String
+        +calculate(ServicedFlight flight) long
+    }
+    class PassengerTariff {
+        <<ConcreteStrategy>>
+        -long RATE_PER_PASSENGER$
+        +name() String
+        +calculate(ServicedFlight flight) long
+    }
+    class FixedContractTariff {
+        <<ConcreteStrategy>>
+        -long contractFee
+        +FixedContractTariff(long contractFee)
+        +name() String
+        +calculate(ServicedFlight flight) long
+    }
+    class PreferentialTariff {
+        <<ConcreteStrategy>>
+        -long RATE_PER_TON$
+        +name() String
+        +calculate(ServicedFlight flight) long
+    }
+    class NightTariff {
+        <<ConcreteStrategy>>
+        -long RATE_PER_TON$
+        +name() String
+        +calculate(ServicedFlight flight) long
+    }
+    Airline "1" --> "1" TariffStrategy : tariff
+    WeightTariff ..|> TariffStrategy
+    PassengerTariff ..|> TariffStrategy
+    FixedContractTariff ..|> TariffStrategy
+    PreferentialTariff ..|> TariffStrategy
+    NightTariff ..|> TariffStrategy
+    TariffStrategy ..> ServicedFlight : uses
+    Airline ..> ServicedFlight : uses

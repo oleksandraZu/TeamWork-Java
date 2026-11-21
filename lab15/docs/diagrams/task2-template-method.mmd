@@ -1,0 +1,47 @@
+classDiagram
+    direction TB
+    class FlightHandling {
+        <<AbstractClass>>
+        -String flightNumber
+        +handle(String flightNumber) void
+        #typeName() String
+        #unload() void
+        #load() void
+        #cleanCabin() void
+        #stage(String name) void
+        #log(String event) void
+        -acceptAircraft() void
+        -prepareForDeparture() void
+        -release() void
+    }
+    class PassengerFlightHandling {
+        <<ConcreteClass>>
+        #typeName() String
+        #unload() void
+        #load() void
+    }
+    class CargoFlightHandling {
+        <<ConcreteClass>>
+        #typeName() String
+        #unload() void
+        #load() void
+        #cleanCabin() void
+    }
+    class CharterFlightHandling {
+        <<ConcreteClass>>
+        #typeName() String
+        #unload() void
+        #load() void
+    }
+    class SanitaryFlightHandling {
+        <<ConcreteClass>>
+        #typeName() String
+        #unload() void
+        #load() void
+        #cleanCabin() void
+    }
+    FlightHandling <|-- PassengerFlightHandling
+    FlightHandling <|-- CargoFlightHandling
+    FlightHandling <|-- CharterFlightHandling
+    FlightHandling <|-- SanitaryFlightHandling
+    note for FlightHandling "handle() — шаблонний метод (final): прийняти борт → вивантажити → прибирання салону (hook) → підготувати до вильоту → завантажити → випустити борт"

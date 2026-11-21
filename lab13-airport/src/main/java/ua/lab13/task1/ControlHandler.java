@@ -2,7 +2,6 @@ package ua.lab13.task1;
 
 import ua.lab13.common.EventLogger;
 
-/** Chain of Responsibility: абстрактна ланка. Перевірка або зупиняє пасажира з причиною, або передає далі. */
 public abstract class ControlHandler {
     private ControlHandler next;
 
@@ -26,7 +25,6 @@ public abstract class ControlHandler {
         return next.handle(passenger);
     }
 
-    /** @return null, якщо перевірку пройдено, інакше причина зупинки. */
     protected abstract String check(Passenger passenger);
 
     public abstract String title();

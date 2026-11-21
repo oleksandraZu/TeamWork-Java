@@ -6,7 +6,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
-/** Клієнт ланцюга: збирає ланцюги під час виконання програми окремо для кожного типу рейсу. */
 public class PreflightControlService {
     private static final String SOURCE = "Контроль";
 

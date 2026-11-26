@@ -1,0 +1,60 @@
+@startuml task3-iterator
+title Завдання 3. Iterator - обхід пасажирів рейсу
+skinparam classAttributeIconSize 0
+
+interface PassengerCollection <<Aggregate>> {
+  +boardingIterator(): PassengerIterator
+  +cateringIterator(): PassengerIterator
+  +securityIterator(): PassengerIterator
+  +size(): int
+}
+interface PassengerIterator <<Iterator>> {
+  +hasNext(): boolean
+  +next(): Passenger
+}
+class Cabin <<ConcreteAggregate>> {
+  -rows: List<Row>
+  +addPassenger(row: int, seat: String, name: String, mark: String): void
+  +addInfant(row: int, name: String, guardian: String): void
+  ~rowCount(): int
+  ~row(i: int): Row
+}
+class Row {
+  -number: int
+  -seats: Map<String, Passenger>
+  -infants: List<Passenger>
+  ~seated(): List<Passenger>
+  ~infants(): List<Passenger>
+}
+class Passenger <<Value object>> {
+  -name: String
+  -seat: String
+  -mark: String
+  -infant: boolean
+  +hasMark(): boolean
+}
+abstract class RowWalkIterator <<ConcreteIterator>> {
+  -cabin: Cabin
+  -rowPos: int
+  -index: int
+  -buffered: Passenger
+  #{abstract} fromRear(): boolean
+  #{abstract} collect(r: Row): List<Passenger>
+  #accepts(p: Passenger): boolean
+}
+class BoardingIterator <<ConcreteIterator>>
+class CateringIterator <<ConcreteIterator>>
+class SecurityIterator <<ConcreteIterator>>
+
+PassengerCollection <|.. Cabin
+PassengerIterator <|.. RowWalkIterator
+RowWalkIterator <|-- BoardingIterator
+RowWalkIterator <|-- CateringIterator
+RowWalkIterator <|-- SecurityIterator
+Cabin *-- "1..*" Row
+Row o-- "0..*" Passenger
+RowWalkIterator --> Cabin : власний курсор
+Cabin ..> BoardingIterator : create
+Cabin ..> CateringIterator : create
+Cabin ..> SecurityIterator : create
+@enduml

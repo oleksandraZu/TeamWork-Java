@@ -1,6 +1,5 @@
 package ua.bukovyna.lab15.state;
 
-/** ConcreteState: «заплановано». */
 class PlannedState implements FlightState {
 
     @Override

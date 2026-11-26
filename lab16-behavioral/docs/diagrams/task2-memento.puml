@@ -1,0 +1,40 @@
+@startuml task2-memento
+title Завдання 2. Memento - чернетка розкладу
+skinparam classAttributeIconSize 0
+
+class Schedule <<Originator>> {
+  -flights: Map<String, Flight>
+  +add(f: Flight): void
+  +reschedule(number: String, t: LocalTime): void
+  +changeGate(number: String, gate: String): void
+  +changeRunway(number: String, runway: String): void
+  +remove(number: String): void
+  +lines(): List<String>
+  +save(): Snapshot
+  +restore(s: Snapshot): void
+}
+class "Schedule.Snapshot" as Snapshot <<Memento>> {
+  -state: Map<String, Flight>
+  -Snapshot(source: Map<String, Flight>)
+}
+class ScheduleHistory <<Caretaker>> {
+  -snapshots: Map<String, Snapshot>
+  +save(name: String, s: Schedule): void
+  +restore(name: String, s: Schedule): void
+  +names(): Set<String>
+}
+class Flight <<Value object>> {
+  -number: String
+  -destination: String
+  -gate: String
+  -runway: String
+  -departure: LocalTime
+}
+
+Schedule *-- "0..*" Flight
+Schedule +-- Snapshot : вкладений
+Schedule ..> Snapshot : створює / читає
+Snapshot o-- "0..*" Flight : незмінна копія
+ScheduleHistory o-- "0..*" Snapshot : зберігає без доступу до вмісту
+ScheduleHistory ..> Schedule : save / restore
+@enduml

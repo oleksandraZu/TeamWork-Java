@@ -2,7 +2,6 @@ package ua.bukovyna.lab15.state;
 
 import ua.bukovyna.lab15.util.Log;
 
-/** State: інтерфейс стану рейсу. Усі операції за замовчуванням недопустимі. */
 public interface FlightState {
 
     String name();

@@ -1,0 +1,70 @@
+@startuml task1-visitor
+title Завдання 1. Visitor - операції над інфраструктурою аеропорту
+skinparam classAttributeIconSize 0
+
+interface AirportObject <<Element>> {
+  +id(): String
+  +accept(v: AirportVisitor): void
+}
+interface AirportVisitor <<Visitor>> {
+  +visit(r: Runway): void
+  +visit(t: Terminal): void
+  +visit(j: JetBridge): void
+  +visit(f: FuelStorage): void
+  +summary(): void
+}
+class Runway <<ConcreteElement>> {
+  -id: String
+  -lengthM: int
+  -hydrants: int
+  +accept(v: AirportVisitor): void
+}
+class Terminal <<ConcreteElement>> {
+  -id: String
+  -areaM2: int
+  -sprinklers: boolean
+  +accept(v: AirportVisitor): void
+}
+class JetBridge <<ConcreteElement>> {
+  -id: String
+  -ageYears: int
+  -extinguisher: boolean
+  +accept(v: AirportVisitor): void
+}
+class FuelStorage <<ConcreteElement>> {
+  -id: String
+  -capacityL: int
+  -foamSystem: boolean
+  +accept(v: AirportVisitor): void
+}
+class Airport <<ObjectStructure>> {
+  -objects: List<AirportObject>
+  +add(o: AirportObject): void
+  +objects(): List<AirportObject>
+  +accept(v: AirportVisitor): void
+}
+class ServiceCostVisitor <<ConcreteVisitor>> {
+  -total: double
+}
+class FireSafetyVisitor <<ConcreteVisitor>> {
+  -checked: int
+  -violations: int
+}
+class AviationAuthorityReportVisitor <<ConcreteVisitor>> {
+  -runways: int
+  -terminals: int
+  -jetBridges: int
+  -fuelLitres: long
+}
+
+AirportObject <|.. Runway
+AirportObject <|.. Terminal
+AirportObject <|.. JetBridge
+AirportObject <|.. FuelStorage
+AirportVisitor <|.. ServiceCostVisitor
+AirportVisitor <|.. FireSafetyVisitor
+AirportVisitor <|.. AviationAuthorityReportVisitor
+Airport o-- "0..*" AirportObject
+AirportObject ..> AirportVisitor : accept(v)
+Airport ..> AirportVisitor : accept(v)
+@enduml

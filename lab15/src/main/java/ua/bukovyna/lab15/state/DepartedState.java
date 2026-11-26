@@ -1,6 +1,5 @@
 package ua.bukovyna.lab15.state;
 
-/** ConcreteState: «вилетів». */
 class DepartedState implements FlightState {
 
     @Override

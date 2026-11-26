@@ -2,12 +2,10 @@ package ua.bukovyna.lab15.template;
 
 import ua.bukovyna.lab15.util.Log;
 
-/** AbstractClass (Template Method): єдина послідовність обслуговування борту. */
 public abstract class FlightHandling {
 
     private String flightNumber;
 
-    /** Template method: порядок етапів зафіксований тут і не перевизначається. */
     public final void handle(String flightNumber) {
         this.flightNumber = flightNumber;
         log("Початок обслуговування, тип: " + typeName());
@@ -26,7 +24,6 @@ public abstract class FlightHandling {
 
     protected abstract void load();
 
-    /** Hook: необов'язковий етап з поведінкою за замовчуванням. */
     protected void cleanCabin() {
         stage("прибирання салону");
         log("  стандартне прибирання салону");
